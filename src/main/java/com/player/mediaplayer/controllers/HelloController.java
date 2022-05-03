@@ -1,4 +1,4 @@
-package com.player.mediaplayer;
+package com.player.mediaplayer.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
