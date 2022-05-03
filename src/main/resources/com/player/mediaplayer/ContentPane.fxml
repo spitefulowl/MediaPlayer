@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="200.0" prefWidth="450.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.player.mediaplayer.controllers.ContentPaneController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.player.mediaplayer.controllers.ContentPaneController">
     <children>
-        <TableView fx:id="contentTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <TableView fx:id="songsListTable" layoutY="108.0" prefHeight="492.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="108.0">
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
+         <columns>
+            <TableColumn fx:id="songName" editable="false" prefWidth="250.0" resizable="false" text="NAME" />
+            <TableColumn fx:id="songArtist" editable="false" prefWidth="250.0" resizable="false" text="ARTIST" />
+            <TableColumn fx:id="songAlbum" editable="false" prefWidth="139.3333740234375" resizable="false" text="ALBUM" />
+            <TableColumn fx:id="songDuration" editable="false" prefWidth="119.3333740234375" resizable="false" text="DURATION" />
+            <TableColumn fx:id="songLiked" editable="false" prefWidth="138.0" resizable="false" style="-fx-font-size: 20;" text="♡" />
+         </columns>
         </TableView>
+      <TextField fx:id="songSearchField" layoutX="28.0" layoutY="14.0" onKeyPressed="#onEnterPressed" prefHeight="45.0" prefWidth="843.0" promptText="Search...">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Text layoutX="28.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My songs" wrappingWidth="406.80340576171875">
+         <font>
+            <Font name="Arial" size="18.0" />
+         </font>
+      </Text>
     </children>
 </AnchorPane>
