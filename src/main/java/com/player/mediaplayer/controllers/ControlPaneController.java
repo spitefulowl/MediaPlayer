@@ -28,7 +28,6 @@ public class ControlPaneController implements Initializable {
 
 
     private void setSongImage() {
-        //Image image = new Image("C:\\Users\\kugem\\IdeaProjects\\MediaPlayer\\src\\main\\resources\\com\\player\\mediaplayer\\images\\beatles.png");
         URL url = getClass().getResource("/com/player/mediaplayer/images/beatles.png");
         Image image = new Image(url.toString());
         albumImage.setImage(image);
