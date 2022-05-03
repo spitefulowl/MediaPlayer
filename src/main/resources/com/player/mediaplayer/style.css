@@ -1,0 +1,28 @@
+#shuffleButton {
+    -fx-background-image: url("images/icon_shuffle.png");
+    -fx-background-size: 40px;
+}
+
+#previousSongButton {
+    -fx-background-image: url("images/icon_previous.png");
+    -fx-background-size: 40px;
+}
+
+#playSongButton {
+    -fx-background-image: url("images/icon_play.png");
+    -fx-background-size: 40px;
+}
+
+#nextSongButton {
+    -fx-background-image: url("images/icon_next.png");
+    -fx-background-size: 40px;
+}
+
+#repeatSongButton {
+    -fx-background-image: url("images/icon_repeat.png");
+    -fx-background-size: 40px;
+}
+
+.slider .track {
+	-fx-background-color: #00aa33;
+}
