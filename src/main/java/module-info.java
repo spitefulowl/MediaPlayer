@@ -8,6 +8,7 @@ module com.player.mediaplayer {
     requires org.kordamp.bootstrapfx.core;
 
     opens com.player.mediaplayer to javafx.fxml;
+    opens com.player.mediaplayer.models;
     exports com.player.mediaplayer;
     exports com.player.mediaplayer.controllers;
     opens com.player.mediaplayer.controllers to javafx.fxml;
