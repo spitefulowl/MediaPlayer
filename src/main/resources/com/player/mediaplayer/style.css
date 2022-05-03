@@ -8,11 +8,6 @@
     -fx-background-size: 40px;
 }
 
-#playSongButton {
-    -fx-background-image: url("images/icon_play.png");
-    -fx-background-size: 40px;
-}
-
 #nextSongButton {
     -fx-background-image: url("images/icon_next.png");
     -fx-background-size: 40px;

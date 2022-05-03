@@ -1,6 +1,7 @@
 package com.player.mediaplayer.controllers;
 
-import javafx.fxml.FXML;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
@@ -33,15 +34,42 @@ public class ControlPaneController implements Initializable {
         albumImage.setImage(image);
     }
 
-    private void setVolumeImage() {
+    private void setDefaultImages() {
         URL url = getClass().getResource("/com/player/mediaplayer/images/icon_volume.png");
         Image image = new Image(url.toString());
         volumeImage.setImage(image);
+
+        url = getClass().getResource("/com/player/mediaplayer/images/icon_play.png");
+        image = new Image(url.toString());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(25);
+        imageView.setFitWidth(25);
+        playSongButton.setGraphic(imageView);
+    }
+
+    private void playButtonAction() {
+        playSongButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                URL url;
+                if (playSongButton.isSelected()) {
+                    url = getClass().getResource("/com/player/mediaplayer/images/icon_pause.png");
+                } else {
+                    url = getClass().getResource("/com/player/mediaplayer/images/icon_play.png");
+                }
+                Image image = new Image(url.toString());
+                ImageView imageView = new ImageView(image);
+                imageView.setFitHeight(25);
+                imageView.setFitWidth(25);
+                playSongButton.setGraphic(imageView);
+            }
+        });
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setSongImage();
-        setVolumeImage();
+        setDefaultImages();
+        playButtonAction();
     }
 }
