@@ -10,7 +10,9 @@ import java.net.URL;
 
 
 public class MP3Parser {
-    final static String EXTENSION = ".mp3";
+    private final static String EXTENSION = ".mp3";
+    private final static int MINUTES_IN_HOUR = 60;
+    private final static int SECONDS_IN_MINUTE = 60;
 
     public MP3Track parse(File file) throws InvalidDataException, UnsupportedTagException, IOException {
 
@@ -29,10 +31,25 @@ public class MP3Parser {
                 tag.getTitle(),
                 tag.getArtist(),
                 tag.getAlbum(),
-                length
+                parseSongLength(length)
         );
 
         return mp3Track;
+    }
+
+    private String parseSongLength(int length) {
+        int seconds = length % SECONDS_IN_MINUTE;
+        int totalMinutes = length / SECONDS_IN_MINUTE;
+        int minutes = totalMinutes % MINUTES_IN_HOUR;
+        int hours = totalMinutes / MINUTES_IN_HOUR;
+
+        String time;
+        if (hours == 0) {
+            time = String.format("%d:%2d", minutes, seconds);
+        } else {
+            time = String.format("%d:%2d:%2d", hours, minutes, seconds);
+        }
+        return time.replaceAll(" ", "0");
     }
 
 }

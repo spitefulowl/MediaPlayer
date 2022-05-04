@@ -4,10 +4,10 @@ public class MP3Track {
     private String songName;
     private String songArtist;
     private String songAlbum;
-    private int songDuration;
+    private String songDuration;
 
 
-    public MP3Track(String songName, String songArtist, String songAlbum, int songDuration) {
+    public MP3Track(String songName, String songArtist, String songAlbum, String songDuration) {
         this.songName = songName;
         this.songArtist = songArtist;
         this.songAlbum = songAlbum;
@@ -26,7 +26,7 @@ public class MP3Track {
         return songAlbum;
     }
 
-    public int getSongDuration() {
+    public String getSongDuration() {
         return songDuration;
     }
 }
