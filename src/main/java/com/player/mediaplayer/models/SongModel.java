@@ -15,6 +15,14 @@ public class SongModel {
         this.songLiked = songLiked;
     }
 
+    public SongModel(MP3Track mp3Track) {
+        this.songName = mp3Track.getSongName();
+        this.songArtist = mp3Track.getSongArtist();
+        this.songAlbum = mp3Track.getSongAlbum();
+        this.songDuration = String.valueOf(mp3Track.getSongDuration());
+        this.songLiked = "n";
+    }
+
     public String getSongName() {
         return songName;
     }
