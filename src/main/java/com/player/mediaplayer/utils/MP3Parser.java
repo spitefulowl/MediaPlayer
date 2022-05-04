@@ -14,7 +14,7 @@ public class MP3Parser {
     private final static int MINUTES_IN_HOUR = 60;
     private final static int SECONDS_IN_MINUTE = 60;
 
-    public MP3Track parse(File file) throws InvalidDataException, UnsupportedTagException, IOException {
+    public static MP3Track parse(File file) throws InvalidDataException, UnsupportedTagException, IOException {
 
         Mp3File mp3File = new Mp3File(file);
 
@@ -37,7 +37,7 @@ public class MP3Parser {
         return mp3Track;
     }
 
-    private String parseSongLength(int length) {
+    private static String parseSongLength(int length) {
         int seconds = length % SECONDS_IN_MINUTE;
         int totalMinutes = length / SECONDS_IN_MINUTE;
         int minutes = totalMinutes % MINUTES_IN_HOUR;

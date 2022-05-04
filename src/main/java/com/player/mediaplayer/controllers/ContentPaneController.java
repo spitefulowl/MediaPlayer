@@ -11,6 +11,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 
 import java.io.File;
@@ -31,13 +33,10 @@ public class ContentPaneController implements Initializable {
     public TableColumn songLiked;
 
     public void onEnterPressed(KeyEvent keyEvent) throws URISyntaxException, InvalidDataException, UnsupportedTagException, IOException {
-        MP3Parser mp3Parser = new MP3Parser();
 
         File file = new File(Objects.requireNonNull(getClass().getResource("/com/player/mediaplayer/images/Deep_Purple_-_Smoke_On_The_Water_(musmore.com).mp3")).toURI());
 
-        MP3Track mp3Track = mp3Parser.parse(file);
-
-        songsListTable.getItems().add(new SongModel(mp3Track));
+        addToSongListTable(file);
     }
 
 
@@ -48,5 +47,22 @@ public class ContentPaneController implements Initializable {
         songAlbum.setCellValueFactory(new PropertyValueFactory<>("SongAlbum"));
         songDuration.setCellValueFactory(new PropertyValueFactory<>("SongDuration"));
         songLiked.setCellValueFactory(new PropertyValueFactory<>("SongLiked"));
+    }
+
+    public void onDragExited(DragEvent dragEvent) throws InvalidDataException, UnsupportedTagException, IOException {
+
+        Dragboard dragboard = dragEvent.getDragboard();
+        if (dragboard.hasFiles()) {
+            for(File file : dragboard.getFiles()) {
+                addToSongListTable(file);
+            }
+        }
+    }
+
+    private void addToSongListTable(File file) throws InvalidDataException, UnsupportedTagException, IOException {
+
+        MP3Track mp3Track = MP3Parser.parse(file);
+
+        songsListTable.getItems().add(new SongModel(mp3Track));
     }
 }
