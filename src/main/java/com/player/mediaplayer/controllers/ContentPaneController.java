@@ -39,6 +39,11 @@ public class ContentPaneController implements Initializable {
         this.playList = playList;
     }
 
+    public void onEnterPressed(KeyEvent keyEvent) throws URISyntaxException, InvalidDataException, UnsupportedTagException, IOException {
+
+    }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         songName.setCellValueFactory(new PropertyValueFactory<>("SongName"));
