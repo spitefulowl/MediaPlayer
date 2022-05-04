@@ -3,9 +3,12 @@ package com.player.mediaplayer.controllers;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import com.player.mediaplayer.models.MP3Track;
+import com.player.mediaplayer.models.PlayList;
 import com.player.mediaplayer.models.SongModel;
 
 import com.player.mediaplayer.utils.MP3Parser;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,7 +26,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ContentPaneController implements Initializable {
-
+    private final PlayList playList;
     public TextField songSearchField;
     public TableView songsListTable;
     public TableColumn songName;
@@ -32,11 +35,15 @@ public class ContentPaneController implements Initializable {
     public TableColumn songDuration;
     public TableColumn songLiked;
 
+    public ContentPaneController(PlayList playList) {
+        this.playList = playList;
+    }
+
     public void onEnterPressed(KeyEvent keyEvent) throws URISyntaxException, InvalidDataException, UnsupportedTagException, IOException {
 
         File file = new File(Objects.requireNonNull(getClass().getResource("/com/player/mediaplayer/images/Deep_Purple_-_Smoke_On_The_Water_(musmore.com).mp3")).toURI());
 
-        addToSongListTable(file);
+        playList.addMP3Track(MP3Parser.parse(file));
     }
 
 
@@ -47,6 +54,25 @@ public class ContentPaneController implements Initializable {
         songAlbum.setCellValueFactory(new PropertyValueFactory<>("SongAlbum"));
         songDuration.setCellValueFactory(new PropertyValueFactory<>("SongDuration"));
         songLiked.setCellValueFactory(new PropertyValueFactory<>("SongLiked"));
+
+        observePlayList();
+    }
+
+    private void observePlayList() {
+
+        playList.getPlayList().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                songsListTable.getItems().clear();
+                for (MP3Track mp3Track : playList.getPlayList()) {
+                    try {
+                        addToSongListTable(mp3Track);
+                    } catch (InvalidDataException | UnsupportedTagException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
     }
 
     public void onDragExited(DragEvent dragEvent) throws InvalidDataException, UnsupportedTagException, IOException {
@@ -54,14 +80,13 @@ public class ContentPaneController implements Initializable {
         Dragboard dragboard = dragEvent.getDragboard();
         if (dragboard.hasFiles()) {
             for(File file : dragboard.getFiles()) {
-                addToSongListTable(file);
+                playList.addMP3Track(MP3Parser.parse(file));
             }
         }
     }
 
-    private void addToSongListTable(File file) throws InvalidDataException, UnsupportedTagException, IOException {
+    public void addToSongListTable(MP3Track mp3Track) throws InvalidDataException, UnsupportedTagException, IOException {
 
-        MP3Track mp3Track = MP3Parser.parse(file);
 
         songsListTable.getItems().add(new SongModel(mp3Track));
     }
