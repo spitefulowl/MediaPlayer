@@ -21,7 +21,7 @@ public class MP3Parser {
         if (mp3File.hasId3v1Tag()) {
             tag = mp3File.getId3v1Tag();
         } else {
-            tag = (ID3v2) mp3File.getId3v2Tag();
+            tag = mp3File.getId3v2Tag();
         }
 
         int length = (int) Math.ceil(mp3File.getLengthInSeconds());
