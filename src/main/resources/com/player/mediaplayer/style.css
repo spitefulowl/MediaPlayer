@@ -18,6 +18,11 @@
     -fx-background-size: 40px;
 }
 
+#folderButton {
+     -fx-background-image: url("images/icon_folder.png");
+     -fx-background-size: 40px;
+ }
+
 .slider .track {
 	-fx-background-color: #00aa33;
 }

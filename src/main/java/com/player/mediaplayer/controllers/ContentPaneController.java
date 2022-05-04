@@ -39,14 +39,6 @@ public class ContentPaneController implements Initializable {
         this.playList = playList;
     }
 
-    public void onEnterPressed(KeyEvent keyEvent) throws URISyntaxException, InvalidDataException, UnsupportedTagException, IOException {
-
-        File file = new File(Objects.requireNonNull(getClass().getResource("/com/player/mediaplayer/images/Deep_Purple_-_Smoke_On_The_Water_(musmore.com).mp3")).toURI());
-
-        playList.addMP3Track(MP3Parser.parse(file));
-    }
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         songName.setCellValueFactory(new PropertyValueFactory<>("SongName"));

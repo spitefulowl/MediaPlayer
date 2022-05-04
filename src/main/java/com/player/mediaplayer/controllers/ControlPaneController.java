@@ -12,7 +12,10 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +38,7 @@ public class ControlPaneController implements Initializable {
     public Button repeatSongButton;
     public Slider volumeSlider;
     public ImageView volumeImage;
+    public Button folderButton;
 
     public ControlPaneController (PlayList playList) {
         this.playList = playList;
@@ -83,17 +87,12 @@ public class ControlPaneController implements Initializable {
         setSongImage();
         setDefaultImages();
         playButtonAction();
-        File file = null;
-        try {
-            file = new File(Objects.requireNonNull(getClass().getResource("/com/player/mediaplayer/images/Deep_Purple_-_Smoke_On_The_Water_(musmore.com).mp3")).toURI());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+    }
 
-        try {
-            playList.addMP3Track(MP3Parser.parse(file));
-        } catch (InvalidDataException | UnsupportedTagException | IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void onFolderPressed(MouseEvent mouseEvent) throws InvalidDataException, UnsupportedTagException, IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Mp3","*mp3"));
+        File file = fileChooser.showOpenDialog(new Stage());
+        playList.addMP3Track(MP3Parser.parse(file));
     }
 }

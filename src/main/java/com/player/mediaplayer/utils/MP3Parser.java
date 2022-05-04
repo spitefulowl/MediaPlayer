@@ -10,7 +10,6 @@ import java.net.URL;
 
 
 public class MP3Parser {
-    private final static String EXTENSION = ".mp3";
     private final static int MINUTES_IN_HOUR = 60;
     private final static int SECONDS_IN_MINUTE = 60;
 
@@ -28,7 +27,7 @@ public class MP3Parser {
         int length = (int) Math.ceil(mp3File.getLengthInSeconds());
 
         MP3Track mp3Track = new MP3Track(
-                tag.getTitle(),
+                parseTitle(file, tag.getTitle()),
                 tag.getArtist(),
                 tag.getAlbum(),
                 parseSongLength(length)
@@ -50,6 +49,12 @@ public class MP3Parser {
             time = String.format("%d:%2d:%2d", hours, minutes, seconds);
         }
         return time.replaceAll(" ", "0");
+    }
+
+    private static String parseTitle(File file, String title) {
+        if (title == null || title.isEmpty()) {
+            return file.getName();
+        } else return title;
     }
 
 }
