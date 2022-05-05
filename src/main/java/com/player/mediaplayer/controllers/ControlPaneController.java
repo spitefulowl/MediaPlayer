@@ -2,8 +2,11 @@ package com.player.mediaplayer.controllers;
 
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
+import com.player.mediaplayer.models.MP3Track;
 import com.player.mediaplayer.models.PlayList;
 import com.player.mediaplayer.utils.MP3Parser;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -39,6 +42,8 @@ public class ControlPaneController implements Initializable {
     public Slider volumeSlider;
     public ImageView volumeImage;
     public Button folderButton;
+    public Text songNameText;
+    public Text authorNameText;
 
     public ControlPaneController (PlayList playList) {
         this.playList = playList;
@@ -87,6 +92,7 @@ public class ControlPaneController implements Initializable {
         setSongImage();
         setDefaultImages();
         playButtonAction();
+        songToPlayChangesHandler();
     }
 
     public void onFolderPressed(MouseEvent mouseEvent) throws InvalidDataException, UnsupportedTagException, IOException {
@@ -94,5 +100,27 @@ public class ControlPaneController implements Initializable {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Mp3","*mp3"));
         File file = fileChooser.showOpenDialog(new Stage());
         playList.addMP3Track(MP3Parser.parse(file));
+    }
+
+    public void songToPlayChangesHandler() {
+        playList.getSelectedSong().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                System.out.println("getSelectedSong = " + playList.getSelectedSong().get());
+            }
+        });
+
+        playList.getSongToPlay().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+
+                System.out.println("getSongToPlay = " + playList.getSongToPlay().get());
+
+                MP3Track trackToPlay = playList.getPlayList().get(playList.getSongToPlay().get());
+                songNameText.setText(trackToPlay.getSongName());
+                authorNameText.setText(trackToPlay.getSongArtist());
+                totalDuration.setText(trackToPlay.getSongDuration());
+            }
+        });
     }
 }

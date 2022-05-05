@@ -9,15 +9,20 @@ import com.player.mediaplayer.models.SongModel;
 import com.player.mediaplayer.utils.MP3Parser;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -34,6 +39,9 @@ public class ContentPaneController implements Initializable {
     public TableColumn songAlbum;
     public TableColumn songDuration;
     public TableColumn songLiked;
+
+    // TODO: 05.05.2022 remove call technologies
+    private int previousIndex = -1;
 
     public ContentPaneController(PlayList playList) {
         this.playList = playList;
@@ -53,6 +61,9 @@ public class ContentPaneController implements Initializable {
         songLiked.setCellValueFactory(new PropertyValueFactory<>("SongLiked"));
 
         observePlayList();
+        //elementClickHandler();
+        System.out.println("Check");
+        selectedElementIndex();
     }
 
     private void observePlayList() {
@@ -86,5 +97,34 @@ public class ContentPaneController implements Initializable {
 
 
         songsListTable.getItems().add(new SongModel(mp3Track));
+    }
+
+    public void selectedElementIndex() {
+        songsListTable.setOnMouseClicked(mouseEvent -> {
+            int index = songsListTable.getSelectionModel().getSelectedIndex();
+            playList.setSelectedSong(index);
+            // TODO: 05.05.2022 remove call technologies
+            if (index == previousIndex) {
+                playList.setSongToPlay(index);
+                previousIndex = -1;
+            }
+            previousIndex = index;
+        });
+    }
+
+    // TODO: 05.05.2022 make it work
+    public void elementClickHandler() {
+        TableRow<SongModel> row = new TableRow<>();
+        songsListTable.setRowFactory(tableView -> {
+            row.setOnMouseClicked(mouseEvent -> {
+                if (!row.isEmpty() && mouseEvent.getButton()== MouseButton.PRIMARY) {
+                    if (mouseEvent.getClickCount() == 2) {
+                        playList.setSongToPlay(row.getIndex());
+                    }
+                    playList.setSelectedSong(row.getIndex());
+                }
+            });
+            return row;
+        });
     }
 }
