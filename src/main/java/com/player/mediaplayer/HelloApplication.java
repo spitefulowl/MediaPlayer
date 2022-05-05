@@ -17,14 +17,14 @@ public class HelloApplication extends Application {
         final PlayList playList = new PlayList();
         final Callback<Class<?>, Object> controllerFactory = new Callback<Class<?>, Object>() {
             @Override
-            public Object call(Class<?> classInstanse) {
-                if (classInstanse == ContentPaneController.class) {
+            public Object call(Class<?> classInstance) {
+                if (classInstance == ContentPaneController.class) {
                     return new ContentPaneController(playList);
-                } else if (classInstanse == ControlPaneController.class) {
+                } else if (classInstance == ControlPaneController.class) {
                     return new ControlPaneController(playList);
                 } else
                     try {
-                        return classInstanse.newInstance();
+                        return classInstance.newInstance();
                     } catch (InstantiationException | IllegalAccessException e) {
                         return null;
                     }
