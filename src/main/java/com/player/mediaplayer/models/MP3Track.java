@@ -1,26 +1,17 @@
 package com.player.mediaplayer.models;
 
-public class SongModel {
+public class MP3Track {
     private String songName;
     private String songArtist;
     private String songAlbum;
     private String songDuration;
-    private String songLiked;
 
-    public SongModel(String songName, String songArtist, String songAlbum, String songDuration, String songLiked) {
+
+    public MP3Track(String songName, String songArtist, String songAlbum, String songDuration) {
         this.songName = songName;
         this.songArtist = songArtist;
         this.songAlbum = songAlbum;
         this.songDuration = songDuration;
-        this.songLiked = songLiked;
-    }
-
-    public SongModel(MP3Track mp3Track) {
-        this.songName = mp3Track.getSongName();
-        this.songArtist = mp3Track.getSongArtist();
-        this.songAlbum = mp3Track.getSongAlbum();
-        this.songDuration = mp3Track.getSongDuration();
-        this.songLiked = "n";
     }
 
     public String getSongName() {
@@ -37,9 +28,5 @@ public class SongModel {
 
     public String getSongDuration() {
         return songDuration;
-    }
-
-    public String getSongLiked() {
-        return songLiked;
     }
 }
