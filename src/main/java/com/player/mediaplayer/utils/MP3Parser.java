@@ -37,7 +37,7 @@ public class MP3Parser {
         return mp3Track;
     }
 
-    private static String parseSongLength(int length) {
+    public static String parseSongLength(int length) {
         int seconds = length % SECONDS_IN_MINUTE;
         int totalMinutes = length / SECONDS_IN_MINUTE;
         int minutes = totalMinutes % MINUTES_IN_HOUR;

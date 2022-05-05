@@ -62,7 +62,6 @@ public class ContentPaneController implements Initializable {
 
         observePlayList();
         //elementClickHandler();
-        System.out.println("Check");
         selectedElementIndex();
     }
 

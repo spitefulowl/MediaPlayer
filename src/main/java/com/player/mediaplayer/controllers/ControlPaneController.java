@@ -28,6 +28,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ControlPaneController implements Initializable {
     private final PlayList playList;
@@ -48,8 +50,9 @@ public class ControlPaneController implements Initializable {
     public Text authorNameText;
 
     private Media media;
-
     private MediaPlayer mediaPlayer;
+    private Timer timer;
+    private TimerTask timerTask;
 
     public ControlPaneController (PlayList playList) {
         this.playList = playList;
@@ -81,8 +84,11 @@ public class ControlPaneController implements Initializable {
                 URL url;
                 if (playSongButton.isSelected()) {
                     url = getClass().getResource("/com/player/mediaplayer/images/icon_pause.png");
+                    MP3Track trackToPlay = playList.getPlayList().get(playList.getSelectedSong().get());
+                    playMedia(trackToPlay.getFilePath());
                 } else {
                     url = getClass().getResource("/com/player/mediaplayer/images/icon_play.png");
+                    pauseMedia();
                 }
                 Image image = new Image(url.toString());
                 ImageView imageView = new ImageView(image);
@@ -112,15 +118,13 @@ public class ControlPaneController implements Initializable {
         playList.getSelectedSong().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                System.out.println("getSelectedSong = " + playList.getSelectedSong().get());
+
             }
         });
 
         playList.getSongToPlay().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-
-                System.out.println("getSongToPlay = " + playList.getSongToPlay().get());
 
                 MP3Track trackToPlay = playList.getPlayList().get(playList.getSongToPlay().get());
                 songNameText.setText(trackToPlay.getSongName());
@@ -139,5 +143,31 @@ public class ControlPaneController implements Initializable {
         if (!playSongButton.isSelected()) {
             playSongButton.fire();
         }
+        startTimer();
+    }
+
+    private void pauseMedia() {
+        mediaPlayer.pause();
+        stopTimer();
+    }
+
+    private void startTimer() {
+        timer = new Timer();
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                double currentTime = mediaPlayer.getCurrentTime().toSeconds();
+                double totalTime = mediaPlayer.getTotalDuration().toSeconds();
+                currentDuration.setText(MP3Parser.parseSongLength(((int) currentTime)));
+                if (currentTime / totalTime == 1) {
+                    stopTimer();
+                }
+            }
+        };
+        timer.schedule(timerTask, 0, 1000);
+    }
+
+    private void stopTimer() {
+        timer.cancel();
     }
 }
