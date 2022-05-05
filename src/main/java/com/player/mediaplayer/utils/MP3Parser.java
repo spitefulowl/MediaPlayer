@@ -30,7 +30,8 @@ public class MP3Parser {
                 parseTitle(file, tag.getTitle()),
                 tag.getArtist(),
                 tag.getAlbum(),
-                parseSongLength(length)
+                parseSongLength(length),
+                file.toURI().toString()
         );
 
         return mp3Track;

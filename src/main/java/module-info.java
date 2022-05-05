@@ -7,6 +7,7 @@ module com.player.mediaplayer {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires mp3agic;
+    requires javafx.media;
 
     opens com.player.mediaplayer to javafx.fxml;
     opens com.player.mediaplayer.models;

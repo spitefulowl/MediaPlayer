@@ -17,6 +17,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -44,6 +46,10 @@ public class ControlPaneController implements Initializable {
     public Button folderButton;
     public Text songNameText;
     public Text authorNameText;
+
+    private Media media;
+
+    private MediaPlayer mediaPlayer;
 
     public ControlPaneController (PlayList playList) {
         this.playList = playList;
@@ -120,7 +126,18 @@ public class ControlPaneController implements Initializable {
                 songNameText.setText(trackToPlay.getSongName());
                 authorNameText.setText(trackToPlay.getSongArtist());
                 totalDuration.setText(trackToPlay.getSongDuration());
+                playMedia(trackToPlay.getFilePath());
             }
         });
+    }
+
+    private void playMedia(String filePath) {
+        media = new Media(filePath);
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(0.5);
+        mediaPlayer.play();
+        if (!playSongButton.isSelected()) {
+            playSongButton.fire();
+        }
     }
 }
