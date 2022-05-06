@@ -24,9 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -146,7 +144,6 @@ public class ControlPaneController implements Initializable {
             media = new Media(filePath);
             mediaPlayer = new MediaPlayer(media);
         }
-        mediaPlayer.setVolume(0.5);
         mediaPlayer.play();
         if (!playSongButton.isSelected()) {
             playSongButton.fire();
@@ -189,5 +186,37 @@ public class ControlPaneController implements Initializable {
                 mediaPlayer.setVolume(volumeSlider.getValue());
             }
         });
+    }
+
+    private void playNextSong() {
+        pauseMedia();
+        int nextSongIndex = 0;
+        if (playList.getSongToPlay().get() != playList.getPlayList().size() - 1) {
+            nextSongIndex = playList.getSongToPlay().get() + 1;
+        }
+        playList.setSongToPlay(nextSongIndex);
+        playList.setSelectedSong(nextSongIndex);
+        MP3Track trackToPlay = playList.getPlayList().get(playList.getSongToPlay().get());
+        playMedia(trackToPlay.getFilePath(), false);
+    }
+
+    private void playPreviousSong() {
+        int previousSongIndex = playList.getPlayList().size() - 1;
+        if (playList.getSongToPlay().get() != 0) {
+            previousSongIndex = playList.getSongToPlay().get() - 1;
+        }
+        playList.setSongToPlay(previousSongIndex);
+        playList.setSelectedSong(previousSongIndex);
+        MP3Track trackToPlay = playList.getPlayList().get(playList.getSongToPlay().get());
+        playMedia(trackToPlay.getFilePath(), false);
+    }
+
+
+    public void previousButtonAction(ActionEvent actionEvent) {
+        playPreviousSong();
+    }
+
+    public void nextButtonAction(ActionEvent actionEvent) {
+        playNextSong();
     }
 }
