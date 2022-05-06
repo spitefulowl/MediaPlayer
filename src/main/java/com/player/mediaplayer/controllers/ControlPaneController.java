@@ -85,7 +85,7 @@ public class ControlPaneController implements Initializable {
                 if (playSongButton.isSelected()) {
                     url = getClass().getResource("/com/player/mediaplayer/images/icon_pause.png");
                     MP3Track trackToPlay = playList.getPlayList().get(playList.getSelectedSong().get());
-                    playMedia(trackToPlay.getFilePath());
+                    playMedia(trackToPlay.getFilePath(), true);
                 } else {
                     url = getClass().getResource("/com/player/mediaplayer/images/icon_play.png");
                     pauseMedia();
@@ -105,6 +105,7 @@ public class ControlPaneController implements Initializable {
         setDefaultImages();
         playButtonAction();
         songToPlayChangesHandler();
+        initializeVolumeSlider();
     }
 
     public void onFolderPressed(MouseEvent mouseEvent) throws InvalidDataException, UnsupportedTagException, IOException {
@@ -130,13 +131,13 @@ public class ControlPaneController implements Initializable {
                 songNameText.setText(trackToPlay.getSongName());
                 authorNameText.setText(trackToPlay.getSongArtist());
                 totalDuration.setText(trackToPlay.getSongDuration());
-                playMedia(trackToPlay.getFilePath());
+                playMedia(trackToPlay.getFilePath(), false);
             }
         });
     }
 
-    private void playMedia(String filePath) {
-        if (mediaPlayer == null ) {
+    private void playMedia(String filePath, Boolean toResume) {
+        if (mediaPlayer == null || !toResume) {
             media = new Media(filePath);
             mediaPlayer = new MediaPlayer(media);
         }
@@ -175,5 +176,17 @@ public class ControlPaneController implements Initializable {
 
     private void stopTimer() {
         timer.cancel();
+    }
+
+    private void initializeVolumeSlider() {
+        volumeSlider.setMin(0);
+        volumeSlider.setMax(1);
+        volumeSlider.setValue(0.5);
+        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                mediaPlayer.setVolume(volumeSlider.getValue());
+            }
+        });
     }
 }
