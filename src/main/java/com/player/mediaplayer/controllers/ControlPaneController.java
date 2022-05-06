@@ -85,7 +85,8 @@ public class ControlPaneController implements Initializable {
                 if (playSongButton.isSelected()) {
                     url = getClass().getResource("/com/player/mediaplayer/images/icon_pause.png");
                     MP3Track trackToPlay = playList.getPlayList().get(playList.getSelectedSong().get());
-                    playMedia(trackToPlay.getFilePath(), true);
+                    playList.setSongToPlay(playList.getSelectedSong().get());
+                    playMedia(trackToPlay.getFilePath(), playList.getSongToPlay().get() == playList.getSelectedSong().get());
                 } else {
                     url = getClass().getResource("/com/player/mediaplayer/images/icon_play.png");
                     pauseMedia();
