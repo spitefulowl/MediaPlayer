@@ -136,8 +136,14 @@ public class ControlPaneController implements Initializable {
     }
 
     private void playMedia(String filePath) {
-        media = new Media(filePath);
-        mediaPlayer = new MediaPlayer(media);
+        if (mediaPlayer == null ) {
+            media = new Media(filePath);
+            mediaPlayer = new MediaPlayer(media);
+        }
+        if (mediaPlayer.getCurrentTime().toSeconds() / mediaPlayer.getTotalDuration().toSeconds() == 1) {
+            media = new Media(filePath);
+            mediaPlayer = new MediaPlayer(media);
+        }
         mediaPlayer.setVolume(0.5);
         mediaPlayer.play();
         if (!playSongButton.isSelected()) {
