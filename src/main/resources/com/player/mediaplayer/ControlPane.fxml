@@ -23,7 +23,7 @@
       </Text>
       <Text fx:id="currentDuration" layoutX="32.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00" />
       <Slider fx:id="durationSlider" layoutX="74.0" layoutY="375.0" prefHeight="25.0" prefWidth="239.0" />
-      <Text fx:id="totalDuration" layoutX="327.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3:00" />
+      <Text fx:id="totalDuration" layoutX="327.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00" />
       <Button fx:id="shuffleButton" layoutX="40.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
       <Button fx:id="previousSongButton" layoutX="105.0" layoutY="466.0" mnemonicParsing="false" onAction="#previousButtonAction" prefHeight="40.0" prefWidth="40.0" />
       <ToggleButton fx:id="playSongButton" layoutX="170.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />

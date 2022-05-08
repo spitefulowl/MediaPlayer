@@ -9,6 +9,8 @@ import com.player.mediaplayer.models.Track;
 import com.player.mediaplayer.utils.MP3Parser;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -50,6 +52,7 @@ public class ContentPaneController implements Initializable {
 
         observePlayList();
         elementClickHandler();
+        setupRowUpdater();
     }
 
     private void observePlayList() {
@@ -69,10 +72,19 @@ public class ContentPaneController implements Initializable {
         });
     }
 
+    private void setupRowUpdater() {
+        player.getCurrentTrackID().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                songsListTable.getSelectionModel().select(player.getCurrentTrackID().get());
+            }
+        });
+    }
+
     public void onDragExited(DragEvent dragEvent) throws InvalidDataException, UnsupportedTagException, IOException {
         Dragboard dragboard = dragEvent.getDragboard();
         if (dragboard.hasFiles()) {
-            for(File file : dragboard.getFiles()) {
+            for (File file : dragboard.getFiles()) {
                 player.addTrack(MP3Parser.parse(file));
             }
         }

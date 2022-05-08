@@ -2,16 +2,16 @@ package com.player.mediaplayer.controllers;
 
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
-import com.player.mediaplayer.HelloApplication;
 import com.player.mediaplayer.PlayerContext;
 import com.player.mediaplayer.models.Track;
 import com.player.mediaplayer.models.Player;
 import com.player.mediaplayer.utils.MP3Parser;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
@@ -20,8 +20,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -69,7 +67,7 @@ public class ControlPaneController implements Initializable {
     }
 
     private void playButtonAction() {
-        playSongButton.setOnAction(new EventHandler<ActionEvent>() {
+        playSongButton.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 URL url;
@@ -86,7 +84,6 @@ public class ControlPaneController implements Initializable {
             }
         });
         playSongButton.setOnMouseClicked(mouseEvent -> {
-            URL url;
             if (playSongButton.isSelected()) {
                 resumeMedia();
             } else {
@@ -101,7 +98,18 @@ public class ControlPaneController implements Initializable {
         setDefaultImages();
         playButtonAction();
         initializeVolumeSlider();
+        initializeDurationSlider();
         currentTrackChangedHandler();
+        updateControlsVisibility(true);
+    }
+    private void updateControlsVisibility(Boolean invisible) {
+        playSongButton.setDisable(invisible);
+        previousSongButton.setDisable(invisible);
+        nextSongButton.setDisable(invisible);
+        shuffleButton.setDisable(invisible);
+        repeatSongButton.setDisable(invisible);
+        durationSlider.setDisable(invisible);
+        volumeSlider.setDisable(invisible);
     }
 
     public void onFolderPressed(MouseEvent mouseEvent) throws InvalidDataException, UnsupportedTagException, IOException {
@@ -112,7 +120,6 @@ public class ControlPaneController implements Initializable {
     }
 
     public void currentTrackChangedHandler() {
-
         player.getCurrentTrackID().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -146,7 +153,21 @@ public class ControlPaneController implements Initializable {
         stopTimer();
     }
 
+    private void playPreviousSong() {
+        stopTimer();
+        if(!player.previous()) {
+            updateTrackInfo();
+            playMedia();
+        }
+    }
+
+    private void playNextSong() {
+        stopTimer();
+        player.next();
+    }
+
     private void startTimer() {
+        updateControlsVisibility(false);
         if (PlayerContext.globalTimer != null) {
             throw new IllegalStateException("Timer not stopped");
         }
@@ -154,7 +175,11 @@ public class ControlPaneController implements Initializable {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                currentDuration.setText(MP3Parser.parseSongLength((int)player.getMediaPlayer().getCurrentTime().toSeconds()));
+                double currentTime = player.getMediaPlayer().getCurrentTime().toSeconds();
+                double totalDuration = player.getMediaPlayer().getTotalDuration().toSeconds();
+                if (!durationSlider.isValueChanging()) {
+                    durationSlider.setValue(currentTime / totalDuration);
+                }
             }
         };
         PlayerContext.globalTimer.schedule(timerTask, 0, 1000);
@@ -177,37 +202,19 @@ public class ControlPaneController implements Initializable {
         });
     }
 
-    private void playNextSong() {
-        stopTimer();
-        player.next();
-        selectRow(player.getCurrentTrackID().get());
-    }
-
-    private void playPreviousSong() {
-        stopTimer();
-        if(!player.previous()) {
-            updateTrackInfo();
-            playMedia();
-        }
-        selectRow(player.getCurrentTrackID().get());
-    }
-
-    private void selectRow(int row) {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("ContentPane.fxml"));
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        fxmlLoader.<ContentPaneController>getController().songsListTable.getSelectionModel().select(row);
-    }
-    private void setupShutdownAction() {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("ControlPane.fxml"));
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    private void initializeDurationSlider() {
+        durationSlider.setMin(0);
+        durationSlider.setMax(1);
+        durationSlider.setValue(0);
+        durationSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                currentDuration.setText(MP3Parser.parseSongLength((int)player.getMediaPlayer().getTotalDuration().multiply(durationSlider.getValue()).toSeconds()));
+            }
+        });
+        durationSlider.setOnMouseReleased((MouseEvent event) -> {
+            player.getMediaPlayer().seek(player.getMediaPlayer().getTotalDuration().multiply(durationSlider.getValue()));
+        });
     }
 
     public void previousButtonAction(ActionEvent actionEvent) {
