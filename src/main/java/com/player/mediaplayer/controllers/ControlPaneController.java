@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
@@ -44,8 +45,8 @@ public class ControlPaneController implements Initializable {
     public Slider volumeSlider;
     public ImageView volumeImage;
     public Button folderButton;
-    public Text songNameText;
-    public Text authorNameText;
+    public Label songNameText;
+    public Label authorNameText;
 
     private void setSongImage() {
         Image image = player.getCurrentTrack().getSongArtwork();
