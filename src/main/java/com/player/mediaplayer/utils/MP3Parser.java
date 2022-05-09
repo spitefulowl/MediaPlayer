@@ -1,19 +1,17 @@
 package com.player.mediaplayer.utils;
 
 import com.mpatric.mp3agic.*;
-import com.player.mediaplayer.models.MP3Track;
-import com.player.mediaplayer.models.SongModel;
+import com.player.mediaplayer.models.Track;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 
 public class MP3Parser {
     private final static int MINUTES_IN_HOUR = 60;
     private final static int SECONDS_IN_MINUTE = 60;
 
-    public static MP3Track parse(File file) throws InvalidDataException, UnsupportedTagException, IOException {
+    public static Track parse(File file) throws InvalidDataException, UnsupportedTagException, IOException {
 
         Mp3File mp3File = new Mp3File(file);
 
@@ -26,17 +24,18 @@ public class MP3Parser {
 
         int length = (int) Math.ceil(mp3File.getLengthInSeconds());
 
-        MP3Track mp3Track = new MP3Track(
+        Track mp3Track = new Track(
                 parseTitle(file, tag.getTitle()),
                 tag.getArtist(),
                 tag.getAlbum(),
-                parseSongLength(length)
+                parseSongLength(length),
+                file.toURI().toString()
         );
 
         return mp3Track;
     }
 
-    private static String parseSongLength(int length) {
+    public static String parseSongLength(int length) {
         int seconds = length % SECONDS_IN_MINUTE;
         int totalMinutes = length / SECONDS_IN_MINUTE;
         int minutes = totalMinutes % MINUTES_IN_HOUR;
