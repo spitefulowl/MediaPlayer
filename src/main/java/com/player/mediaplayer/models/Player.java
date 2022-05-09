@@ -2,6 +2,7 @@ package com.player.mediaplayer.models;
 
 import com.player.mediaplayer.PlayerContext;
 import javafx.beans.property.IntegerPropertyBase;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -9,13 +10,15 @@ import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Player {
     private final int PLAY_PREVIOUS_THRESHOLD = 3;
     private ObservableList<Track> playList;
-
     private SimpleIntegerProperty currentTrackID;
     private SimpleDoubleProperty currentVolume;
-
+    private SimpleBooleanProperty isShuffling;
     private MediaPlayer mediaPlayer = null;
 
     public ObservableList<Track> getPlayList() {
@@ -38,6 +41,10 @@ public class Player {
         this.playList = FXCollections.observableArrayList();
         this.currentTrackID = new SimpleIntegerProperty(-1);
         this.currentVolume = new SimpleDoubleProperty(0.5);
+        this.isShuffling = new SimpleBooleanProperty(false);
+    }
+    public void setIsShuffling(Boolean isShuffling) {
+        this.isShuffling.set(isShuffling);
     }
 
     public SimpleIntegerProperty getCurrentTrackID() {
@@ -88,17 +95,32 @@ public class Player {
         }
         mediaPlayer.play();
     }
+    private int findNextTrackID() {
+        int nextTrackID = currentTrackID.get();
+        if (isShuffling.get()) {
+            while (true) {
+                nextTrackID = ThreadLocalRandom.current().nextInt(0, playList.size());
+                if (nextTrackID != currentTrackID.get()) {
+                    break;
+                }
+            }
+        }
+        else {
+            if (currentTrackID.get() == playList.size() - 1) {
+                nextTrackID = 0;
+            }
+            else {
+                ++nextTrackID;
+            }
+        }
+        return nextTrackID;
+    }
 
     public void next() {
         if (mediaPlayer == null) {
             throw new IllegalStateException("MediaPlayer does not exist");
         }
-        if (currentTrackID.get() == playList.size() - 1) {
-            currentTrackID.set(0);
-        }
-        else {
-            currentTrackID.set(currentTrackID.get() + 1);
-        }
+        currentTrackID.set(findNextTrackID());
     }
 
     public Boolean previous() {

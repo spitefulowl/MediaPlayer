@@ -36,11 +36,11 @@ public class ControlPaneController implements Initializable {
     public Text currentDuration;
     public Slider durationSlider;
     public Text totalDuration;
-    public Button shuffleButton;
+    public ToggleButton shuffleButton;
     public Button previousSongButton;
     public ToggleButton playSongButton;
     public Button nextSongButton;
-    public Button repeatSongButton;
+    public ToggleButton repeatSongButton;
     public Slider volumeSlider;
     public ImageView volumeImage;
     public Button folderButton;
@@ -64,6 +64,37 @@ public class ControlPaneController implements Initializable {
         imageView.setFitHeight(25);
         imageView.setFitWidth(25);
         playSongButton.setGraphic(imageView);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setSongImage();
+        setDefaultImages();
+        playButtonAction();
+        openFolderButtonAction();
+        shuffleButtonAction();
+        initializeVolumeSlider();
+        initializeDurationSlider();
+        currentTrackChangedHandler();
+        updateControlsVisibility(true);
+    }
+    private void updateControlsVisibility(Boolean invisible) {
+        playSongButton.setDisable(invisible);
+        previousSongButton.setDisable(invisible);
+        nextSongButton.setDisable(invisible);
+        shuffleButton.setDisable(invisible);
+        repeatSongButton.setDisable(invisible);
+        durationSlider.setDisable(invisible);
+        volumeSlider.setDisable(invisible);
+    }
+
+    private void shuffleButtonAction() {
+        shuffleButton.setOnAction(new EventHandler<>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                player.setIsShuffling(shuffleButton.isSelected());
+            }
+        });
     }
 
     private void playButtonAction() {
@@ -92,28 +123,7 @@ public class ControlPaneController implements Initializable {
         });
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        setSongImage();
-        setDefaultImages();
-        playButtonAction();
-        openFolderButtonAction();
-        initializeVolumeSlider();
-        initializeDurationSlider();
-        currentTrackChangedHandler();
-        updateControlsVisibility(true);
-    }
-    private void updateControlsVisibility(Boolean invisible) {
-        playSongButton.setDisable(invisible);
-        previousSongButton.setDisable(invisible);
-        nextSongButton.setDisable(invisible);
-        shuffleButton.setDisable(invisible);
-        repeatSongButton.setDisable(invisible);
-        durationSlider.setDisable(invisible);
-        volumeSlider.setDisable(invisible);
-    }
-
-    public void openFolderButtonAction() {
+    private void openFolderButtonAction() {
         folderButton.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -131,7 +141,7 @@ public class ControlPaneController implements Initializable {
         });
     }
 
-    public void currentTrackChangedHandler() {
+    private void currentTrackChangedHandler() {
         player.getCurrentTrackID().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
