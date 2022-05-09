@@ -97,6 +97,7 @@ public class ControlPaneController implements Initializable {
         setSongImage();
         setDefaultImages();
         playButtonAction();
+        openFolderButtonAction();
         initializeVolumeSlider();
         initializeDurationSlider();
         currentTrackChangedHandler();
@@ -112,11 +113,22 @@ public class ControlPaneController implements Initializable {
         volumeSlider.setDisable(invisible);
     }
 
-    public void onFolderPressed(MouseEvent mouseEvent) throws InvalidDataException, UnsupportedTagException, IOException {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Mp3","*mp3"));
-        File file = fileChooser.showOpenDialog(new Stage());
-        player.addTrack(MP3Parser.parse(file));
+    public void openFolderButtonAction() {
+        folderButton.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MP3","*.mp3"));
+                File file = fileChooser.showOpenDialog(new Stage());
+                try {
+                    if (file != null) {
+                        player.addTrack(MP3Parser.parse(file));
+                    }
+                } catch (InvalidDataException | UnsupportedTagException | IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
     public void currentTrackChangedHandler() {
@@ -136,6 +148,9 @@ public class ControlPaneController implements Initializable {
     }
 
     private void playMedia() {
+        if (PlayerContext.globalTimer != null) {
+            stopTimer();
+        }
         player.play();
         startTimer();
         if (!playSongButton.isSelected()) {
@@ -154,7 +169,9 @@ public class ControlPaneController implements Initializable {
     }
 
     private void playPreviousSong() {
-        stopTimer();
+        if (PlayerContext.globalTimer != null) {
+            stopTimer();
+        }
         if(!player.previous()) {
             updateTrackInfo();
             playMedia();
@@ -162,7 +179,9 @@ public class ControlPaneController implements Initializable {
     }
 
     private void playNextSong() {
-        stopTimer();
+        if (PlayerContext.globalTimer != null) {
+            stopTimer();
+        }
         player.next();
     }
 
@@ -197,7 +216,13 @@ public class ControlPaneController implements Initializable {
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                player.getMediaPlayer().setVolume(volumeSlider.getValue());
+                player.setCurrentVolume(volumeSlider.getValue());
+            }
+        });
+        player.getCurrentVolume().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                player.getMediaPlayer().setVolume(player.getCurrentVolume().get());
             }
         });
     }

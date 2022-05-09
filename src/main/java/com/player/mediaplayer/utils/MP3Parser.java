@@ -52,7 +52,7 @@ public class MP3Parser {
 
     private static String parseTitle(File file, String title) {
         if (title == null || title.isEmpty()) {
-            return file.getName();
+            return file.getName().split("\\.mp3")[0];
         } else return title;
     }
 
