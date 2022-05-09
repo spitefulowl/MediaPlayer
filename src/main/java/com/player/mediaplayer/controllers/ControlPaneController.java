@@ -73,11 +73,14 @@ public class ControlPaneController implements Initializable {
         playButtonAction();
         openFolderButtonAction();
         shuffleButtonAction();
+        repeatButtonAction();
         initializeVolumeSlider();
         initializeDurationSlider();
+        initializeOnEndOfMediaAction();
         currentTrackChangedHandler();
         updateControlsVisibility(true);
     }
+
     private void updateControlsVisibility(Boolean invisible) {
         playSongButton.setDisable(invisible);
         previousSongButton.setDisable(invisible);
@@ -88,11 +91,24 @@ public class ControlPaneController implements Initializable {
         volumeSlider.setDisable(invisible);
     }
 
+    private void initializeOnEndOfMediaAction() {
+        player.setOnEndOfMedia(() -> playNextSong());
+    }
+
     private void shuffleButtonAction() {
         shuffleButton.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 player.setIsShuffling(shuffleButton.isSelected());
+            }
+        });
+    }
+
+    private void repeatButtonAction() {
+        repeatSongButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                player.setIsRepeating(repeatSongButton.isSelected());
             }
         });
     }
@@ -128,7 +144,7 @@ public class ControlPaneController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 FileChooser fileChooser = new FileChooser();
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MP3","*.mp3"));
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MP3", "*.mp3"));
                 File file = fileChooser.showOpenDialog(new Stage());
                 try {
                     if (file != null) {
@@ -150,6 +166,7 @@ public class ControlPaneController implements Initializable {
             }
         });
     }
+
     private void updateTrackInfo() {
         Track trackToPlay = player.getCurrentTrack();
         songNameText.setText(trackToPlay.getSongName());
@@ -182,8 +199,7 @@ public class ControlPaneController implements Initializable {
         if (PlayerContext.globalTimer != null) {
             stopTimer();
         }
-        if(!player.previous()) {
-            updateTrackInfo();
+        if (!player.previous()) {
             playMedia();
         }
     }
@@ -192,7 +208,9 @@ public class ControlPaneController implements Initializable {
         if (PlayerContext.globalTimer != null) {
             stopTimer();
         }
-        player.next();
+        if (!player.next()) {
+            playMedia();
+        }
     }
 
     private void startTimer() {
@@ -244,7 +262,7 @@ public class ControlPaneController implements Initializable {
         durationSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                currentDuration.setText(MP3Parser.parseSongLength((int)player.getMediaPlayer().getTotalDuration().multiply(durationSlider.getValue()).toSeconds()));
+                currentDuration.setText(MP3Parser.parseSongLength((int) player.getMediaPlayer().getTotalDuration().multiply(durationSlider.getValue()).toSeconds()));
             }
         });
         durationSlider.setOnMouseReleased((MouseEvent event) -> {

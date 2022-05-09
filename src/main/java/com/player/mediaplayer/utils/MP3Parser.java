@@ -25,11 +25,11 @@ public class MP3Parser {
         int length = (int) Math.ceil(mp3File.getLengthInSeconds());
 
         Track mp3Track = new Track(
-            parseTitle(file, tag.getTitle()),
-            tag.getArtist(),
-            tag.getAlbum(),
-            parseSongLength(length),
-            file.toURI().toString()
+                parseTitle(file, tag.getTitle()),
+                tag.getArtist(),
+                tag.getAlbum(),
+                parseSongLength(length),
+                file.toURI().toString()
         );
 
         return mp3Track;

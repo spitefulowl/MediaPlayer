@@ -1,7 +1,5 @@
 package com.player.mediaplayer.models;
 
-import com.player.mediaplayer.PlayerContext;
-import javafx.beans.property.IntegerPropertyBase;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -10,15 +8,16 @@ import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Player {
     private final int PLAY_PREVIOUS_THRESHOLD = 3;
     private ObservableList<Track> playList;
+    private Runnable onEndOfMediaRunnable = null;
     private SimpleIntegerProperty currentTrackID;
     private SimpleDoubleProperty currentVolume;
     private SimpleBooleanProperty isShuffling;
+    private SimpleBooleanProperty isRepeating;
     private MediaPlayer mediaPlayer = null;
 
     public ObservableList<Track> getPlayList() {
@@ -42,9 +41,14 @@ public class Player {
         this.currentTrackID = new SimpleIntegerProperty(-1);
         this.currentVolume = new SimpleDoubleProperty(0.5);
         this.isShuffling = new SimpleBooleanProperty(false);
+        this.isRepeating = new SimpleBooleanProperty(false);
     }
     public void setIsShuffling(Boolean isShuffling) {
         this.isShuffling.set(isShuffling);
+    }
+
+    public void setIsRepeating(Boolean isRepeating) {
+        this.isRepeating.set(isRepeating);
     }
 
     public SimpleIntegerProperty getCurrentTrackID() {
@@ -74,11 +78,10 @@ public class Player {
         Media media = new Media(track.getFilePath());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(currentVolume.get());
-        mediaPlayer.setOnEndOfMedia(() -> {
-            PlayerContext.globalTimer.cancel();
-            PlayerContext.globalTimer = null;
-            next();
-        });
+        if (onEndOfMediaRunnable == null) {
+            throw new IllegalStateException("On end of media action is not set up");
+        }
+        mediaPlayer.setOnEndOfMedia(onEndOfMediaRunnable);
         mediaPlayer.play();
     }
 
@@ -95,7 +98,25 @@ public class Player {
         }
         mediaPlayer.play();
     }
+
+    public Boolean previous() {
+        if (mediaPlayer == null) {
+            throw new IllegalStateException("MediaPlayer does not exist");
+        }
+        if (mediaPlayer.getCurrentTime().toSeconds() < PLAY_PREVIOUS_THRESHOLD && currentTrackID.get() > 0) {
+            currentTrackID.set(currentTrackID.get() - 1);
+        }
+        else {
+            return false;
+        }
+        return true;
+    }
+
     private int findNextTrackID() {
+        if (isRepeating.get()) {
+            return currentTrackID.get();
+        }
+
         int nextTrackID = currentTrackID.get();
         if (isShuffling.get()) {
             while (true) {
@@ -113,28 +134,18 @@ public class Player {
                 ++nextTrackID;
             }
         }
+
         return nextTrackID;
     }
 
-    public void next() {
+    public Boolean next() {
         if (mediaPlayer == null) {
             throw new IllegalStateException("MediaPlayer does not exist");
         }
-        currentTrackID.set(findNextTrackID());
-    }
-
-    public Boolean previous() {
-        if (mediaPlayer == null) {
-            throw new IllegalStateException("MediaPlayer does not exist");
-        }
-        if (mediaPlayer.getCurrentTime().toSeconds() < PLAY_PREVIOUS_THRESHOLD && currentTrackID.get() > 0) {
-            currentTrackID.set(currentTrackID.get() - 1);
-        }
-        else {
-            currentTrackID.set(currentTrackID.get());
-            return false;
-        }
-        return true;
+        int currentTrackID = getCurrentTrackID().get();
+        int nextTrackID = findNextTrackID();
+        this.currentTrackID.set(nextTrackID);
+        return currentTrackID != nextTrackID;
     }
 
     public MediaPlayer getMediaPlayer() {
@@ -149,5 +160,8 @@ public class Player {
             throw new IllegalStateException("No track");
         }
         return playList.get(currentTrackID.get());
+    }
+    public void setOnEndOfMedia(Runnable runnable) {
+        onEndOfMediaRunnable = runnable;
     }
 }
