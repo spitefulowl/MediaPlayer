@@ -36,5 +36,7 @@ public class Track {
         return songLiked;
     }
 
-    public String getFilePath() { return filePath; }
+    public String getFilePath() {
+        return filePath;
+    }
 }

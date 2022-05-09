@@ -11,16 +11,14 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
+import javafx.scene.input.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,6 +51,7 @@ public class ContentPaneController implements Initializable {
         observePlayList();
         elementClickHandler();
         setupRowUpdater();
+        setupDragAndDrop();
     }
 
     private void observePlayList() {
@@ -81,13 +80,22 @@ public class ContentPaneController implements Initializable {
         });
     }
 
-    public void onDragExited(DragEvent dragEvent) throws InvalidDataException, UnsupportedTagException, IOException {
-        Dragboard dragboard = dragEvent.getDragboard();
-        if (dragboard.hasFiles()) {
-            for (File file : dragboard.getFiles()) {
-                player.addTrack(MP3Parser.parse(file));
+    private void setupDragAndDrop() {
+        songsListTable.setOnDragOver(dragEvent -> {
+            dragEvent.acceptTransferModes(TransferMode.MOVE);
+        });
+        songsListTable.setOnDragDropped(dragEvent -> {
+            Dragboard dragboard = dragEvent.getDragboard();
+            if (dragboard.hasFiles()) {
+                for (File file : dragboard.getFiles()) {
+                    try {
+                        player.addTrack(MP3Parser.parse(file));
+                    } catch (InvalidDataException | UnsupportedTagException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
-        }
+        });
     }
 
     public void addToSongListTable(Track track) throws InvalidDataException, UnsupportedTagException, IOException {
