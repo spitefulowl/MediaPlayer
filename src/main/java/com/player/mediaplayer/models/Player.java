@@ -28,14 +28,6 @@ public class Player {
         playList.add(mp3Track);
     }
 
-    public void addTracks(ObservableList<Track> mp3Tracks) {
-        playList.addAll(mp3Tracks);
-    }
-
-    public void clearPlayList() {
-        playList.clear();
-    }
-
     public Player() {
         this.playList = FXCollections.observableArrayList();
         this.currentTrackID = new SimpleIntegerProperty(-1);
@@ -43,6 +35,7 @@ public class Player {
         this.isShuffling = new SimpleBooleanProperty(false);
         this.isRepeating = new SimpleBooleanProperty(false);
     }
+
     public void setIsShuffling(Boolean isShuffling) {
         this.isShuffling.set(isShuffling);
     }
@@ -105,8 +98,7 @@ public class Player {
         }
         if (mediaPlayer.getCurrentTime().toSeconds() < PLAY_PREVIOUS_THRESHOLD && currentTrackID.get() > 0) {
             currentTrackID.set(currentTrackID.get() - 1);
-        }
-        else {
+        } else {
             return false;
         }
         return true;
@@ -125,12 +117,10 @@ public class Player {
                     break;
                 }
             }
-        }
-        else {
+        } else {
             if (currentTrackID.get() == playList.size() - 1) {
                 nextTrackID = 0;
-            }
-            else {
+            } else {
                 ++nextTrackID;
             }
         }
@@ -161,6 +151,7 @@ public class Player {
         }
         return playList.get(currentTrackID.get());
     }
+
     public void setOnEndOfMedia(Runnable runnable) {
         onEndOfMediaRunnable = runnable;
     }
