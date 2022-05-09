@@ -1,5 +1,6 @@
 package com.player.mediaplayer.models;
 
+import com.player.mediaplayer.PlayerContext;
 import javafx.beans.property.IntegerPropertyBase;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -8,7 +9,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 public class Player {
-    private final int PLAY_PREVIOUS_TRESHOLD = 3;
+    private final int PLAY_PREVIOUS_THRESHOLD = 3;
     private ObservableList<Track> playList;
 
     private SimpleIntegerProperty currentTrackID;
@@ -54,6 +55,11 @@ public class Player {
         Track track = playList.get(currentTrackID.get());
         Media media = new Media(track.getFilePath());
         mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setOnEndOfMedia(() -> {
+            PlayerContext.globalTimer.cancel();
+            PlayerContext.globalTimer = null;
+            next();
+        });
         mediaPlayer.play();
     }
 
@@ -87,7 +93,7 @@ public class Player {
         if (mediaPlayer == null) {
             throw new IllegalStateException("MediaPlayer does not exist");
         }
-        if (mediaPlayer.getCurrentTime().toSeconds() < PLAY_PREVIOUS_TRESHOLD && currentTrackID.get() > 0) {
+        if (mediaPlayer.getCurrentTime().toSeconds() < PLAY_PREVIOUS_THRESHOLD && currentTrackID.get() > 0) {
             currentTrackID.set(currentTrackID.get() - 1);
         }
         else {
