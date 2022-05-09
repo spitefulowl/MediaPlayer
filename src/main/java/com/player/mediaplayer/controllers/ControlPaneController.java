@@ -48,8 +48,11 @@ public class ControlPaneController implements Initializable {
     public Text authorNameText;
 
     private void setSongImage() {
-        URL url = getClass().getResource("/com/player/mediaplayer/images/beatles.png");
-        Image image = new Image(url.toString());
+        Image image = player.getCurrentTrack().getSongArtwork();
+        if (image == null) {
+            URL url = getClass().getResource("/com/player/mediaplayer/images/default_artwork.png");
+            image = new Image(url.toString());
+        }
         albumImage.setImage(image);
     }
 
@@ -68,7 +71,6 @@ public class ControlPaneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setSongImage();
         setDefaultImages();
         playButtonAction();
         openFolderButtonAction();
@@ -172,6 +174,7 @@ public class ControlPaneController implements Initializable {
         songNameText.setText(trackToPlay.getSongName());
         authorNameText.setText(trackToPlay.getSongArtist());
         totalDuration.setText(trackToPlay.getSongDuration());
+        setSongImage();
     }
 
     private void playMedia() {

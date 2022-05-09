@@ -2,7 +2,9 @@ package com.player.mediaplayer.utils;
 
 import com.mpatric.mp3agic.*;
 import com.player.mediaplayer.models.Track;
+import javafx.scene.image.Image;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -16,10 +18,18 @@ public class MP3Parser {
         Mp3File mp3File = new Mp3File(file);
 
         ID3v1 tag;
-        if (mp3File.hasId3v1Tag()) {
-            tag = mp3File.getId3v1Tag();
-        } else {
+        if (mp3File.hasId3v2Tag()) {
             tag = mp3File.getId3v2Tag();
+        } else {
+            tag = mp3File.getId3v1Tag();
+        }
+
+        Image artwork = null;
+        if (mp3File.hasId3v2Tag()) {
+            byte[] array = mp3File.getId3v2Tag().getAlbumImage();
+            if (array != null) {
+                artwork = new Image(new ByteArrayInputStream(mp3File.getId3v2Tag().getAlbumImage()));
+            }
         }
 
         int length = (int) Math.ceil(mp3File.getLengthInSeconds());
@@ -29,7 +39,8 @@ public class MP3Parser {
                 tag.getArtist(),
                 tag.getAlbum(),
                 parseSongLength(length),
-                file.toURI().toString()
+                file.toURI().toString(),
+                artwork
         );
 
         return mp3Track;
