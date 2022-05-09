@@ -2,6 +2,7 @@ package com.player.mediaplayer.models;
 
 import com.player.mediaplayer.PlayerContext;
 import javafx.beans.property.IntegerPropertyBase;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +14,7 @@ public class Player {
     private ObservableList<Track> playList;
 
     private SimpleIntegerProperty currentTrackID;
+    private SimpleDoubleProperty currentVolume;
 
     private MediaPlayer mediaPlayer = null;
 
@@ -35,6 +37,7 @@ public class Player {
     public Player() {
         this.playList = FXCollections.observableArrayList();
         this.currentTrackID = new SimpleIntegerProperty(-1);
+        this.currentVolume = new SimpleDoubleProperty(0.5);
     }
 
     public SimpleIntegerProperty getCurrentTrackID() {
@@ -43,6 +46,14 @@ public class Player {
 
     public void setCurrentTrackID(int id) {
         currentTrackID.set(id);
+    }
+
+    public SimpleDoubleProperty getCurrentVolume() {
+        return currentVolume;
+    }
+
+    public void setCurrentVolume(double volume) {
+        currentVolume.set(volume);
     }
 
     public void play() {
@@ -55,6 +66,7 @@ public class Player {
         Track track = playList.get(currentTrackID.get());
         Media media = new Media(track.getFilePath());
         mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(currentVolume.get());
         mediaPlayer.setOnEndOfMedia(() -> {
             PlayerContext.globalTimer.cancel();
             PlayerContext.globalTimer = null;
