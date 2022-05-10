@@ -12,6 +12,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,6 +21,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -78,6 +81,7 @@ public class ControlPaneController implements Initializable {
         initializeButtonsIcons();
         playButtonAction();
         openFolderButtonAction();
+        sliderMouseEventsActions();
         shuffleButtonAction();
         repeatButtonAction();
         initializeVolumeSlider();
@@ -94,6 +98,37 @@ public class ControlPaneController implements Initializable {
         repeatSongButton.setGraphic(new FontIcon());
         folderButton.setGraphic(new FontIcon());
         playSongButton.setGraphic(new FontIcon());
+    }
+
+    private void sliderMouseEventsActions() {
+        durationSlider.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                StackPane thumb = (StackPane)durationSlider.lookup(".thumb");
+                thumb.getStyleClass().add("thumb-active-color");
+            }
+        });
+        durationSlider.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                StackPane thumb = (StackPane)durationSlider.lookup(".thumb");
+                thumb.getStyleClass().remove("thumb-active-color");
+            }
+        });
+        volumeSlider.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                StackPane thumb = (StackPane)volumeSlider.lookup(".thumb");
+                thumb.getStyleClass().add("thumb-active-color");
+            }
+        });
+        volumeSlider.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                StackPane thumb = (StackPane)volumeSlider.lookup(".thumb");
+                thumb.getStyleClass().remove("thumb-active-color");
+            }
+        });
     }
 
     private void updateControlsDisable(Boolean disabled) {
