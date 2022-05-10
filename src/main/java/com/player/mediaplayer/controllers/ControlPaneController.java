@@ -81,7 +81,7 @@ public class ControlPaneController implements Initializable {
         initializeButtonsIcons();
         playButtonAction();
         openFolderButtonAction();
-        sliderMouseEventsActions();
+        sliderHoverActions();
         shuffleButtonAction();
         repeatButtonAction();
         initializeVolumeSlider();
@@ -100,33 +100,25 @@ public class ControlPaneController implements Initializable {
         playSongButton.setGraphic(new FontIcon());
     }
 
-    private void sliderMouseEventsActions() {
-        durationSlider.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                StackPane thumb = (StackPane)durationSlider.lookup(".thumb");
+    private void sliderHoverActions() {
+        durationSlider.hoverProperty().addListener((event) -> {
+            StackPane thumb = (StackPane) durationSlider.lookup(".thumb");
+            if (durationSlider.isHover()) {
                 thumb.getStyleClass().add("thumb-active-color");
-            }
-        });
-        durationSlider.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                StackPane thumb = (StackPane)durationSlider.lookup(".thumb");
+                durationSlider.setStyle("-fx-track-color: -fx-pink-color;");
+            } else {
                 thumb.getStyleClass().remove("thumb-active-color");
+                durationSlider.setStyle("-fx-track-color: -fx-dark-gray-color;");
             }
         });
-        volumeSlider.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                StackPane thumb = (StackPane)volumeSlider.lookup(".thumb");
+        volumeSlider.hoverProperty().addListener((event) -> {
+            StackPane thumb = (StackPane) volumeSlider.lookup(".thumb");
+            if (volumeSlider.isHover()) {
                 thumb.getStyleClass().add("thumb-active-color");
-            }
-        });
-        volumeSlider.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                StackPane thumb = (StackPane)volumeSlider.lookup(".thumb");
+                volumeSlider.setStyle("-fx-track-color: -fx-pink-color;");
+            } else {
                 thumb.getStyleClass().remove("thumb-active-color");
+                volumeSlider.setStyle("-fx-track-color: -fx-dark-gray-color;");
             }
         });
     }
@@ -285,7 +277,7 @@ public class ControlPaneController implements Initializable {
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 double newVolume = observableValue.getValue().doubleValue();
                 player.setCurrentVolume(newVolume);
-                String style = String.format("-fx-background-color: linear-gradient(to right, #3a3937 %d%%, #a9a9a9 %d%%) !important;",
+                String style = String.format("-fx-background-color: linear-gradient(to right, -fx-track-color %d%%, #a9a9a9 %d%%) !important;",
                         (int) (newVolume * 100), (int) (newVolume * 100));
                 volumeSlider.lookup(".track").setStyle(style);
             }
@@ -307,7 +299,7 @@ public class ControlPaneController implements Initializable {
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 double newCurrentDuration = observableValue.getValue().doubleValue();
                 currentDuration.setText(MP3Parser.parseSongLength((int) player.getMediaPlayer().getTotalDuration().multiply(newCurrentDuration).toSeconds()));
-                String style = String.format("-fx-background-color: linear-gradient(to right, #3a3937 %d%%, #a9a9a9 %d%%) !important;",
+                String style = String.format("-fx-background-color: linear-gradient(to right, -fx-track-color %d%%, #a9a9a9 %d%%) !important;",
                         (int) (newCurrentDuration * 100), (int) (newCurrentDuration * 100));
                 durationSlider.lookup(".track").setStyle(style);
             }

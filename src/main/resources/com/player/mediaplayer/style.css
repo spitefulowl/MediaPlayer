@@ -1,5 +1,10 @@
 * {
     -fx-pink-color: #e92063;
+    -fx-dark-gray-color: #3a3937;
+}
+
+.slider {
+    -fx-track-color: -fx-dark-gray-color;
 }
 
 .slider .track {
@@ -87,9 +92,9 @@
 }
 
 #volumeSlider .track {
-    -fx-background-color: linear-gradient(to right, #3a3937 50%, #a9a9a9 50%) !important;
+    -fx-background-color: linear-gradient(to right, -fx-track-color 50%, #a9a9a9 50%) !important;
 }
 
 #durationSlider .track {
-    -fx-background-color: linear-gradient(to right, #3a3937 0%, #a9a9a9 0%) !important;
+    -fx-background-color: linear-gradient(to right, -fx-track-color 0%, #a9a9a9 0%) !important;
 }
