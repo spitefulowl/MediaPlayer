@@ -1,28 +1,75 @@
-#shuffleButton {
-    -fx-background-image: url("images/icon_shuffle.png");
-    -fx-background-size: 40px;
-}
-
-#previousSongButton {
-    -fx-background-image: url("images/icon_previous.png");
-    -fx-background-size: 40px;
-}
-
-#nextSongButton {
-    -fx-background-image: url("images/icon_next.png");
-    -fx-background-size: 40px;
-}
-
-#repeatSongButton {
-    -fx-background-image: url("images/icon_repeat.png");
-    -fx-background-size: 40px;
-}
-
-#folderButton {
-     -fx-background-image: url("images/icon_folder.png");
-     -fx-background-size: 40px;
- }
-
 .slider .track {
-	-fx-background-color: #00aa33;
+    -fx-pref-height: 4.5;
+}
+
+.slider .thumb {
+    -fx-background-color: white;
+    -fx-pref-height: 10;
+    -fx-pref-width: 10;
+}
+
+.button {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.toggle-button {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+#shuffleButton .ikonli-font-icon {
+    -fx-icon-code: "mdi2s-shuffle-variant";
+    -fx-icon-size: 30;
+}
+
+#shuffleButton:selected .ikonli-font-icon {
+    -fx-icon-color: #e92063;
+}
+
+#previousSongButton .ikonli-font-icon {
+    -fx-icon-code: "mdi2s-skip-backward";
+    -fx-icon-color: #e92063;
+    -fx-icon-size: 30;
+}
+
+#nextSongButton .ikonli-font-icon {
+    -fx-icon-code: "mdi2s-skip-forward";
+    -fx-icon-color: #e92063;
+    -fx-icon-size: 30;
+}
+
+#repeatSongButton .ikonli-font-icon  {
+    -fx-icon-code: "mdi2r-repeat";
+    -fx-icon-size: 30;
+}
+
+#repeatSongButton:selected .ikonli-font-icon {
+    -fx-icon-color: #e92063;
+}
+
+#folderButton .ikonli-font-icon {
+    -fx-icon-code: "mdi2f-folder-open";
+    -fx-icon-color: #e92063;
+    -fx-icon-size: 30;
+}
+
+#albumImage {
+    -fx-effect: dropshadow(gaussian, grey, 30, 0.5, 0, 0);
+}
+
+#controlPane {
+    -fx-background-color: linear-gradient(to top, #d5fbfe, #f3e4df);
+}
+
+#volumeSlider .track {
+    -fx-background-color: linear-gradient(to right, #3a3937 50%, #a9a9a9 50%) !important;
+}
+
+#durationSlider .track {
+    -fx-background-color: linear-gradient(to right, #3a3937 0%, #a9a9a9 0%) !important;
 }

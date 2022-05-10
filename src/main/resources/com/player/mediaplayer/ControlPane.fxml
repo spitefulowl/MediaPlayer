@@ -12,25 +12,25 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.player.mediaplayer.controllers.ControlPaneController">
    <children>
       <ImageView fx:id="albumImage" fitHeight="200.0" fitWidth="200.0" layoutX="94.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="songNameText" alignment="CENTER" layoutX="90.0" layoutY="290.0" prefHeight="30.0" prefWidth="200.0" text="song name" textOverrun="ELLIPSIS">
+      <Label fx:id="songNameText" alignment="CENTER" layoutX="90.0" layoutY="300.0" prefHeight="30.0" prefWidth="200.0" text="song name" textOverrun="ELLIPSIS">
          <font>
             <Font size="20.0" />
          </font></Label>
-      <Label fx:id="authorNameText" alignment="CENTER" layoutX="124.0" layoutY="320.0" prefHeight="30.0" prefWidth="132.0" text="Artist" textAlignment="CENTER" textOverrun="ELLIPSIS">
+      <Label fx:id="authorNameText" alignment="CENTER" layoutX="124.0" layoutY="330.0" prefHeight="30.0" prefWidth="132.0" text="Artist" textAlignment="CENTER" textOverrun="ELLIPSIS">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Text fx:id="currentDuration" layoutX="32.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00" />
-      <Slider fx:id="durationSlider" layoutX="74.0" layoutY="375.0" prefHeight="25.0" prefWidth="239.0" />
-      <Text fx:id="totalDuration" layoutX="327.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00" />
+      <Text fx:id="currentDuration" layoutX="48.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00" />
+      <Slider fx:id="durationSlider" layoutX="85.0" layoutY="400.0" prefWidth="210.0" />
+      <Text fx:id="totalDuration" layoutX="309.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00" />
       <ToggleButton fx:id="shuffleButton" layoutX="40.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
       <Button fx:id="previousSongButton" layoutX="105.0" layoutY="466.0" mnemonicParsing="false" onAction="#previousButtonAction" prefHeight="40.0" prefWidth="40.0" />
       <ToggleButton fx:id="playSongButton" layoutX="170.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
       <Button fx:id="nextSongButton" layoutX="235.0" layoutY="466.0" mnemonicParsing="false" onAction="#nextButtonAction" prefHeight="40.0" prefWidth="40.0" />
       <ToggleButton fx:id="repeatSongButton" layoutX="300.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-      <Slider fx:id="volumeSlider" layoutX="90.0" layoutY="538.0" prefHeight="17.0" prefWidth="200.0" />
-      <ImageView fx:id="volumeImage" fitHeight="32.0" fitWidth="32.0" layoutX="43.0" layoutY="531.0" pickOnBounds="true" preserveRatio="true" />
+      <Slider fx:id="volumeSlider" layoutX="109.0" layoutY="540.0" prefWidth="170.0" />
+      <ImageView fx:id="volumeImage" fitHeight="32.0" fitWidth="32.0" layoutX="63.0" layoutY="529.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="folderButton" layoutX="39.0" layoutY="603.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
    </children>
 </AnchorPane>
