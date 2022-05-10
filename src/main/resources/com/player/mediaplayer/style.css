@@ -22,9 +22,21 @@
     -fx-background-color: transparent;
 }
 
+#playSongButton .ikonli-font-icon {
+    -fx-icon-code: "mdi2p-play";
+    -fx-icon-color: #e92063;
+    -fx-icon-size: 35;
+}
+
+#playSongButton:selected .ikonli-font-icon {
+    -fx-icon-code: "mdi2p-pause";
+    -fx-icon-color: #e92063;
+    -fx-icon-size: 35;
+}
+
 #shuffleButton .ikonli-font-icon {
     -fx-icon-code: "mdi2s-shuffle-variant";
-    -fx-icon-size: 30;
+    -fx-icon-size: 35;
 }
 
 #shuffleButton:selected .ikonli-font-icon {
@@ -32,20 +44,20 @@
 }
 
 #previousSongButton .ikonli-font-icon {
-    -fx-icon-code: "mdi2s-skip-backward";
+    -fx-icon-code: "mdi2s-skip-previous";
     -fx-icon-color: #e92063;
-    -fx-icon-size: 30;
+    -fx-icon-size: 35;
 }
 
 #nextSongButton .ikonli-font-icon {
-    -fx-icon-code: "mdi2s-skip-forward";
+    -fx-icon-code: "mdi2s-skip-next";
     -fx-icon-color: #e92063;
-    -fx-icon-size: 30;
+    -fx-icon-size: 35;
 }
 
 #repeatSongButton .ikonli-font-icon  {
     -fx-icon-code: "mdi2r-repeat";
-    -fx-icon-size: 30;
+    -fx-icon-size: 35;
 }
 
 #repeatSongButton:selected .ikonli-font-icon {
@@ -55,7 +67,7 @@
 #folderButton .ikonli-font-icon {
     -fx-icon-code: "mdi2f-folder-open";
     -fx-icon-color: #e92063;
-    -fx-icon-size: 30;
+    -fx-icon-size: 35;
 }
 
 #albumImage {

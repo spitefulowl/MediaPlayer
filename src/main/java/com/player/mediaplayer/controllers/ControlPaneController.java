@@ -93,6 +93,7 @@ public class ControlPaneController implements Initializable {
         nextSongButton.setGraphic(new FontIcon());
         repeatSongButton.setGraphic(new FontIcon());
         folderButton.setGraphic(new FontIcon());
+        playSongButton.setGraphic(new FontIcon());
     }
 
     private void updateControlsDisable(Boolean disabled) {
@@ -128,22 +129,6 @@ public class ControlPaneController implements Initializable {
     }
 
     private void playButtonAction() {
-        playSongButton.setOnAction(new EventHandler<>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                URL url;
-                if (playSongButton.isSelected()) {
-                    url = getClass().getResource("/com/player/mediaplayer/images/icon_pause.png");
-                } else {
-                    url = getClass().getResource("/com/player/mediaplayer/images/icon_play.png");
-                }
-                Image image = new Image(url.toString());
-                ImageView imageView = new ImageView(image);
-                imageView.setFitHeight(25);
-                imageView.setFitWidth(25);
-                playSongButton.setGraphic(imageView);
-            }
-        });
         playSongButton.setOnMouseClicked(mouseEvent -> {
             if (playSongButton.isSelected()) {
                 resumeMedia();
