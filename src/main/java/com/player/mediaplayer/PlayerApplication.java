@@ -8,6 +8,16 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
+/*
+    To fix mp3agic legacy library, use these commands:
+
+    jdeps --generate-module-info . mp3agic-0.9.1.jar
+    javac --patch-module mp3agic=mp3agic-0.9.1.jar mp3agic/module-info.java
+    jar uf mp3agic-0.9.1.jar -C mp3agic module-info.class
+      
+*/
+
+
 public class PlayerApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
