@@ -81,17 +81,17 @@ public class ControlPaneController implements Initializable {
         initializeDurationSlider();
         initializeOnEndOfMediaAction();
         currentTrackChangedHandler();
-        updateControlsVisibility(true);
+        updateControlsDisable(true);
     }
 
-    private void updateControlsVisibility(Boolean invisible) {
-        playSongButton.setDisable(invisible);
-        previousSongButton.setDisable(invisible);
-        nextSongButton.setDisable(invisible);
-        shuffleButton.setDisable(invisible);
-        repeatSongButton.setDisable(invisible);
-        durationSlider.setDisable(invisible);
-        volumeSlider.setDisable(invisible);
+    private void updateControlsDisable(Boolean disabled) {
+        playSongButton.setDisable(disabled);
+        previousSongButton.setDisable(disabled);
+        nextSongButton.setDisable(disabled);
+        shuffleButton.setDisable(disabled);
+        repeatSongButton.setDisable(disabled);
+        durationSlider.setDisable(disabled);
+        volumeSlider.setDisable(disabled);
     }
 
     private void initializeOnEndOfMediaAction() {
@@ -218,7 +218,7 @@ public class ControlPaneController implements Initializable {
     }
 
     private void startTimer() {
-        updateControlsVisibility(false);
+        updateControlsDisable(false);
         if (PlayerContext.globalTimer != null) {
             throw new IllegalStateException("Timer not stopped");
         }
@@ -263,15 +263,13 @@ public class ControlPaneController implements Initializable {
         durationSlider.setMin(0);
         durationSlider.setMax(1);
         durationSlider.setValue(0);
-        durationSlider.valueProperty().addListener(new ChangeListener<Number>() {
+        durationSlider.valueProperty().addListener(new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 currentDuration.setText(MP3Parser.parseSongLength((int) player.getMediaPlayer().getTotalDuration().multiply(durationSlider.getValue()).toSeconds()));
             }
         });
-        durationSlider.setOnMouseReleased((MouseEvent event) -> {
-            player.getMediaPlayer().seek(player.getMediaPlayer().getTotalDuration().multiply(durationSlider.getValue()));
-        });
+        durationSlider.setOnMouseReleased((MouseEvent event) -> player.getMediaPlayer().seek(player.getMediaPlayer().getTotalDuration().multiply(durationSlider.getValue())));
     }
 
     public void previousButtonAction(ActionEvent actionEvent) {
