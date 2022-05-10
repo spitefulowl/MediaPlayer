@@ -248,7 +248,11 @@ public class ControlPaneController implements Initializable {
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                player.setCurrentVolume(volumeSlider.getValue());
+                double newVolume = observableValue.getValue().doubleValue();
+                player.setCurrentVolume(newVolume);
+                String style = String.format("-fx-background-color: linear-gradient(to right, #3a3937 %d%%, #a9a9a9 %d%%) !important;",
+                        (int) (newVolume * 100), (int) (newVolume * 100));
+                volumeSlider.lookup(".track").setStyle(style);
             }
         });
         player.getCurrentVolume().addListener(new InvalidationListener() {
@@ -266,7 +270,11 @@ public class ControlPaneController implements Initializable {
         durationSlider.valueProperty().addListener(new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                currentDuration.setText(MP3Parser.parseSongLength((int) player.getMediaPlayer().getTotalDuration().multiply(durationSlider.getValue()).toSeconds()));
+                double newCurrentDuration = observableValue.getValue().doubleValue();
+                currentDuration.setText(MP3Parser.parseSongLength((int) player.getMediaPlayer().getTotalDuration().multiply(newCurrentDuration).toSeconds()));
+                String style = String.format("-fx-background-color: linear-gradient(to right, #3a3937 %d%%, #a9a9a9 %d%%) !important;",
+                        (int) (newCurrentDuration * 100), (int) (newCurrentDuration * 100));
+                durationSlider.lookup(".track").setStyle(style);
             }
         });
         durationSlider.setOnMouseReleased((MouseEvent event) -> player.getMediaPlayer().seek(player.getMediaPlayer().getTotalDuration().multiply(durationSlider.getValue())));

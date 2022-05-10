@@ -1,12 +1,11 @@
 .slider .track {
-    -fx-control-inner-background: #353d3f;
-    -fx-pref-height: 7;
+    -fx-pref-height: 4.5;
 }
 
 .slider .thumb {
     -fx-background-color: white;
-    -fx-pref-height: 14;
-    -fx-pref-width: 14;
+    -fx-pref-height: 10;
+    -fx-pref-width: 10;
 }
 
 .button {
@@ -54,4 +53,12 @@
 
 #controlPane {
     -fx-background-color: linear-gradient(to top, #d5fbfe, #f3e4df);
+}
+
+#volumeSlider .track {
+    -fx-background-color: linear-gradient(to right, #3a3937 50%, #a9a9a9 50%) !important;
+}
+
+#durationSlider .track {
+    -fx-background-color: linear-gradient(to right, #3a3937 0%, #a9a9a9 0%) !important;
 }
