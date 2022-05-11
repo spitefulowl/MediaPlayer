@@ -147,6 +147,7 @@ public class ControlPaneController implements Initializable {
                                 player.addTrack(MP3Parser.parse(file));
                             }
                         }
+                        player.setPlayList(player.getAllTracks());
                     }
                 } catch (InvalidDataException | UnsupportedTagException | IOException e) {
                     throw new RuntimeException(e);

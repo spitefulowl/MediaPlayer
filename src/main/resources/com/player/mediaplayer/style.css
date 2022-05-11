@@ -83,6 +83,24 @@
     -fx-icon-size: 35;
 }
 
+#minimizeButton .ikonli-font-icon {
+    -fx-icon-code: "mdi2w-window-minimize";
+    -fx-icon-color: white;
+    -fx-icon-size: 12.5;
+}
+
+#maximizeButton .ikonli-font-icon {
+    -fx-icon-code: "mdi2w-window-maximize";
+    -fx-icon-color: white;
+    -fx-icon-size: 12.5;
+}
+
+#closeButton .ikonli-font-icon {
+    -fx-icon-code: "mdi2w-window-close";
+    -fx-icon-color: white;
+    -fx-icon-size: 12.5;
+}
+
 #albumImage {
     -fx-effect: dropshadow(gaussian, grey, 30, 0.5, 0, 0);
 }
