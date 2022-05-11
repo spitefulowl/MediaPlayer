@@ -5,20 +5,22 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 import com.player.mediaplayer.PlayerContext;
 import com.player.mediaplayer.models.Player;
 import com.player.mediaplayer.models.Track;
-
 import com.player.mediaplayer.utils.MP3Parser;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.*;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.TransferMode;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,6 +54,7 @@ public class ContentPaneController implements Initializable {
         elementClickHandler();
         setupRowUpdater();
         setupDragAndDrop();
+        searchBarAction();
     }
 
     private void observePlayList() {
@@ -95,6 +98,7 @@ public class ContentPaneController implements Initializable {
                     }
                 }
             }
+            player.setPlayList(player.getAllTracks());
         });
     }
 
@@ -113,6 +117,18 @@ public class ContentPaneController implements Initializable {
                 }
             });
             return row;
+        });
+    }
+
+    private void searchBarAction() {
+        FilteredList<Track> searchedTracks = new FilteredList(player.getAllTracks(), track -> true);
+
+        songSearchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            searchedTracks.setPredicate(track ->
+                    track.getSongName().toLowerCase().contains(newValue.toLowerCase().trim()) ||
+                    ((track.getSongArtist() != null) ? track.getSongArtist().toLowerCase() : "").contains(newValue.toLowerCase().trim())
+            );
+            player.setPlayList(searchedTracks);
         });
     }
 }
