@@ -10,6 +10,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -53,6 +54,7 @@ public class ControlPaneController implements Initializable {
     public Button folderButton;
     public Label songNameText;
     public Label authorNameText;
+    public ToggleButton favoriteSongsButton;
 
     private void setSongImage() {
         Image image = player.getCurrentTrack().getSongArtwork();
@@ -75,6 +77,7 @@ public class ControlPaneController implements Initializable {
         initializeOnEndOfMediaAction();
         currentTrackChangedHandler();
         updateControlsDisable(true);
+        favoriteSongsButtonAction();
     }
 
     private void initializeButtonsIcons() {
@@ -84,6 +87,7 @@ public class ControlPaneController implements Initializable {
         repeatSongButton.setGraphic(new FontIcon());
         folderButton.setGraphic(new FontIcon());
         playSongButton.setGraphic(new FontIcon());
+        favoriteSongsButton.setGraphic(new FontIcon());
     }
 
     private void updateControlsDisable(Boolean disabled) {
@@ -299,6 +303,10 @@ public class ControlPaneController implements Initializable {
         durationSlider.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> durationSlider.setValueChanging(true));
         durationSlider.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> durationSlider.setValueChanging(false));
         sliderHoverActions();
+    }
+
+    private void favoriteSongsButtonAction() {
+        favoriteSongsButton.setOnMouseClicked(mouseEvent -> player.setOnlyFavorites(favoriteSongsButton.isSelected()));
     }
 
     public void previousButtonAction(ActionEvent actionEvent) {

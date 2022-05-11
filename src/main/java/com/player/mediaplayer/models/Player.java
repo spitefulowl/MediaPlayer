@@ -3,14 +3,21 @@ package com.player.mediaplayer.models;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Player {
     private final int PLAY_PREVIOUS_THRESHOLD = 3;
@@ -21,6 +28,9 @@ public class Player {
     private SimpleDoubleProperty currentVolume;
     private SimpleBooleanProperty isShuffling;
     private SimpleBooleanProperty isRepeating;
+
+    private SimpleBooleanProperty onlyFavorites;
+    private SimpleObjectProperty<Predicate<Track>> currentTrackFilter;
     private MediaPlayer mediaPlayer = null;
 
     public Player() {
@@ -30,6 +40,16 @@ public class Player {
         this.currentVolume = new SimpleDoubleProperty(0.5);
         this.isShuffling = new SimpleBooleanProperty(false);
         this.isRepeating = new SimpleBooleanProperty(false);
+        this.onlyFavorites = new SimpleBooleanProperty(false);
+        this.currentTrackFilter = new SimpleObjectProperty<>(track -> true);
+        this.onlyFavorites.addListener((observableValue, aBoolean, t1) -> filterPlayList());
+        this.currentTrackFilter.addListener((observableValue, trackPredicate, t1) -> filterPlayList());
+    }
+
+    private void filterPlayList() {
+        FilteredList<Track> searchedTracks = new FilteredList(allTracks);
+        searchedTracks.setPredicate(track -> onlyFavorites.get() ? track.getSongLiked() && currentTrackFilter.get().test(track) : currentTrackFilter.get().test(track));
+        setPlayList(searchedTracks);
     }
 
     public ObservableList<Track> getPlayList() {
@@ -71,6 +91,17 @@ public class Player {
 
     public void setCurrentVolume(double volume) {
         currentVolume.set(volume);
+    }
+
+    public SimpleObjectProperty<Predicate<Track>> getCurrentTrackFilter() {
+        return currentTrackFilter;
+    }
+
+    public void setCurrentTrackFilter(Predicate<Track> callable) {
+        currentTrackFilter.set(callable);
+    }
+    public void setOnlyFavorites(Boolean onlyFavorites) {
+        this.onlyFavorites.set(onlyFavorites);
     }
 
     public void play() {
@@ -131,7 +162,7 @@ public class Player {
                 }
             }
         } else {
-            if (currentTrackID.get() == playList.size() - 1) {
+            if (currentTrackID.get() >= playList.size() - 1) {
                 nextTrackID = 0;
             } else {
                 ++nextTrackID;
