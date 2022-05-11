@@ -11,6 +11,7 @@ import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -134,30 +135,34 @@ public class ContentPaneController implements Initializable {
 
     private void tableButtonsAction() {
 
-        Callback<TableColumn<Track, Void>, TableCell<Track, Void>> cellFactory = trackVoidTableColumn -> new TableCell<Track, Void>()  {
-            ToggleButton favoriteButton = new ToggleButton();
-
-//            {
-//                favoriteButton.setId("favoriteButton");
-//                favoriteButton.setGraphic(new FontIcon());
-//            }
-
+        Callback<TableColumn<Track, Void>, TableCell<Track, Void>> cellFactory = new Callback<TableColumn<Track, Void>, TableCell<Track, Void>>() {
             @Override
-            public void updateItem(Void item, boolean empty) {
+            public TableCell<Track, Void> call(final TableColumn<Track, Void> param) {
+                final TableCell<Track, Void> cell = new TableCell<Track, Void>() {
 
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    favoriteButton.setOnMouseClicked(mouseEvent -> {
-                        player.getPlayList().get(getIndex()).setSongLiked(favoriteButton.isSelected());
-                        updateItem(item, false);
-                    });
-                    favoriteButton.setGraphic(new FontIcon());
+                    private final ToggleButton favoriteButton = new ToggleButton();
 
-                    //favoriteButton.setText(player.getPlayList().get(getIndex()).getSongLiked().toString());
-                    setGraphic(favoriteButton);
-                }
+                    {
+                        favoriteButton.setId("favoriteButton");
+                        favoriteButton.setGraphic(new FontIcon());
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            favoriteButton.setOnMouseClicked(mouseEvent -> {
+                                player.getPlayList().get(getIndex()).setSongLiked(favoriteButton.isSelected());
+                                updateItem(item, false);
+                            });
+                            favoriteButton.setSelected(player.getPlayList().get(getIndex()).getSongLiked());
+                            setGraphic(favoriteButton);
+                        }
+                    }
+                };
+                return cell;
             }
         };
 
