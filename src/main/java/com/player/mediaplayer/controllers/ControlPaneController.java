@@ -136,12 +136,7 @@ public class ControlPaneController implements Initializable {
                 File directory = directoryChoose.showDialog(new Stage());
                 try {
                     if (directory != null) {
-                        File[] files = directory.listFiles(new FilenameFilter() {
-                            @Override
-                            public boolean accept(File dir, String name) {
-                                return name.toLowerCase().endsWith(".mp3");
-                            }
-                        });
+                        File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
                         if (files != null) {
                             for (File file : files) {
                                 player.addTrack(MP3Parser.parse(file));

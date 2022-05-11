@@ -58,7 +58,6 @@ public class ContentPaneController implements Initializable {
     }
 
     private void observePlayList() {
-
         player.getPlayList().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
