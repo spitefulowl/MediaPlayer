@@ -9,6 +9,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import org.kordamp.ikonli.javafx.StackedFontIcon?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.player.mediaplayer.controllers.ControlPaneController">
    <children>
       <ImageView fx:id="albumImage" fitHeight="200.0" fitWidth="200.0" layoutX="94.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" />
@@ -24,13 +27,15 @@
       <Text fx:id="currentDuration" layoutX="49.0" layoutY="410.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00" />
       <Slider fx:id="durationSlider" layoutX="85.0" layoutY="401.0" prefWidth="210.0" />
       <Text fx:id="totalDuration" layoutX="308.0" layoutY="410.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00" />
-      <ToggleButton fx:id="shuffleButton" layoutX="40.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-      <Button fx:id="previousSongButton" layoutX="105.0" layoutY="466.0" mnemonicParsing="false" onAction="#previousButtonAction" prefHeight="40.0" prefWidth="40.0" />
-      <ToggleButton fx:id="playSongButton" layoutX="170.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-      <Button fx:id="nextSongButton" layoutX="235.0" layoutY="466.0" mnemonicParsing="false" onAction="#nextButtonAction" prefHeight="40.0" prefWidth="40.0" />
-      <ToggleButton fx:id="repeatSongButton" layoutX="300.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-      <Slider fx:id="volumeSlider" layoutX="109.0" layoutY="540.0" prefWidth="170.0" />
-      <ImageView fx:id="volumeImage" fitHeight="32.0" fitWidth="32.0" layoutX="63.0" layoutY="529.0" pickOnBounds="true" preserveRatio="true" />
+      <ToggleButton fx:id="shuffleButton" layoutX="36.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+      <Button fx:id="previousSongButton" layoutX="101.0" layoutY="466.0" mnemonicParsing="false" onAction="#previousButtonAction" prefHeight="40.0" prefWidth="40.0" />
+      <ToggleButton fx:id="playSongButton" layoutX="166.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+      <Button fx:id="nextSongButton" layoutX="231.0" layoutY="466.0" mnemonicParsing="false" onAction="#nextButtonAction" prefHeight="40.0" prefWidth="40.0" />
+      <ToggleButton fx:id="repeatSongButton" layoutX="296.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+      <Slider fx:id="volumeSlider" layoutX="109.0" layoutY="541.0" prefWidth="170.0" />
       <Button fx:id="folderButton" layoutX="39.0" layoutY="603.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+      <StackedFontIcon layoutX="63.0" layoutY="529.0" iconSize="35">
+         <FontIcon iconLiteral="mdi2v-volume-medium" iconColor="#3a3937"/>
+      </StackedFontIcon>
    </children>
 </AnchorPane>

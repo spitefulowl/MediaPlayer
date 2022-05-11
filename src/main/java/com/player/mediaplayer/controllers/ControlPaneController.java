@@ -48,7 +48,6 @@ public class ControlPaneController implements Initializable {
     public Button nextSongButton;
     public ToggleButton repeatSongButton;
     public Slider volumeSlider;
-    public ImageView volumeImage;
     public Button folderButton;
     public Label songNameText;
     public Label authorNameText;
@@ -62,26 +61,11 @@ public class ControlPaneController implements Initializable {
         albumImage.setImage(image);
     }
 
-    private void setDefaultImages() {
-        URL url = getClass().getResource("/com/player/mediaplayer/images/icon_volume.png");
-        Image image = new Image(url.toString());
-        volumeImage.setImage(image);
-
-        url = getClass().getResource("/com/player/mediaplayer/images/icon_play.png");
-        image = new Image(url.toString());
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
-        playSongButton.setGraphic(imageView);
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setDefaultImages();
         initializeButtonsIcons();
         playButtonAction();
         openFolderButtonAction();
-        sliderHoverActions();
         shuffleButtonAction();
         repeatButtonAction();
         initializeVolumeSlider();
@@ -98,29 +82,6 @@ public class ControlPaneController implements Initializable {
         repeatSongButton.setGraphic(new FontIcon());
         folderButton.setGraphic(new FontIcon());
         playSongButton.setGraphic(new FontIcon());
-    }
-
-    private void sliderHoverActions() {
-        durationSlider.hoverProperty().addListener((event) -> {
-            StackPane thumb = (StackPane) durationSlider.lookup(".thumb");
-            if (durationSlider.isHover()) {
-                thumb.getStyleClass().add("thumb-active-color");
-                durationSlider.setStyle("-fx-track-color: -fx-pink-color;");
-            } else {
-                thumb.getStyleClass().remove("thumb-active-color");
-                durationSlider.setStyle("-fx-track-color: -fx-dark-gray-color;");
-            }
-        });
-        volumeSlider.hoverProperty().addListener((event) -> {
-            StackPane thumb = (StackPane) volumeSlider.lookup(".thumb");
-            if (volumeSlider.isHover()) {
-                thumb.getStyleClass().add("thumb-active-color");
-                volumeSlider.setStyle("-fx-track-color: -fx-pink-color;");
-            } else {
-                thumb.getStyleClass().remove("thumb-active-color");
-                volumeSlider.setStyle("-fx-track-color: -fx-dark-gray-color;");
-            }
-        });
     }
 
     private void updateControlsDisable(Boolean disabled) {
@@ -290,6 +251,29 @@ public class ControlPaneController implements Initializable {
         });
     }
 
+    private void sliderHoverActions() {
+        durationSlider.hoverProperty().addListener((event) -> {
+            StackPane thumb = (StackPane) durationSlider.lookup(".thumb");
+            if (durationSlider.isHover() || durationSlider.isValueChanging()) {
+                thumb.getStyleClass().add("thumb-active-color");
+                durationSlider.setStyle("-fx-track-color: -fx-pink-color;");
+            } else {
+                thumb.getStyleClass().remove("thumb-active-color");
+                durationSlider.setStyle("-fx-track-color: -fx-dark-gray-color;");
+            }
+        });
+        volumeSlider.hoverProperty().addListener((event) -> {
+            StackPane thumb = (StackPane) volumeSlider.lookup(".thumb");
+            if (volumeSlider.isHover() || volumeSlider.isValueChanging()) {
+                thumb.getStyleClass().add("thumb-active-color");
+                volumeSlider.setStyle("-fx-track-color: -fx-pink-color;");
+            } else {
+                thumb.getStyleClass().remove("thumb-active-color");
+                volumeSlider.setStyle("-fx-track-color: -fx-dark-gray-color;");
+            }
+        });
+    }
+
     private void initializeDurationSlider() {
         durationSlider.setMin(0);
         durationSlider.setMax(1);
@@ -305,6 +289,9 @@ public class ControlPaneController implements Initializable {
             }
         });
         durationSlider.setOnMouseReleased((MouseEvent event) -> player.getMediaPlayer().seek(player.getMediaPlayer().getTotalDuration().multiply(durationSlider.getValue())));
+        durationSlider.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> durationSlider.setValueChanging(true));
+        durationSlider.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> durationSlider.setValueChanging(false));
+        sliderHoverActions();
     }
 
     public void previousButtonAction(ActionEvent actionEvent) {
