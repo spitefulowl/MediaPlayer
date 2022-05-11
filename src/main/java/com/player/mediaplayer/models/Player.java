@@ -8,10 +8,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Player {
     private final int PLAY_PREVIOUS_THRESHOLD = 3;
+    private ObservableList<Track> allTracks;
     private ObservableList<Track> playList;
     private Runnable onEndOfMediaRunnable = null;
     private SimpleIntegerProperty currentTrackID;
@@ -20,20 +23,30 @@ public class Player {
     private SimpleBooleanProperty isRepeating;
     private MediaPlayer mediaPlayer = null;
 
-    public ObservableList<Track> getPlayList() {
-        return playList;
-    }
-
-    public void addTrack(Track mp3Track) {
-        playList.add(mp3Track);
-    }
-
     public Player() {
+        this.allTracks = FXCollections.observableArrayList();
         this.playList = FXCollections.observableArrayList();
         this.currentTrackID = new SimpleIntegerProperty(-1);
         this.currentVolume = new SimpleDoubleProperty(0.5);
         this.isShuffling = new SimpleBooleanProperty(false);
         this.isRepeating = new SimpleBooleanProperty(false);
+    }
+
+    public ObservableList<Track> getPlayList() {
+        return playList;
+    }
+
+    public void addTrack(Track mp3Track) {
+        allTracks.add(mp3Track);
+    }
+
+    public void setPlayList(List<Track> tracks) {
+        playList.clear();
+        playList.setAll(tracks);
+    }
+
+    public ObservableList<Track> getAllTracks() {
+        return allTracks;
     }
 
     public void setIsShuffling(Boolean isShuffling) {
