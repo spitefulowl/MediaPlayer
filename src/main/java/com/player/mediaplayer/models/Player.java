@@ -21,6 +21,7 @@ public class Player {
     private SimpleDoubleProperty currentVolume;
     private SimpleBooleanProperty isShuffling;
     private SimpleBooleanProperty isRepeating;
+    private SimpleBooleanProperty isShowingFavorites;
     private MediaPlayer mediaPlayer = null;
 
     public Player() {
@@ -30,6 +31,7 @@ public class Player {
         this.currentVolume = new SimpleDoubleProperty(0.5);
         this.isShuffling = new SimpleBooleanProperty(false);
         this.isRepeating = new SimpleBooleanProperty(false);
+        this.isShowingFavorites = new SimpleBooleanProperty(false);
     }
 
     public ObservableList<Track> getPlayList() {
@@ -55,6 +57,14 @@ public class Player {
 
     public void setIsRepeating(Boolean isRepeating) {
         this.isRepeating.set(isRepeating);
+    }
+
+    public void setIsShowingFavorites(Boolean isShowingFavorites) {
+        this.isShowingFavorites.set(isShowingFavorites);
+    }
+
+    public SimpleBooleanProperty getIsShowingFavorites() {
+        return isShowingFavorites;
     }
 
     public SimpleIntegerProperty getCurrentTrackID() {
@@ -131,7 +141,7 @@ public class Player {
                 }
             }
         } else {
-            if (currentTrackID.get() == playList.size() - 1) {
+            if (currentTrackID.get() >= playList.size() - 1) {
                 nextTrackID = 0;
             } else {
                 ++nextTrackID;
