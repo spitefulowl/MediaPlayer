@@ -10,6 +10,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -76,6 +77,7 @@ public class ControlPaneController implements Initializable {
         initializeOnEndOfMediaAction();
         currentTrackChangedHandler();
         updateControlsDisable(true);
+        favoriteSongsButtonAction();
     }
 
     private void initializeButtonsIcons() {
@@ -301,6 +303,18 @@ public class ControlPaneController implements Initializable {
         durationSlider.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> durationSlider.setValueChanging(true));
         durationSlider.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> durationSlider.setValueChanging(false));
         sliderHoverActions();
+    }
+
+    private void favoriteSongsButtonAction() {
+        favoriteSongsButton.setOnMouseClicked(mouseEvent -> {
+            FilteredList<Track> searchedTracks = new FilteredList(player.getAllTracks(), track -> true);
+            if (favoriteSongsButton.isSelected()) {
+                searchedTracks.setPredicate(track -> track.getSongLiked());
+                player.setPlayList(searchedTracks);
+            } else {
+                player.setPlayList(player.getAllTracks());
+            }
+        });
     }
 
     public void previousButtonAction(ActionEvent actionEvent) {
