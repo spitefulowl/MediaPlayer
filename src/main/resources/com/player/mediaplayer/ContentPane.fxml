@@ -19,7 +19,7 @@
             <TableColumn fx:id="songArtist" editable="false" prefWidth="230.0" resizable="false" text="ARTIST" />
             <TableColumn fx:id="songAlbum" editable="false" prefWidth="230.0" resizable="false" text="ALBUM" />
             <TableColumn fx:id="songDuration" editable="false" minWidth="0.0" prefWidth="70.0" resizable="false" text="DURATION" />
-            <TableColumn fx:id="songLiked" editable="false" prefWidth="60.0" resizable="false" style="-fx-font-size: 20;" text="♡" />
+            <TableColumn fx:id="songLiked" editable="false" prefWidth="50.0" resizable="false" style="-fx-font-size: 20;" text="♡" />
          </columns>
         </TableView>
       <TextField fx:id="songSearchField" layoutX="47.0" layoutY="25.0" onKeyPressed="#onEnterPressed" prefHeight="45.0" prefWidth="805.0" promptText="Search..." AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0">

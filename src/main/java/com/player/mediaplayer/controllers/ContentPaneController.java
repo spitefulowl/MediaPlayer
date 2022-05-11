@@ -12,20 +12,20 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
+import javafx.util.Callback;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ContentPaneController implements Initializable {
@@ -48,13 +48,14 @@ public class ContentPaneController implements Initializable {
         songArtist.setCellValueFactory(new PropertyValueFactory<>("SongArtist"));
         songAlbum.setCellValueFactory(new PropertyValueFactory<>("SongAlbum"));
         songDuration.setCellValueFactory(new PropertyValueFactory<>("SongDuration"));
-        songLiked.setCellValueFactory(new PropertyValueFactory<>("SongLiked"));
+        //songLiked.setCellValueFactory(new PropertyValueFactory<>("SongLiked"));
 
         observePlayList();
         elementClickHandler();
         setupRowUpdater();
         setupDragAndDrop();
         searchBarAction();
+        tableButtonsAction();
     }
 
     private void observePlayList() {
@@ -129,5 +130,37 @@ public class ContentPaneController implements Initializable {
             );
             player.setPlayList(searchedTracks);
         });
+    }
+
+    private void tableButtonsAction() {
+
+        Callback<TableColumn<Track, Void>, TableCell<Track, Void>> cellFactory = trackVoidTableColumn -> new TableCell<Track, Void>()  {
+            ToggleButton favoriteButton = new ToggleButton();
+
+//            {
+//                favoriteButton.setId("favoriteButton");
+//                favoriteButton.setGraphic(new FontIcon());
+//            }
+
+            @Override
+            public void updateItem(Void item, boolean empty) {
+
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    favoriteButton.setOnMouseClicked(mouseEvent -> {
+                        player.getPlayList().get(getIndex()).setSongLiked(favoriteButton.isSelected());
+                        updateItem(item, false);
+                    });
+                    favoriteButton.setGraphic(new FontIcon());
+
+                    //favoriteButton.setText(player.getPlayList().get(getIndex()).getSongLiked().toString());
+                    setGraphic(favoriteButton);
+                }
+            }
+        };
+
+        songLiked.setCellFactory(cellFactory);
     }
 }

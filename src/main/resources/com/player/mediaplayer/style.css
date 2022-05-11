@@ -101,6 +101,18 @@
     -fx-icon-size: 12.5;
 }
 
+#favoriteButton .ikonli-font-icon {
+    -fx-icon-code: "mdi2h-heart-outline";
+    -fx-icon-color: -fx-pink-color;
+    -fx-icon-size: 20;
+}
+
+#favoriteButton:selected .ikonli-font-icon {
+    -fx-icon-code: "mdi2h-heart";
+    -fx-icon-color: -fx-pink-color;
+    -fx-icon-size: 20;
+}
+
 #albumImage {
     -fx-effect: dropshadow(gaussian, grey, 30, 0.5, 0, 0);
 }

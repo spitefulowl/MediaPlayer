@@ -7,7 +7,7 @@ public class Track {
     private String songArtist;
     private String songAlbum;
     private String songDuration;
-    private String songLiked = "NO";
+    private Boolean songLiked = false;
     private String filePath;
     private Image songArtwork;
 
@@ -36,7 +36,7 @@ public class Track {
         return songDuration;
     }
 
-    public String getSongLiked() {
+    public Boolean getSongLiked() {
         return songLiked;
     }
 
@@ -46,5 +46,9 @@ public class Track {
 
     public Image getSongArtwork() {
         return songArtwork;
+    }
+
+    public void setSongLiked(Boolean newState) {
+        songLiked = newState;
     }
 }
