@@ -25,11 +25,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -130,12 +132,21 @@ public class ControlPaneController implements Initializable {
         folderButton.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MP3", "*.mp3"));
-                File file = fileChooser.showOpenDialog(new Stage());
+                DirectoryChooser directoryChoose = new DirectoryChooser();
+                File directory = directoryChoose.showDialog(new Stage());
                 try {
-                    if (file != null) {
-                        player.addTrack(MP3Parser.parse(file));
+                    if (directory != null) {
+                        File[] files = directory.listFiles(new FilenameFilter() {
+                            @Override
+                            public boolean accept(File dir, String name) {
+                                return name.toLowerCase().endsWith(".mp3");
+                            }
+                        });
+                        if (files != null) {
+                            for (File file : files) {
+                                player.addTrack(MP3Parser.parse(file));
+                            }
+                        }
                     }
                 } catch (InvalidDataException | UnsupportedTagException | IOException e) {
                     throw new RuntimeException(e);
