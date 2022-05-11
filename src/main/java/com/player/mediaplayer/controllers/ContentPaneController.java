@@ -49,7 +49,6 @@ public class ContentPaneController implements Initializable {
         songArtist.setCellValueFactory(new PropertyValueFactory<>("SongArtist"));
         songAlbum.setCellValueFactory(new PropertyValueFactory<>("SongAlbum"));
         songDuration.setCellValueFactory(new PropertyValueFactory<>("SongDuration"));
-        //songLiked.setCellValueFactory(new PropertyValueFactory<>("SongLiked"));
 
         observePlayList();
         elementClickHandler();
@@ -139,12 +138,13 @@ public class ContentPaneController implements Initializable {
             @Override
             public TableCell<Track, Void> call(final TableColumn<Track, Void> param) {
                 final TableCell<Track, Void> cell = new TableCell<Track, Void>() {
-
                     private final ToggleButton favoriteButton = new ToggleButton();
-
                     {
                         favoriteButton.setId("favoriteButton");
                         favoriteButton.setGraphic(new FontIcon());
+                        favoriteButton.setOnMouseClicked(mouseEvent -> {
+                            player.getPlayList().get(getIndex()).setSongLiked(favoriteButton.isSelected());
+                        });
                     }
 
                     @Override
@@ -153,10 +153,6 @@ public class ContentPaneController implements Initializable {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            favoriteButton.setOnMouseClicked(mouseEvent -> {
-                                player.getPlayList().get(getIndex()).setSongLiked(favoriteButton.isSelected());
-                                updateItem(item, false);
-                            });
                             favoriteButton.setSelected(player.getPlayList().get(getIndex()).getSongLiked());
                             setGraphic(favoriteButton);
                         }
