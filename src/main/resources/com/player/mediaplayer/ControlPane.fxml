@@ -33,7 +33,8 @@
       <Button fx:id="nextSongButton" layoutX="231.0" layoutY="466.0" mnemonicParsing="false" onAction="#nextButtonAction" prefHeight="40.0" prefWidth="40.0" />
       <ToggleButton fx:id="repeatSongButton" layoutX="296.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
       <Slider fx:id="volumeSlider" layoutX="109.0" layoutY="541.0" prefWidth="170.0" />
-      <Button fx:id="folderButton" layoutX="39.0" layoutY="603.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+      <Button fx:id="folderButton" layoutX="36.0" layoutY="603.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+      <ToggleButton fx:id="favoriteSongsButton" layoutX="296.0" layoutY="603.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
       <StackedFontIcon layoutX="63.0" layoutY="529.0" iconSize="35">
          <FontIcon iconLiteral="mdi2v-volume-medium" iconColor="#3a3937"/>
       </StackedFontIcon>

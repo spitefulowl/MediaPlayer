@@ -53,6 +53,7 @@ public class ControlPaneController implements Initializable {
     public Button folderButton;
     public Label songNameText;
     public Label authorNameText;
+    public ToggleButton favoriteSongsButton;
 
     private void setSongImage() {
         Image image = player.getCurrentTrack().getSongArtwork();
@@ -84,6 +85,7 @@ public class ControlPaneController implements Initializable {
         repeatSongButton.setGraphic(new FontIcon());
         folderButton.setGraphic(new FontIcon());
         playSongButton.setGraphic(new FontIcon());
+        favoriteSongsButton.setGraphic(new FontIcon());
     }
 
     private void updateControlsDisable(Boolean disabled) {
