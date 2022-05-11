@@ -121,30 +121,11 @@ public class ContentPaneController implements Initializable {
     }
 
     private void searchBarAction() {
-
-
-        player.getIsShowingFavorites().addListener((observableValue, oldValue, newValue) -> {
-            FilteredList<Track> searchedTracks = new FilteredList(player.getAllTracks(), track -> true);
-            if (songSearchField.textProperty().get().isEmpty()) {
-                if (player.getIsShowingFavorites().get()) {
-                    searchedTracks.setPredicate(track -> track.getSongLiked());
-                    player.setPlayList(searchedTracks);
-                } else {
-                    player.setPlayList(player.getAllTracks());
-                }
-            }
-        });
-
         songSearchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            FilteredList<Track> searchedTracks = new FilteredList(player.getAllTracks(), track -> true);
-
-            searchedTracks.setPredicate(track ->
+            player.setCurrentTrackFilter(track ->
                     (track.getSongName().toLowerCase().contains(newValue.toLowerCase().trim()) ||
-                    ((track.getSongArtist() != null) ? track.getSongArtist().toLowerCase() : "").contains(newValue.toLowerCase().trim())) &&
-                    (player.getIsShowingFavorites().get() ? track.getSongLiked() : true)
+                            ((track.getSongArtist() != null) ? track.getSongArtist().toLowerCase() : "").contains(newValue.toLowerCase().trim()))
             );
-
-            player.setPlayList(searchedTracks);
         });
     }
 

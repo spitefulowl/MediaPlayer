@@ -306,9 +306,7 @@ public class ControlPaneController implements Initializable {
     }
 
     private void favoriteSongsButtonAction() {
-        favoriteSongsButton.setOnMouseClicked(mouseEvent -> {
-            player.setIsShowingFavorites(favoriteSongsButton.isSelected());
-        });
+        favoriteSongsButton.setOnMouseClicked(mouseEvent -> player.setOnlyFavorites(favoriteSongsButton.isSelected()));
     }
 
     public void previousButtonAction(ActionEvent actionEvent) {
