@@ -17,6 +17,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
+import javafx.scene.text.Font;
 import javafx.util.Callback;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -153,6 +154,7 @@ public class ContentPaneController implements Initializable {
                         }
                     }
                 };
+                cell.getStyleClass().add("cell-style");
                 return cell;
             }
         };

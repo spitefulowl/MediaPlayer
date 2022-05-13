@@ -3,11 +3,6 @@
     -fx-dark-gray-color: #3a3937;
 }
 
-@font-face {
-    font-family: 'Proxima Nova Bold';
-    src: url('src/main/resources/com/player/mediaplayer/fonts/Proxima Nova Bold.otf');
-}
-
 #tableLabel {
     -fx-text-fill: #bbdefb;
     -fx-font-size: 18;
@@ -129,13 +124,13 @@
 #favoriteButton .ikonli-font-icon {
     -fx-icon-code: "mdi2h-heart-outline";
     -fx-icon-color: -fx-pink-color;
-    -fx-icon-size: 20;
+    -fx-icon-size: 15;
 }
 
 #favoriteButton:selected .ikonli-font-icon {
     -fx-icon-code: "mdi2h-heart";
     -fx-icon-color: -fx-pink-color;
-    -fx-icon-size: 20;
+    -fx-icon-size: 15;
 }
 
 #favoriteSongsButton .ikonli-font-icon {
@@ -163,4 +158,42 @@
 
 #durationSlider .track {
     -fx-background-color: linear-gradient(to right, -fx-track-color 0%, #a9a9a9 0%) !important;
+}
+
+#songsListTable {
+   -fx-background-color: #313233;
+   -fx-border-color: transparent;
+   -fx-border-width: 1;
+}
+
+#songsListTable .column-header {
+    -fx-background-color: transparent;
+}
+
+#songsListTable .column-header-background .label {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+#songsListTable .column-header-background {
+   -fx-background-color: #313233;
+}
+
+.cell-style, #songsListTable .table-row-cell {
+    -fx-border-width: 0;
+    -fx-cell-size: 25;
+    -fx-padding: 0;
+    -fx-font-size: 8pt;
+    -fx-font-family: "Proxima Nova Bold";
+    -fx-table-cell-border-color: transparent;
+    -fx-control-inner-background: #313233;
+    -fx-control-inner-background-alt: #3c3c3d;
+}
+
+#songsListTable .table-cell {
+    -fx-alignment: CENTER-LEFT;
+}
+
+#songsListTable .table-row-cell:selected {
+    -fx-background-color: #c70f5c;
 }
