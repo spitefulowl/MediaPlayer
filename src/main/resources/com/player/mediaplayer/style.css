@@ -15,6 +15,14 @@
     -fx-background-color: white !important;
 }
 
+.close-button-active-color {
+    -fx-background-color: #cd1a2b !important;
+}
+
+.top-bar-button-active-color {
+    -fx-background-color: #3f3f3f !important;
+}
+
 .slider .thumb {
     -fx-background-color: transparent;
     -fx-pref-height: 10;
