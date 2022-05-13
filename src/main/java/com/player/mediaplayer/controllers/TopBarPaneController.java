@@ -6,6 +6,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -14,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class TopBarPaneController implements Initializable {
     public Button minimizeButton;
-    public Button maximizeButton;
+    public ToggleButton maximizeButton;
     public Button closeButton;
 
     @Override
@@ -35,7 +36,11 @@ public class TopBarPaneController implements Initializable {
             ((Stage)((Node) mouseEvent.getSource()).getScene().getWindow()).setIconified(true);
         });
         maximizeButton.setOnMouseClicked(mouseEvent -> {
-            ((Stage)((Node) mouseEvent.getSource()).getScene().getWindow()).setMaximized(true);
+            if (maximizeButton.isSelected()) {
+                ((Stage)((Node) mouseEvent.getSource()).getScene().getWindow()).setMaximized(true);
+            } else {
+                ((Stage)((Node) mouseEvent.getSource()).getScene().getWindow()).setMaximized(false);
+            }
         });
         closeButton.setOnMouseClicked(mouseEvent -> {
             Platform.exit();

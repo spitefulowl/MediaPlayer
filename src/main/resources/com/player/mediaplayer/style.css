@@ -103,6 +103,12 @@
     -fx-icon-size: 12.5;
 }
 
+#maximizeButton:selected .ikonli-font-icon {
+    -fx-icon-code: "mdi2w-window-restore";
+    -fx-icon-color: white;
+    -fx-icon-size: 12.5;
+}
+
 #closeButton .ikonli-font-icon {
     -fx-icon-code: "mdi2w-window-close";
     -fx-icon-color: white;
