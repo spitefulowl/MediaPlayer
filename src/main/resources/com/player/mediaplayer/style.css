@@ -3,6 +3,17 @@
     -fx-dark-gray-color: #3a3937;
 }
 
+@font-face {
+    font-family: 'Proxima Nova Bold';
+    src: url('src/main/resources/com/player/mediaplayer/fonts/Proxima Nova Bold.otf');
+}
+
+#tableLabel {
+    -fx-text-fill: #bbdefb;
+    -fx-font-size: 18;
+    -fx-font-family: "Proxima Nova Bold";
+}
+
 .slider {
     -fx-track-color: -fx-dark-gray-color;
 }
