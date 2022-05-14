@@ -12,7 +12,7 @@
 <?import org.kordamp.ikonli.javafx.StackedFontIcon?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.player.mediaplayer.controllers.ControlPaneController">
+<AnchorPane maxHeight="1080" maxWidth="570" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.player.mediaplayer.controllers.ControlPaneController">
    <children>
       <ImageView fx:id="albumImage" fitHeight="200.0" fitWidth="200.0" layoutX="94.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="songNameText" alignment="CENTER" layoutX="90.0" layoutY="300.0" prefHeight="30.0" prefWidth="200.0" text="song name" textOverrun="ELLIPSIS">
@@ -32,10 +32,10 @@
       <ToggleButton fx:id="playSongButton" layoutX="166.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
       <Button fx:id="nextSongButton" layoutX="231.0" layoutY="466.0" mnemonicParsing="false" onAction="#nextButtonAction" prefHeight="40.0" prefWidth="40.0" />
       <ToggleButton fx:id="repeatSongButton" layoutX="296.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-      <Slider fx:id="volumeSlider" layoutX="109.0" layoutY="541.0" prefWidth="170.0" />
-      <Button fx:id="folderButton" layoutX="36.0" layoutY="603.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-      <ToggleButton fx:id="favoriteSongsButton" layoutX="296.0" layoutY="603.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-      <StackedFontIcon layoutX="63.0" layoutY="529.0" iconSize="35">
+      <Slider fx:id="volumeSlider" AnchorPane.leftAnchor="109" AnchorPane.bottomAnchor="168" prefWidth="170.0" />
+      <Button fx:id="folderButton" AnchorPane.leftAnchor="36" AnchorPane.bottomAnchor="77" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+      <ToggleButton fx:id="favoriteSongsButton" AnchorPane.leftAnchor="296" AnchorPane.bottomAnchor="77" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+      <StackedFontIcon AnchorPane.leftAnchor="63" AnchorPane.bottomAnchor="156" iconSize="35">
          <FontIcon iconLiteral="mdi2v-volume-medium" iconColor="#3a3937"/>
       </StackedFontIcon>
    </children>

@@ -192,6 +192,7 @@
 
 .favorite-button-padding {
     -fx-padding: 4 !important;
+    -fx-alignment: CENTER;
 }
 
 .table-view .table-column#songNumber {
