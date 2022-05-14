@@ -62,7 +62,7 @@
 }
 
 #shuffleButton .ikonli-font-icon {
-    -fx-icon-code: "bi-shuffle";
+    -fx-icon-code: "eva-shuffle-2-outline";
     -fx-icon-size: 30;
 }
 
@@ -84,7 +84,7 @@
 
 #repeatSongButton .ikonli-font-icon  {
     -fx-icon-code: "fltfal-arrow-repeat-all-24";
-    -fx-icon-size: 30;
+    -fx-icon-size: 26;
 }
 
 #repeatSongButton:selected .ikonli-font-icon {
@@ -134,12 +134,12 @@
 }
 
 #favoriteSongsButton .ikonli-font-icon {
-    -fx-icon-code: "mdi2h-heart-outline";
+    -fx-icon-code: "eva-heart-outline";
     -fx-icon-size: 35;
 }
 
 #favoriteSongsButton:selected .ikonli-font-icon {
-    -fx-icon-code: "mdi2h-heart";
+    -fx-icon-code: "eva-heart";
     -fx-icon-color: -fx-pink-color;
     -fx-icon-size: 35;
 }
@@ -191,7 +191,6 @@
 }
 
 .favorite-button-padding {
-    -fx-padding: 4 !important;
     -fx-alignment: CENTER;
 }
 
