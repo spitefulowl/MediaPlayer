@@ -236,6 +236,24 @@
     -fx-alignment: CENTER-RIGHT;
 }
 
+#songsListTable *.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+#songsListTable *.increment-arrow,
+#songsListTable *.decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+#songsListTable .thumb {
+    -fx-background-color: #575757;
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 0em;
+}
+
 #songsListTable .table-cell {
     -fx-text-fill: #dcdcdc;
 }

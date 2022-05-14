@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #19141a;" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.player.mediaplayer.controllers.ContentPaneController">
     <children>
-        <TableView fx:id="songsListTable" AnchorPane.bottomAnchor="-3.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="115.0">
+        <TableView fx:id="songsListTable" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="115.0">
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
