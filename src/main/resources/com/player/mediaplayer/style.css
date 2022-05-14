@@ -286,6 +286,14 @@
     -fx-background-color: transparent;
 }
 
+#songsListTable *.scroll-bar:horizontal *.increment-button,
+#songsListTable *.scroll-bar:horizontal *.decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
 #songsListTable .column-header-background .filler {
     -fx-background-color: transparent;
     -fx-padding: 0em;
