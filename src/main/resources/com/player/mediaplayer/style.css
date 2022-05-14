@@ -50,20 +50,20 @@
 }
 
 #playSongButton .ikonli-font-icon {
-    -fx-icon-code: "mdi2p-play";
+    -fx-icon-code: "fltfmz-play-24";
     -fx-icon-color: -fx-pink-color;
-    -fx-icon-size: 35;
+    -fx-icon-size: 30
 }
 
 #playSongButton:selected .ikonli-font-icon {
-    -fx-icon-code: "mdi2p-pause";
+    -fx-icon-code: "fltfmz-pause-24";
     -fx-icon-color: -fx-pink-color;
-    -fx-icon-size: 35;
+    -fx-icon-size: 30;
 }
 
 #shuffleButton .ikonli-font-icon {
-    -fx-icon-code: "mdi2s-shuffle-variant";
-    -fx-icon-size: 35;
+    -fx-icon-code: "bi-shuffle";
+    -fx-icon-size: 30;
 }
 
 #shuffleButton:selected .ikonli-font-icon {
@@ -71,20 +71,20 @@
 }
 
 #previousSongButton .ikonli-font-icon {
-    -fx-icon-code: "mdi2s-skip-previous";
+    -fx-icon-code: "fltfmz-previous-24";
     -fx-icon-color: -fx-pink-color;
-    -fx-icon-size: 35;
+    -fx-icon-size: 30;
 }
 
 #nextSongButton .ikonli-font-icon {
-    -fx-icon-code: "mdi2s-skip-next";
+    -fx-icon-code: "fltfmz-next-24";
     -fx-icon-color: -fx-pink-color;
-    -fx-icon-size: 35;
+    -fx-icon-size: 30;
 }
 
 #repeatSongButton .ikonli-font-icon  {
-    -fx-icon-code: "mdi2r-repeat";
-    -fx-icon-size: 35;
+    -fx-icon-code: "fltfal-arrow-repeat-all-24";
+    -fx-icon-size: 30;
 }
 
 #repeatSongButton:selected .ikonli-font-icon {
@@ -249,6 +249,11 @@
     -fx-padding: 0;
 }
 
+#songsListTable *.increment-button,
+#songsListTable *.decrement-button {
+    -fx-background-color: transparent;
+}
+
 #songsListTable .thumb {
     -fx-background-color: #575757;
     -fx-background-insets: 0, 0, 0;
@@ -269,4 +274,19 @@
 
 #songsListTable .table-row-cell:selected {
     -fx-background-color: #c70f5c;
+}
+
+#songsListTable .corner { -fx-background-color: transparent; }
+
+#songsListTable *.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+#songsListTable *.scroll-bar:horizontal .thumb {
+    -fx-background-color: transparent;
+}
+
+#songsListTable .column-header-background .filler {
+    -fx-background-color: transparent;
+    -fx-padding: 0em;
 }
