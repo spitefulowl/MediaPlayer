@@ -8,6 +8,7 @@ import com.player.mediaplayer.models.Track;
 import com.player.mediaplayer.utils.MP3Parser;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.Initializable;
@@ -37,10 +38,7 @@ public class ContentPaneController implements Initializable {
     public TableColumn songDuration;
     public TableColumn songLiked;
     public Label tableLabel;
-
-    public void onEnterPressed(KeyEvent keyEvent) throws URISyntaxException, InvalidDataException, UnsupportedTagException, IOException {
-
-    }
+    public TableColumn songNumber;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -55,6 +53,37 @@ public class ContentPaneController implements Initializable {
         setupDragAndDrop();
         searchBarAction();
         tableButtonsAction();
+        showFavoritesAction();
+        initializeColumns();
+    }
+
+    private void initializeColumns() {
+        songNumber.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Track, String>, ObservableValue<String>>() {
+            @Override public ObservableValue<String> call(TableColumn.CellDataFeatures<Track, String> item) {
+                return new ReadOnlyObjectWrapper(songsListTable.getItems().indexOf(item.getValue()) + 1 + "");
+            }
+        });
+        songNumber.setSortable(false);
+        songDuration.setSortable(false);
+        songNumber.setReorderable(false);
+        songName.setReorderable(false);
+        songArtist.setReorderable(false);
+        songAlbum.setReorderable(false);
+        songDuration.setReorderable(false);
+        songLiked.setReorderable(false);
+    }
+
+    private void showFavoritesAction() {
+        player.getOnlyFavorites().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if (player.getOnlyFavorites().get()) {
+                    tableLabel.setText("Liked tracks");
+                } else {
+                    tableLabel.setText("All tracks");
+                }
+            }
+        });
     }
 
     private void observePlayList() {
@@ -155,6 +184,7 @@ public class ContentPaneController implements Initializable {
                     }
                 };
                 cell.getStyleClass().add("cell-style");
+                cell.getStyleClass().add("favorite-button-padding");
                 return cell;
             }
         };

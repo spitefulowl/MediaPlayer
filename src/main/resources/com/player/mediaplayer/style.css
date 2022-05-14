@@ -100,25 +100,25 @@
 #minimizeButton .ikonli-font-icon {
     -fx-icon-code: "mdi2w-window-minimize";
     -fx-icon-color: white;
-    -fx-icon-size: 12.5;
+    -fx-icon-size: 15;
 }
 
 #maximizeButton .ikonli-font-icon {
     -fx-icon-code: "mdi2w-window-maximize";
     -fx-icon-color: white;
-    -fx-icon-size: 12.5;
+    -fx-icon-size: 15;
 }
 
 #maximizeButton:selected .ikonli-font-icon {
     -fx-icon-code: "mdi2w-window-restore";
     -fx-icon-color: white;
-    -fx-icon-size: 12.5;
+    -fx-icon-size: 15;
 }
 
 #closeButton .ikonli-font-icon {
     -fx-icon-code: "mdi2w-window-close";
     -fx-icon-color: white;
-    -fx-icon-size: 12.5;
+    -fx-icon-size: 15;
 }
 
 #favoriteButton .ikonli-font-icon {
@@ -172,7 +172,7 @@
 
 #songsListTable .column-header-background .label {
     -fx-background-color: transparent;
-    -fx-text-fill: white;
+    -fx-text-fill: #dcdcdc;
 }
 
 #songsListTable .column-header-background {
@@ -183,15 +183,61 @@
     -fx-border-width: 0;
     -fx-cell-size: 25;
     -fx-padding: 0;
-    -fx-font-size: 8pt;
+    -fx-font-size: 10pt;
     -fx-font-family: "Proxima Nova Bold";
     -fx-table-cell-border-color: transparent;
     -fx-control-inner-background: #313233;
     -fx-control-inner-background-alt: #3c3c3d;
 }
 
-#songsListTable .table-cell {
+.favorite-button-padding {
+    -fx-padding: 4 !important;
+}
+
+.table-view .table-column#songNumber {
+    -fx-alignment: CENTER-RIGHT;
+    -fx-padding: 5;
+}
+
+.table-view .column-header#songNumber .label {
+    -fx-alignment: CENTER-RIGHT;
+    -fx-padding: 5;
+}
+
+.table-view .table-column#songName {
     -fx-alignment: CENTER-LEFT;
+}
+
+.table-view .column-header#songName .label {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.table-view .table-column#songArtist {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.table-view .column-header#songArtist .label {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.table-view .table-column#songAlbum {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.table-view .column-header#songAlbum .label {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.table-view .table-column#songDuration {
+    -fx-alignment: CENTER-RIGHT;
+}
+
+.table-view .column-header#songDuration .label {
+    -fx-alignment: CENTER-RIGHT;
+}
+
+#songsListTable .table-cell {
+    -fx-text-fill: #dcdcdc;
 }
 
 #songsListTable .table-row-cell:selected {

@@ -15,7 +15,7 @@
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
          <columns>
-            <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="-1.0" text="#" />
+            <TableColumn fx:id="songNumber" maxWidth="50.0" minWidth="50.0" prefWidth="-1.0" text="#" />
             <TableColumn fx:id="songName" editable="false" maxWidth="200.0" minWidth="200.0" prefWidth="-1.0" resizable="false" text="TITLE" />
             <TableColumn fx:id="songArtist" editable="false" maxWidth="200.0" minWidth="200.0" prefWidth="-1.0" resizable="false" text="ARTIST" />
             <TableColumn fx:id="songAlbum" editable="false" maxWidth="300.0" minWidth="300.0" prefWidth="-1.0" resizable="false" text="ALBUM" />
@@ -23,7 +23,7 @@
             <TableColumn fx:id="songLiked" editable="false" minWidth="50.0" prefWidth="50.0" resizable="false" style="-fx-font-size: 20;" text="♡" />
          </columns>
         </TableView>
-      <TextField fx:id="songSearchField" layoutX="47.0" layoutY="25.0" onKeyPressed="#onEnterPressed" prefHeight="45.0" prefWidth="805.0" promptText="Search..." AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0">
+      <TextField fx:id="songSearchField" layoutX="47.0" layoutY="25.0" prefHeight="45.0" prefWidth="805.0" promptText="Search..." AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0">
          <font>
             <Font size="14.0" />
          </font>

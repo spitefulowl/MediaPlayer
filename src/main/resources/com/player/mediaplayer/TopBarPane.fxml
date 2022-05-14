@@ -4,10 +4,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <?import javafx.scene.control.ToggleButton?>
-<AnchorPane prefHeight="25.0" prefWidth="1280.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.player.mediaplayer.controllers.TopBarPaneController">
+<AnchorPane prefHeight="30.0" prefWidth="1280.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.player.mediaplayer.controllers.TopBarPaneController">
    <children>
-      <Button fx:id="minimizeButton" AnchorPane.rightAnchor="50" AnchorPane.topAnchor="0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
-      <ToggleButton fx:id="maximizeButton" AnchorPane.rightAnchor="25" AnchorPane.topAnchor="0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
-      <Button fx:id="closeButton" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" mnemonicParsing="false" prefHeight="25" prefWidth="25.0" />
+      <Button fx:id="minimizeButton" AnchorPane.rightAnchor="70" AnchorPane.topAnchor="0" mnemonicParsing="false" prefHeight="30.0" prefWidth="35.0" />
+      <ToggleButton fx:id="maximizeButton" AnchorPane.rightAnchor="35" AnchorPane.topAnchor="0" mnemonicParsing="false" prefHeight="30.0" prefWidth="35.0" />
+      <Button fx:id="closeButton" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" mnemonicParsing="false" prefHeight="30" prefWidth="35.0" />
    </children>
 </AnchorPane>

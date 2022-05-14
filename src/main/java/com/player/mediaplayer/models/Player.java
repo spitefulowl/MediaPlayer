@@ -100,6 +100,11 @@ public class Player {
     public void setCurrentTrackFilter(Predicate<Track> callable) {
         currentTrackFilter.set(callable);
     }
+
+    public SimpleBooleanProperty getOnlyFavorites() {
+        return this.onlyFavorites;
+    }
+
     public void setOnlyFavorites(Boolean onlyFavorites) {
         this.onlyFavorites.set(onlyFavorites);
     }
