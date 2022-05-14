@@ -254,6 +254,14 @@
     -fx-background-radius: 0em;
 }
 
+#songsListTable .scroll-bar .thumb:hover {
+    -fx-background-color: #878787;
+}
+
+#songsListTable .scroll-bar .thumb:pressed {
+    -fx-background-color: #b7b7b7;
+}
+
 #songsListTable .table-cell {
     -fx-text-fill: #dcdcdc;
 }
