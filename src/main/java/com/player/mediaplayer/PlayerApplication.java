@@ -3,6 +3,7 @@ package com.player.mediaplayer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -25,6 +26,7 @@ public class PlayerApplication extends Application {
             }
         });
         stage.initStyle(StageStyle.UNDECORATED);
+        stage.getIcons().add(new Image("file:src/main/resources/com/player/mediaplayer/images/music_notes_icon.png"));
         stage.show();
     }
 
