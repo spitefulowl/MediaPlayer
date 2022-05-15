@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <?import javafx.scene.control.ToggleButton?>
-<AnchorPane prefHeight="30.0" prefWidth="1280.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.player.mediaplayer.controllers.TopBarPaneController">
+<AnchorPane prefHeight="30.0" prefWidth="1280.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.player.mediaplayer.controllers.TopBarPaneController">
    <children>
       <Button fx:id="minimizeButton" AnchorPane.rightAnchor="70" AnchorPane.topAnchor="0" mnemonicParsing="false" prefHeight="30.0" prefWidth="35.0" />
       <ToggleButton fx:id="maximizeButton" AnchorPane.rightAnchor="35" AnchorPane.topAnchor="0" mnemonicParsing="false" prefHeight="30.0" prefWidth="35.0" />

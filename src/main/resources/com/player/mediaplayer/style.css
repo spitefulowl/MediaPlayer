@@ -175,7 +175,7 @@
 }
 
 #controlPane {
-    -fx-background-color: linear-gradient(to top, #d5fbfe, #f3e4df);
+    -fx-background-color: transparent;
 }
 
 #volumeSlider .track {
@@ -300,7 +300,7 @@
 }
 
 #songsListTable .table-row-cell:selected {
-    -fx-background-color: #c70f5c;
+    -fx-background-color: transparent;
 }
 
 #songsListTable .corner { -fx-background-color: transparent; }
