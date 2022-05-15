@@ -4,13 +4,13 @@
 
 
 <BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.player.mediaplayer.controllers.MainController">
-    <top>
-        <fx:include fx:id="topBarPane" source="TopBarPane.fxml" />
-    </top>
-    <center>
-        <fx:include fx:id="contentPane" source="ContentPane.fxml" />
-    </center>
-   <left>
-        <fx:include fx:id="controlPane" source="ControlPane.fxml" />
-   </left>
+<!--    <top>-->
+<!--        <fx:include fx:id="topBarPane" source="TopBarPane.fxml" />-->
+<!--    </top>-->
+<!--    <center>-->
+<!--        <fx:include fx:id="contentPane" source="ContentPane.fxml" />-->
+<!--    </center>-->
+<!--   <left>-->
+<!--        <fx:include fx:id="controlPane" source="ControlPane.fxml" />-->
+<!--   </left>-->
 </BorderPane>

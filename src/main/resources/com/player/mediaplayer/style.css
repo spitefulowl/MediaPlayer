@@ -3,6 +3,32 @@
     -fx-dark-gray-color: #3a3937;
 }
 
+.root {
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-background-insets: 36;
+    -fx-border-insets: 36;
+    -fx-effect: dropshadow(gaussian, gray, 24, -1, 0, 1);
+    -fx-border-width: 2px;
+    -fx-background-color: linear-gradient(to bottom right, rgba(213, 251, 254, 0.8), rgba(243, 228, 223, 0.8));
+    -fx-border-color: linear-gradient(from 10% 10% to 40% 40%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)), linear-gradient(from 40% 40% to 60% 60%, rgba(255, 255, 255, 0), rgba(243, 228, 223, 0)), linear-gradient(from 60% 60% to 100% 100%, rgba(243, 228, 223, 0), rgba(243, 228, 223, 0.5));
+}
+
+#topBarPane {
+    -fx-background-radius: 18 18 0 0;
+    -fx-border-radius: 18 18 0 0;
+}
+
+#contentPane {
+    -fx-background-radius: 0 0 18 18;
+    -fx-border-radius: 0 0 18 18;
+}
+
+#controlPane {
+    -fx-background-radius: 0 0 0 18;
+    -fx-border-radius: 0 0 0 18;
+}
+
 #tableLabel {
     -fx-text-fill: #bbdefb;
     -fx-font-size: 18;
@@ -164,6 +190,8 @@
    -fx-background-color: #313233;
    -fx-border-color: transparent;
    -fx-border-width: 1;
+   -fx-background-radius: 0 0 18 0;
+   -fx-border-radius: 0 0 18 0;
 }
 
 #songsListTable .column-header {

@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -25,7 +26,8 @@ public class PlayerApplication extends Application {
                 PlayerContext.globalTimer.cancel();
             }
         });
-        stage.initStyle(StageStyle.UNDECORATED);
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.getIcons().add(new Image("file:src/main/resources/com/player/mediaplayer/images/music_notes_icon.png"));
         stage.show();
     }
