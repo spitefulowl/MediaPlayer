@@ -7,6 +7,7 @@ import java.util.Timer;
 public class PlayerContext {
     private final static PlayerContext instance = new PlayerContext();
     public static Timer globalTimer = null;
+    private PlayerContext() {}
     public static PlayerContext getInstance() {
         return instance;
     }

@@ -56,15 +56,6 @@ public class ControlPaneController implements Initializable {
     public Label authorNameText;
     public ToggleButton favoriteSongsButton;
 
-    private void setSongImage() {
-        Image image = player.getCurrentTrack().getSongArtwork();
-        if (image == null) {
-            URL url = getClass().getResource("/com/player/mediaplayer/images/default_artwork.png");
-            image = new Image(url.toString());
-        }
-        albumImage.setImage(image);
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeButtonsIcons();
@@ -78,6 +69,15 @@ public class ControlPaneController implements Initializable {
         currentTrackChangedHandler();
         updateControlsDisable(true);
         favoriteSongsButtonAction();
+    }
+
+    private void setSongImage() {
+        Image image = player.getCurrentTrack().getSongArtwork();
+        if (image == null) {
+            URL url = getClass().getResource("/com/player/mediaplayer/images/default_artwork.png");
+            image = new Image(url.toString());
+        }
+        albumImage.setImage(image);
     }
 
     private void initializeButtonsIcons() {
@@ -264,22 +264,16 @@ public class ControlPaneController implements Initializable {
 
     private void sliderHoverActions() {
         durationSlider.hoverProperty().addListener((event) -> {
-            StackPane thumb = (StackPane) durationSlider.lookup(".thumb");
             if (durationSlider.isHover() || durationSlider.isValueChanging()) {
-                thumb.getStyleClass().add("thumb-active-color");
                 durationSlider.setStyle("-fx-track-color: -fx-pink-color;");
             } else {
-                thumb.getStyleClass().remove("thumb-active-color");
                 durationSlider.setStyle("-fx-track-color: -fx-dark-gray-color;");
             }
         });
         volumeSlider.hoverProperty().addListener((event) -> {
-            StackPane thumb = (StackPane) volumeSlider.lookup(".thumb");
             if (volumeSlider.isHover() || volumeSlider.isValueChanging()) {
-                thumb.getStyleClass().add("thumb-active-color");
                 volumeSlider.setStyle("-fx-track-color: -fx-pink-color;");
             } else {
-                thumb.getStyleClass().remove("thumb-active-color");
                 volumeSlider.setStyle("-fx-track-color: -fx-dark-gray-color;");
             }
         });

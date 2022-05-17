@@ -17,8 +17,9 @@
     -fx-pref-height: 4.5;
 }
 
-.thumb-active-color {
-    -fx-background-color: white !important;
+#durationSlider .thumb:hover,
+#volumeSlider .thumb:hover {
+    -fx-background-color: white;
 }
 
 .close-button-active-color {

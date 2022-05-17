@@ -93,10 +93,6 @@ public class Player {
         currentVolume.set(volume);
     }
 
-    public SimpleObjectProperty<Predicate<Track>> getCurrentTrackFilter() {
-        return currentTrackFilter;
-    }
-
     public void setCurrentTrackFilter(Predicate<Track> callable) {
         currentTrackFilter.set(callable);
     }
