@@ -101,6 +101,12 @@
     -fx-icon-size: 35;
 }
 
+#folderButton:hover .ikonli-font-icon {
+    -fx-icon-code: "mdi2f-folder-open";
+    -fx-icon-color: white;
+    -fx-icon-size: 35;
+}
+
 #minimizeButton .ikonli-font-icon {
     -fx-icon-code: "mdi2w-window-minimize";
     -fx-icon-color: white;
@@ -131,6 +137,12 @@
     -fx-icon-size: 15;
 }
 
+#favoriteButton:hover .ikonli-font-icon {
+    -fx-icon-code: "mdi2h-heart-outline";
+    -fx-icon-color: white;
+    -fx-icon-size: 15;
+}
+
 #favoriteButton:selected .ikonli-font-icon {
     -fx-icon-code: "mdi2h-heart";
     -fx-icon-color: -fx-pink-color;
@@ -139,6 +151,13 @@
 
 #favoriteSongsButton .ikonli-font-icon {
     -fx-icon-code: "eva-heart-outline";
+    -fx-icon-color: -fx-dark-gray-color;
+    -fx-icon-size: 35;
+}
+
+#favoriteSongsButton:hover .ikonli-font-icon {
+    -fx-icon-code: "eva-heart-outline";
+    -fx-icon-color: white;
     -fx-icon-size: 35;
 }
 
