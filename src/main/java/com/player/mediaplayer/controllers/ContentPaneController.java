@@ -20,6 +20,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
+import org.controlsfx.control.textfield.CustomTextField;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.File;
@@ -30,7 +31,7 @@ import java.util.ResourceBundle;
 
 public class ContentPaneController implements Initializable {
     private final Player player = PlayerContext.getInstance().getPlayer();
-    public TextField songSearchField;
+    public CustomTextField songSearchField;
     public TableView songsListTable;
     public TableColumn songName;
     public TableColumn songArtist;

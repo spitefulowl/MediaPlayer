@@ -8,6 +8,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
+<?import org.controlsfx.control.textfield.CustomTextField?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 <AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #19141a;" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.player.mediaplayer.controllers.ContentPaneController">
     <children>
         <TableView fx:id="songsListTable" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="115.0">
@@ -23,11 +25,15 @@
                 <TableColumn fx:id="songLiked" editable="false" minWidth="50.0" maxWidth="50.0" style="-fx-font-size: 20;" text="♡" />
             </columns>
         </TableView>
-        <TextField fx:id="songSearchField" layoutX="47.0" layoutY="25.0" prefHeight="45.0" prefWidth="805.0" promptText="Search..." AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0">
-            <font>
-                <Font size="14.0" />
-            </font>
-        </TextField>
+        <CustomTextField fx:id="songSearchField" layoutX="47.0" layoutY="25.0" prefHeight="45.0" prefWidth="805.0" promptText="Search..." AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0">
+            <left>
+                <Label>
+                    <graphic>
+                        <FontIcon iconLiteral="fltfmz-search-20" iconColor="#3a3937"/>
+                    </graphic>
+                </Label>
+            </left>
+        </CustomTextField>
         <Label fx:id="tableLabel" layoutX="45.0" layoutY="85.0" text="All tracks" />
     </children>
 </AnchorPane>
