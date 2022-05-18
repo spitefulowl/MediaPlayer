@@ -264,18 +264,40 @@ public class ControlPaneController implements Initializable {
 
     private void sliderHoverActions() {
         durationSlider.hoverProperty().addListener((event) -> {
-            if (durationSlider.isHover() || durationSlider.isValueChanging()) {
-                durationSlider.setStyle("-fx-track-color: -fx-pink-color;");
+            StackPane thumb = (StackPane) durationSlider.lookup(".thumb");
+            if (durationSlider.isHover()) {
+                durationSlider.getStyleClass().add("slider-active-color");
+                thumb.getStyleClass().add("thumb-active-color");
             } else {
-                durationSlider.setStyle("-fx-track-color: -fx-dark-gray-color;");
+                durationSlider.getStyleClass().remove("slider-active-color");
+                thumb.getStyleClass().remove("thumb-active-color");
             }
         });
         volumeSlider.hoverProperty().addListener((event) -> {
-            if (volumeSlider.isHover() || volumeSlider.isValueChanging()) {
-                volumeSlider.setStyle("-fx-track-color: -fx-pink-color;");
+            StackPane thumb = (StackPane) volumeSlider.lookup(".thumb");
+            if (volumeSlider.isHover()) {
+                volumeSlider.getStyleClass().add("slider-active-color");
+                thumb.getStyleClass().add("thumb-active-color");
             } else {
-                volumeSlider.setStyle("-fx-track-color: -fx-dark-gray-color;");
+                volumeSlider.getStyleClass().remove("slider-active-color");
+                thumb.getStyleClass().remove("thumb-active-color");
             }
+        });
+        durationSlider.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> {
+            durationSlider.getStyleClass().add("slider-active-color");
+            (durationSlider.lookup(".thumb")).getStyleClass().add("thumb-active-color");
+        });
+        durationSlider.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> {
+            durationSlider.getStyleClass().remove("slider-active-color");
+            (durationSlider.lookup(".thumb")).getStyleClass().remove("thumb-active-color");
+        });
+        volumeSlider.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> {
+            volumeSlider.getStyleClass().add("slider-active-color");
+            (volumeSlider.lookup(".thumb")).getStyleClass().add("thumb-active-color");
+        });
+        volumeSlider.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> {
+            volumeSlider.getStyleClass().remove("slider-active-color");
+            (volumeSlider.lookup(".thumb")).getStyleClass().remove("thumb-active-color");
         });
     }
 

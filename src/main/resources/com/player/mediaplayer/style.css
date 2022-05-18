@@ -17,9 +17,12 @@
     -fx-pref-height: 4.5;
 }
 
-#durationSlider .thumb:hover,
-#volumeSlider .thumb:hover {
-    -fx-background-color: white;
+.slider-active-color {
+    -fx-track-color: -fx-pink-color;
+}
+
+.thumb-active-color {
+    -fx-background-color: white !important;
 }
 
 .close-button-active-color {
