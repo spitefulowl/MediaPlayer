@@ -29,22 +29,14 @@ public class PlayerState implements Serializable {
         player.getAllTracks().setAll(allTracks.stream().map(item -> {
             try {
                 return MP3Parser.parse(new File(URI.create(item)));
-            } catch (InvalidDataException e) {
-                throw new RuntimeException(e);
-            } catch (UnsupportedTagException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
+            } catch (InvalidDataException | UnsupportedTagException | IOException e) {
                 throw new RuntimeException(e);
             }
         }).toList());
         player.getCurrentPlayList().setAll(currentPlayList.stream().map(item -> {
             try {
                 return MP3Parser.parse(new File(URI.create(item)));
-            } catch (InvalidDataException e) {
-                throw new RuntimeException(e);
-            } catch (UnsupportedTagException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
+            } catch (InvalidDataException | UnsupportedTagException | IOException e) {
                 throw new RuntimeException(e);
             }
         }).toList());
