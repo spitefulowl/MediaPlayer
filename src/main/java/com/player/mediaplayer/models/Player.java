@@ -4,25 +4,22 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-import java.util.ArrayList;
+import java.io.*;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class Player {
     private final int PLAY_PREVIOUS_THRESHOLD = 3;
+    private final String CONFIG_NAME = "config";
     private ObservableList<Track> allTracks;
-    private ObservableList<Track> playList;
+    private ObservableList<Track> currentPlayList;
     private Runnable onEndOfMediaRunnable = null;
     private SimpleIntegerProperty currentTrackID;
     private SimpleDoubleProperty currentVolume;
@@ -31,11 +28,12 @@ public class Player {
 
     private SimpleBooleanProperty onlyFavorites;
     private SimpleObjectProperty<Predicate<Track>> currentTrackFilter;
+    private PlayerState state = null;
     private MediaPlayer mediaPlayer = null;
 
     public Player() {
         this.allTracks = FXCollections.observableArrayList();
-        this.playList = FXCollections.observableArrayList();
+        this.currentPlayList = FXCollections.observableArrayList();
         this.currentTrackID = new SimpleIntegerProperty(-1);
         this.currentVolume = new SimpleDoubleProperty(0.5);
         this.isShuffling = new SimpleBooleanProperty(false);
@@ -44,33 +42,78 @@ public class Player {
         this.currentTrackFilter = new SimpleObjectProperty<>(track -> true);
         this.onlyFavorites.addListener((observableValue, aBoolean, t1) -> filterPlayList());
         this.currentTrackFilter.addListener((observableValue, trackPredicate, t1) -> filterPlayList());
+        loadState();
+    }
+
+    public PlayerState getLoadedState() {
+        return state;
+    }
+
+    private void loadState() {
+        try
+        {
+            FileInputStream file = new FileInputStream(CONFIG_NAME);
+            ObjectInputStream in = new ObjectInputStream(file);
+            PlayerState state = (PlayerState) in.readObject();
+            in.close();
+            file.close();
+            this.state = state;
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void applyState() {
+        if (state != null) {
+            state.initPlayer(this);
+        }
+    }
+
+    public void saveState() {
+        try {
+            FileOutputStream file = new FileOutputStream(CONFIG_NAME);
+            ObjectOutputStream out = new ObjectOutputStream(file);
+            out.writeObject(new PlayerState(this));
+            out.close();
+            file.close();
+        } catch(IOException e) {
+            System.out.println(e);
+        }
     }
 
     private void filterPlayList() {
         FilteredList<Track> searchedTracks = new FilteredList(allTracks);
         searchedTracks.setPredicate(track -> onlyFavorites.get() ? track.getSongLiked() && currentTrackFilter.get().test(track) : currentTrackFilter.get().test(track));
-        setPlayList(searchedTracks);
+        setCurrentPlayList(searchedTracks);
     }
 
-    public ObservableList<Track> getPlayList() {
-        return playList;
+    public ObservableList<Track> getCurrentPlayList() {
+        return currentPlayList;
     }
 
     public void addTrack(Track mp3Track) {
         allTracks.add(mp3Track);
     }
 
-    public void setPlayList(List<Track> tracks) {
-        playList.clear();
-        playList.setAll(tracks);
+    public void setCurrentPlayList(List<Track> tracks) {
+        currentPlayList.clear();
+        currentPlayList.setAll(tracks);
     }
 
     public ObservableList<Track> getAllTracks() {
         return allTracks;
     }
 
+    public SimpleBooleanProperty getIsShuffling() {
+        return isShuffling;
+    }
+
     public void setIsShuffling(Boolean isShuffling) {
         this.isShuffling.set(isShuffling);
+    }
+
+    public SimpleBooleanProperty getIsRepeating() {
+        return isRepeating;
     }
 
     public void setIsRepeating(Boolean isRepeating) {
@@ -112,7 +155,7 @@ public class Player {
         if (currentTrackID.get() == -1) {
             throw new IllegalStateException("Nothing to play");
         }
-        Track track = playList.get(currentTrackID.get());
+        Track track = currentPlayList.get(currentTrackID.get());
         Media media = new Media(track.getFilePath());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(currentVolume.get());
@@ -157,13 +200,13 @@ public class Player {
         int nextTrackID = currentTrackID.get();
         if (isShuffling.get()) {
             while (true) {
-                nextTrackID = ThreadLocalRandom.current().nextInt(0, playList.size());
+                nextTrackID = ThreadLocalRandom.current().nextInt(0, currentPlayList.size());
                 if (nextTrackID != currentTrackID.get()) {
                     break;
                 }
             }
         } else {
-            if (currentTrackID.get() >= playList.size() - 1) {
+            if (currentTrackID.get() >= currentPlayList.size() - 1) {
                 nextTrackID = 0;
             } else {
                 ++nextTrackID;
@@ -194,7 +237,7 @@ public class Player {
         if (currentTrackID.get() == -1) {
             throw new IllegalStateException("No track");
         }
-        return playList.get(currentTrackID.get());
+        return currentPlayList.get(currentTrackID.get());
     }
 
     public void setOnEndOfMedia(Runnable runnable) {

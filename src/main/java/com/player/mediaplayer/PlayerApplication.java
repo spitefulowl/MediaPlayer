@@ -1,5 +1,6 @@
 package com.player.mediaplayer;
 
+import com.player.mediaplayer.models.PlayerState;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -24,9 +25,11 @@ public class PlayerApplication extends Application {
             if (PlayerContext.globalTimer != null) {
                 PlayerContext.globalTimer.cancel();
             }
+            PlayerContext.getInstance().getPlayer().saveState();
         });
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image("file:src/main/resources/com/player/mediaplayer/images/music_notes_icon.png"));
+        PlayerContext.getInstance().getPlayer().applyState();
         stage.show();
     }
 

@@ -3,17 +3,17 @@ package com.player.mediaplayer.controllers;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import com.player.mediaplayer.PlayerContext;
+import com.player.mediaplayer.models.PlayerState;
 import com.player.mediaplayer.models.Track;
 import com.player.mediaplayer.models.Player;
 import com.player.mediaplayer.utils.MP3Parser;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,17 +22,13 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -146,7 +142,7 @@ public class ControlPaneController implements Initializable {
                                 player.addTrack(MP3Parser.parse(file));
                             }
                         }
-                        player.setPlayList(player.getAllTracks());
+                        player.setCurrentPlayList(player.getAllTracks());
                     }
                 } catch (InvalidDataException | UnsupportedTagException | IOException e) {
                     throw new RuntimeException(e);
@@ -243,17 +239,14 @@ public class ControlPaneController implements Initializable {
     private void initializeVolumeSlider() {
         volumeSlider.setMin(0);
         volumeSlider.setMax(1);
-        volumeSlider.setValue(0.5);
-        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                double newVolume = observableValue.getValue().doubleValue();
-                player.setCurrentVolume(newVolume);
-                String style = String.format("-fx-background-color: linear-gradient(to right, -fx-track-color %d%%, #a9a9a9 %d%%) !important;",
-                        (int) (newVolume * 100), (int) (newVolume * 100));
-                volumeSlider.lookup(".track").setStyle(style);
-            }
-        });
+        PlayerState state = player.getLoadedState();
+        volumeSlider.setValue(state != null ? state.currentVolume : 0.5);
+        player.getCurrentVolume().bind(volumeSlider.valueProperty());
+        volumeSlider.styleProperty().bind(Bindings.concat("-fx-gradient-color: linear-gradient(to right, -fx-track-color ")
+                .concat(volumeSlider.valueProperty().multiply(100))
+                .concat("%, #a9a9a9 ")
+                .concat(volumeSlider.valueProperty().multiply(100))
+                .concat("%) !important;"));
         player.getCurrentVolume().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {

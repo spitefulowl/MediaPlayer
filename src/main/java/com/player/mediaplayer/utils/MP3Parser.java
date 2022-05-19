@@ -24,12 +24,9 @@ public class MP3Parser {
             tag = mp3File.getId3v1Tag();
         }
 
-        Image artwork = null;
+        byte[] imageArray = null;
         if (mp3File.hasId3v2Tag()) {
-            byte[] array = mp3File.getId3v2Tag().getAlbumImage();
-            if (array != null) {
-                artwork = new Image(new ByteArrayInputStream(mp3File.getId3v2Tag().getAlbumImage()));
-            }
+            imageArray = mp3File.getId3v2Tag().getAlbumImage();
         }
 
         int length = (int) Math.ceil(mp3File.getLengthInSeconds());
@@ -40,7 +37,7 @@ public class MP3Parser {
                 tag.getAlbum(),
                 parseSongLength(length),
                 file.toURI().toString(),
-                artwork
+                imageArray
         );
 
         return mp3Track;

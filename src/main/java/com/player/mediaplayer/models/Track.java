@@ -2,22 +2,25 @@ package com.player.mediaplayer.models;
 
 import javafx.scene.image.Image;
 
-public class Track {
+import java.io.ByteArrayInputStream;
+import java.io.Serializable;
+
+public class Track implements Serializable {
     private String songName;
     private String songArtist;
     private String songAlbum;
     private String songDuration;
     private Boolean songLiked = false;
     private String filePath;
-    private Image songArtwork;
+    private byte[] songArtworkImageArray;
 
-    public Track(String songName, String songArtist, String songAlbum, String songDuration, String filePath, Image songArtwork) {
+    public Track(String songName, String songArtist, String songAlbum, String songDuration, String filePath, byte[] songArtworkImageArray) {
         this.songName = songName;
         this.songArtist = songArtist;
         this.songAlbum = songAlbum;
         this.songDuration = songDuration;
         this.filePath = filePath;
-        this.songArtwork = songArtwork;
+        this.songArtworkImageArray = songArtworkImageArray;
     }
 
     public String getSongName() {
@@ -45,7 +48,7 @@ public class Track {
     }
 
     public Image getSongArtwork() {
-        return songArtwork;
+        return songArtworkImageArray != null ? new Image(new ByteArrayInputStream(songArtworkImageArray)) : null;
     }
 
     public void setSongLiked(Boolean newState) {

@@ -15,17 +15,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
-import javafx.scene.text.Font;
 import javafx.util.Callback;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -88,11 +85,11 @@ public class ContentPaneController implements Initializable {
     }
 
     private void observePlayList() {
-        player.getPlayList().addListener(new InvalidationListener() {
+        player.getCurrentPlayList().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
                 songsListTable.getItems().clear();
-                for (Track track : player.getPlayList()) {
+                for (Track track : player.getCurrentPlayList()) {
                     try {
                         addToSongListTable(track);
                     } catch (InvalidDataException | UnsupportedTagException | IOException e) {
@@ -127,7 +124,7 @@ public class ContentPaneController implements Initializable {
                     }
                 }
             }
-            player.setPlayList(player.getAllTracks());
+            player.setCurrentPlayList(player.getAllTracks());
         });
     }
 
@@ -169,7 +166,7 @@ public class ContentPaneController implements Initializable {
                         favoriteButton.setId("favoriteButton");
                         favoriteButton.setGraphic(new FontIcon());
                         favoriteButton.setOnMouseClicked(mouseEvent -> {
-                            player.getPlayList().get(getIndex()).setSongLiked(favoriteButton.isSelected());
+                            player.getCurrentPlayList().get(getIndex()).setSongLiked(favoriteButton.isSelected());
                         });
                     }
 
@@ -179,7 +176,7 @@ public class ContentPaneController implements Initializable {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            favoriteButton.setSelected(player.getPlayList().get(getIndex()).getSongLiked());
+                            favoriteButton.setSelected(player.getCurrentPlayList().get(getIndex()).getSongLiked());
                             setGraphic(favoriteButton);
                         }
                     }

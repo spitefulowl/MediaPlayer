@@ -102,9 +102,7 @@
 }
 
 #folderButton:hover .ikonli-font-icon {
-    -fx-icon-code: "mdi2f-folder-open";
-    -fx-icon-color: white;
-    -fx-icon-size: 35;
+    -fx-opacity: 0.6;
 }
 
 #minimizeButton .ikonli-font-icon {
@@ -138,9 +136,7 @@
 }
 
 #favoriteButton:hover .ikonli-font-icon {
-    -fx-icon-code: "mdi2h-heart-outline";
     -fx-icon-color: white;
-    -fx-icon-size: 15;
 }
 
 #favoriteButton:selected .ikonli-font-icon {
@@ -156,9 +152,7 @@
 }
 
 #favoriteSongsButton:hover .ikonli-font-icon {
-    -fx-icon-code: "eva-heart-outline";
-    -fx-icon-color: white;
-    -fx-icon-size: 35;
+    -fx-opacity: 0.6;
 }
 
 #favoriteSongsButton:selected .ikonli-font-icon {
@@ -175,8 +169,12 @@
     -fx-background-color: linear-gradient(to top, #d5fbfe, #f3e4df);
 }
 
+#volumeSlider {
+    -fx-gradient-color: linear-gradient(to right, -fx-track-color 50%, #a9a9a9 50%) !important;
+}
+
 #volumeSlider .track {
-    -fx-background-color: linear-gradient(to right, -fx-track-color 50%, #a9a9a9 50%) !important;
+    -fx-background-color: -fx-gradient-color;
 }
 
 #durationSlider .track {
