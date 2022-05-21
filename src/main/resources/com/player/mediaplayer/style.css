@@ -217,12 +217,10 @@
 
 .table-view .table-column#songNumber {
     -fx-alignment: CENTER-RIGHT;
-    -fx-padding: 5;
 }
 
 .table-view .column-header#songNumber .label {
     -fx-alignment: CENTER-RIGHT;
-    -fx-padding: 5;
 }
 
 .table-view .table-column#songName {
