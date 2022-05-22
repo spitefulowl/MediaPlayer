@@ -64,6 +64,7 @@ public class ContentPaneController implements Initializable {
         MenuItem playlistMenuItem = new MenuItem("Add to playlist");
         MenuItem queueMenuItem = new MenuItem("Add to queue");
         MenuItem removeMenuItem = new MenuItem("Remove the library");
+
         songSettingsContextMenu.getItems().add(playlistMenuItem);
         songSettingsContextMenu.getItems().add(queueMenuItem);
         songSettingsContextMenu.getItems().add(removeMenuItem);
@@ -111,6 +112,7 @@ public class ContentPaneController implements Initializable {
                         throw new RuntimeException(e);
                     }
                 }
+                songsListTable.getSelectionModel().select(player.getCurrentTrackID().get());
             }
         });
     }
@@ -212,6 +214,15 @@ public class ContentPaneController implements Initializable {
                         settingsButton.setGraphic(new FontIcon());
                         settingsButton.setOnMouseClicked(mouseEvent -> {
                             songSettingsContextMenu.show(settingsButton.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
+                            ((MenuItem)songSettingsContextMenu.getItems().get(2)).setOnAction(actionEvent -> {
+                                Track trackToRemove = player.getCurrentPlayList().get(getIndex());
+                                player.getAllTracks().remove(trackToRemove);
+                                player.getCurrentPlayList().remove(trackToRemove);
+                                if (getIndex() == player.getCurrentTrackID().get()) {
+                                    player.pause();
+                                    player.play();
+                                }
+                            });
                         });
                     }
 

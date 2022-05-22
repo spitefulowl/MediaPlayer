@@ -181,6 +181,7 @@ public class ControlPaneController implements Initializable {
             if (!playSongButton.isSelected()) {
                 playSongButton.fire();
             }
+            updateTrackInfo();
         });
     }
 

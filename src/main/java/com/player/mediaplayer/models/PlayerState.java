@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 public class PlayerState implements Serializable {
@@ -51,8 +52,9 @@ public class PlayerState implements Serializable {
                 throw new RuntimeException(e);
             }
         };
-        player.getAllTracks().setAll(allTracks.stream().map(func).toList());
-        player.getCurrentPlayList().setAll(allTracks.stream().map(func).toList());
+        List<Track> trackList = allTracks.stream().map(func).toList();
+        player.getAllTracks().setAll(trackList);
+        player.getCurrentPlayList().setAll(trackList);
         player.setCurrentTrackID(currentTrackID);
         player.setIsShuffling(isShuffling);
         player.setIsRepeating(isRepeating);
