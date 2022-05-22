@@ -11,6 +11,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
@@ -20,6 +21,7 @@ public class Player {
     private final String APP_DATA_NAME = "data";
     private ObservableList<Track> allTracks;
     private ObservableList<Track> currentPlayList;
+    private ObservableList<PlayList<Track>> playLists;
     private Runnable onEndOfMediaRunnable = null;
     private Runnable onPause = null;
     private Runnable onPlay = null;
@@ -44,6 +46,7 @@ public class Player {
         this.currentTrackFilter = new SimpleObjectProperty<>(track -> true);
         this.onlyFavorites.addListener((observableValue, aBoolean, t1) -> filterPlayList());
         this.currentTrackFilter.addListener((observableValue, trackPredicate, t1) -> filterPlayList());
+        this.playLists = FXCollections.observableArrayList();
         loadState();
     }
 
@@ -260,5 +263,13 @@ public class Player {
 
     public void setOnPause(Runnable onPause) {
         this.onPause = onPause;
+    }
+
+    public ObservableList<PlayList<Track>> getPlayLists() {
+        return playLists;
+    }
+
+    public void setPlayLists(ArrayList<PlayList<Track>> playLists) {
+        this.playLists.setAll(playLists);
     }
 }

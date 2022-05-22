@@ -19,7 +19,7 @@ public class PlayerApplication extends Application {
     public void start(Stage stage) throws IOException {
         loadFonts();
         FXMLLoader fxmlLoader = new FXMLLoader(PlayerApplication.class.getResource("MainPane.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
+        Scene scene = new Scene(fxmlLoader.load(), 1366, 768);
         stage.setScene(scene);
         stage.setOnHidden(e -> {
             if (PlayerContext.globalTimer != null) {

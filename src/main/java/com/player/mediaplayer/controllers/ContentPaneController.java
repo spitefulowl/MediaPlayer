@@ -63,7 +63,7 @@ public class ContentPaneController implements Initializable {
         songSettingsContextMenu = new ContextMenu();
         MenuItem playlistMenuItem = new MenuItem("Add to playlist");
         MenuItem queueMenuItem = new MenuItem("Add to queue");
-        MenuItem removeMenuItem = new MenuItem("Remove the library");
+        MenuItem removeMenuItem = new MenuItem("Remove from the library");
 
         songSettingsContextMenu.getItems().add(playlistMenuItem);
         songSettingsContextMenu.getItems().add(queueMenuItem);

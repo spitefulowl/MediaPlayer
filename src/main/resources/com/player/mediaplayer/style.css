@@ -331,20 +331,75 @@
     -fx-padding: 0em;
 }
 
-#settingsContextMenu {
+.context-menu {
     -fx-background-color: #19141a;
     -fx-text-fill: white;
     -fx-font-family: "Proxima Nova Bold";
 }
 
-#settingsContextMenu .menu-item:focused {
+.context-menu .menu-item:focused {
     -fx-background-color: -fx-pink-color;
 }
 
-#settingsContextMenu .menu-item .label {
+.context-menu .menu-item .label {
     -fx-text-fill: white;
 }
 
-#settingsContextMenu .menu-item:focused .label {
+.context-menu .menu-item:focused .label {
+    -fx-text-fill: white;
+}
+
+#playListsListView {
+    -fx-background-color: linear-gradient(to top, #d5fbfe, #f3e4df);
+    -fx-background-insets: 0;
+}
+
+#addPlayListButton .ikonli-font-icon {
+    -fx-icon-code: "fltfal-add-square-24";
+    -fx-icon-color: white;
+    -fx-icon-size: 15;
+}
+
+#addPlayListButton {
+    -fx-font-family: "Proxima Nova Bold";
+    -fx-background-radius: 8;
+    -fx-background-color: -fx-pink-color;
+    -fx-text-fill: white;
+}
+
+#addPlayListButton:hover {
+    -fx-background-color: white;
+    -fx-text-fill: -fx-pink-color;
+}
+
+#addPlayListButton:hover .ikonli-font-icon {
+    -fx-icon-color: -fx-pink-color;
+}
+
+#addPlayListButton:pressed {
+    -fx-opacity: 0.8;
+}
+
+#playListsListView .list-cell {
+    -fx-font-family: "Proxima Nova Bold";
+    -fx-alignment: CENTER-RIGHT;
+    -fx-padding: 10;
+}
+
+#playListsListView .list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: -fx-pink-color;
+    -fx-text-fill: white;
+}
+
+#playListsListView .list-cell:even {
+    -fx-background-color: transparent;
+}
+
+#playListsListView .list-cell:odd { /* <=== changed to even */
+    -fx-background-color: transparent;
+}
+
+#playListsListView .list-cell:filled:hover {
+    -fx-background-color: -fx-pink-color;
     -fx-text-fill: white;
 }

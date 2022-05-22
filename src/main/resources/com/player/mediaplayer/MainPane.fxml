@@ -13,4 +13,7 @@
    <left>
         <fx:include fx:id="controlPane" source="ControlPane.fxml" />
    </left>
+    <right>
+        <fx:include fx:id="playlistsPane" source="PlayListsPane.fxml" />
+    </right>
 </BorderPane>
