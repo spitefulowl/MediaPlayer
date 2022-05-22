@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -37,6 +38,8 @@ public class ContentPaneController implements Initializable {
     public TableColumn songLiked;
     public Label tableLabel;
     public TableColumn songNumber;
+    public TableColumn songSettings;
+    public ContextMenu songSettingsContextMenu;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -53,6 +56,18 @@ public class ContentPaneController implements Initializable {
         tableButtonsAction();
         showFavoritesAction();
         initializeColumns();
+        createContextMenu();
+    }
+
+    private void createContextMenu() {
+        songSettingsContextMenu = new ContextMenu();
+        MenuItem playlistMenuItem = new MenuItem("Add to playlist");
+        MenuItem queueMenuItem = new MenuItem("Add to queue");
+        MenuItem removeMenuItem = new MenuItem("Remove the library");
+        songSettingsContextMenu.getItems().add(playlistMenuItem);
+        songSettingsContextMenu.getItems().add(queueMenuItem);
+        songSettingsContextMenu.getItems().add(removeMenuItem);
+        songSettingsContextMenu.setId("settingsContextMenu");
     }
 
     private void initializeColumns() {
@@ -157,7 +172,7 @@ public class ContentPaneController implements Initializable {
 
     private void tableButtonsAction() {
 
-        Callback<TableColumn<Track, Void>, TableCell<Track, Void>> cellFactory = new Callback<TableColumn<Track, Void>, TableCell<Track, Void>>() {
+        Callback<TableColumn<Track, Void>, TableCell<Track, Void>> cellFactoryLiked = new Callback<TableColumn<Track, Void>, TableCell<Track, Void>>() {
             @Override
             public TableCell<Track, Void> call(final TableColumn<Track, Void> param) {
                 final TableCell<Track, Void> cell = new TableCell<Track, Void>() {
@@ -182,11 +197,41 @@ public class ContentPaneController implements Initializable {
                     }
                 };
                 cell.getStyleClass().add("cell-style");
-                cell.getStyleClass().add("favorite-button-padding");
+                cell.getStyleClass().add("favorite-table-button-alignment");
                 return cell;
             }
         };
 
-        songLiked.setCellFactory(cellFactory);
+        Callback<TableColumn<Track, Void>, TableCell<Track, Void>> cellFactorySettings = new Callback<TableColumn<Track, Void>, TableCell<Track, Void>>() {
+            @Override
+            public TableCell<Track, Void> call(final TableColumn<Track, Void> param) {
+                final TableCell<Track, Void> cell = new TableCell<Track, Void>() {
+                    private final Button settingsButton = new Button();
+                    {
+                        settingsButton.setId("settingsButton");
+                        settingsButton.setGraphic(new FontIcon());
+                        settingsButton.setOnMouseClicked(mouseEvent -> {
+                            songSettingsContextMenu.show(settingsButton.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(settingsButton);
+                        }
+                    }
+                };
+                cell.getStyleClass().add("cell-style");
+                cell.getStyleClass().add("settings-table-button-alignment");
+                return cell;
+            }
+        };
+
+        songLiked.setCellFactory(cellFactoryLiked);
+        songSettings.setCellFactory(cellFactorySettings);
     }
 }

@@ -21,6 +21,8 @@ public class Player {
     private ObservableList<Track> allTracks;
     private ObservableList<Track> currentPlayList;
     private Runnable onEndOfMediaRunnable = null;
+    private Runnable onPause = null;
+    private Runnable onPlay = null;
     private SimpleIntegerProperty currentTrackID;
     private SimpleDoubleProperty currentVolume;
     private SimpleBooleanProperty isShuffling;
@@ -66,6 +68,7 @@ public class Player {
     public void applyState() {
         if (state != null) {
             state.initPlayer(this);
+            pause();
         }
     }
 
@@ -163,6 +166,8 @@ public class Player {
             throw new IllegalStateException("On end of media action is not set up");
         }
         mediaPlayer.setOnEndOfMedia(onEndOfMediaRunnable);
+        mediaPlayer.setOnPlaying(onPlay);
+        mediaPlayer.setOnPaused(onPause);
         mediaPlayer.play();
     }
 
@@ -212,18 +217,15 @@ public class Player {
                 ++nextTrackID;
             }
         }
-
         return nextTrackID;
     }
 
-    public Boolean next() {
+    public void next() {
         if (mediaPlayer == null) {
             throw new IllegalStateException("MediaPlayer does not exist");
         }
-        int currentTrackID = getCurrentTrackID().get();
-        int nextTrackID = findNextTrackID();
-        this.currentTrackID.set(nextTrackID);
-        return currentTrackID != nextTrackID;
+        this.currentTrackID.set(findNextTrackID());
+        play();
     }
 
     public MediaPlayer getMediaPlayer() {
@@ -242,5 +244,21 @@ public class Player {
 
     public void setOnEndOfMedia(Runnable runnable) {
         onEndOfMediaRunnable = runnable;
+    }
+
+    public Runnable getOnPlay() {
+        return onPlay;
+    }
+
+    public void setOnPlay(Runnable onPlay) {
+        this.onPlay = onPlay;
+    }
+
+    public Runnable getOnPause() {
+        return onPause;
+    }
+
+    public void setOnPause(Runnable onPause) {
+        this.onPause = onPause;
     }
 }

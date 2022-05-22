@@ -145,6 +145,16 @@
     -fx-icon-size: 15;
 }
 
+#settingsButton .ikonli-font-icon {
+    -fx-icon-code: "fltfmz-more-16";
+    -fx-icon-color: -fx-pink-color;
+    -fx-icon-size: 16;
+}
+
+#settingsButton:hover .ikonli-font-icon {
+    -fx-icon-color: white;
+}
+
 #favoriteSongsButton .ikonli-font-icon {
     -fx-icon-code: "eva-heart-outline";
     -fx-icon-color: -fx-dark-gray-color;
@@ -211,8 +221,12 @@
     -fx-control-inner-background-alt: #3c3c3d;
 }
 
-.favorite-button-padding {
+.favorite-table-button-alignment {
     -fx-alignment: CENTER;
+}
+
+.settings-table-button-alignment {
+    -fx-alignment: CENTER-LEFT;
 }
 
 .table-view .table-column#songNumber {
@@ -315,4 +329,22 @@
 #songsListTable .column-header-background .filler {
     -fx-background-color: transparent;
     -fx-padding: 0em;
+}
+
+#settingsContextMenu {
+    -fx-background-color: #19141a;
+    -fx-text-fill: white;
+    -fx-font-family: "Proxima Nova Bold";
+}
+
+#settingsContextMenu .menu-item:focused {
+    -fx-background-color: -fx-pink-color;
+}
+
+#settingsContextMenu .menu-item .label {
+    -fx-text-fill: white;
+}
+
+#settingsContextMenu .menu-item:focused .label {
+    -fx-text-fill: white;
 }

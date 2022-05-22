@@ -20,9 +20,10 @@
                 <TableColumn fx:id="songNumber" maxWidth="50" minWidth="50.0" text="#" />
                 <TableColumn fx:id="songName" editable="false" minWidth="200.0" text="TITLE" />
                 <TableColumn fx:id="songArtist" editable="false" minWidth="200.0" text="ARTIST" />
-                <TableColumn fx:id="songAlbum" editable="false" minWidth="300.0" text="ALBUM" />
+                <TableColumn fx:id="songAlbum" editable="false" minWidth="250.0" text="ALBUM" />
                 <TableColumn fx:id="songDuration" editable="false" minWidth="100.0" text="DURATION" />
                 <TableColumn fx:id="songLiked" editable="false" minWidth="50.0" maxWidth="50.0" style="-fx-font-size: 20;" text="♡" />
+                <TableColumn fx:id="songSettings" editable="false" minWidth="50.0" maxWidth="50.0" />
             </columns>
         </TableView>
         <CustomTextField fx:id="songSearchField" layoutX="47.0" layoutY="25.0" prefHeight="45.0" prefWidth="805.0" promptText="Search..." AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0">

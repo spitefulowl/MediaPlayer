@@ -65,6 +65,8 @@ public class ControlPaneController implements Initializable {
         currentTrackChangedHandler();
         updateControlsDisable(true);
         favoriteSongsButtonAction();
+        setupPlayMediaAction();
+        setupPauseMediaAction();
     }
 
     private void setSongImage() {
@@ -155,8 +157,9 @@ public class ControlPaneController implements Initializable {
         player.getCurrentTrackID().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                updateControlsDisable(false);
                 updateTrackInfo();
-                playMedia();
+                player.play();
             }
         });
     }
@@ -169,15 +172,16 @@ public class ControlPaneController implements Initializable {
         setSongImage();
     }
 
-    private void playMedia() {
-        if (PlayerContext.globalTimer != null) {
-            stopTimer();
-        }
-        player.play();
-        startTimer();
-        if (!playSongButton.isSelected()) {
-            playSongButton.fire();
-        }
+    private void setupPlayMediaAction() {
+        player.setOnPlay(() -> {
+            if (PlayerContext.globalTimer != null) {
+                stopTimer();
+            }
+            startTimer();
+            if (!playSongButton.isSelected()) {
+                playSongButton.fire();
+            }
+        });
     }
 
     private void resumeMedia() {
@@ -185,9 +189,12 @@ public class ControlPaneController implements Initializable {
         startTimer();
     }
 
+    private void setupPauseMediaAction() {
+        player.setOnPause(() -> stopTimer());
+    }
+
     private void pauseMedia() {
         player.pause();
-        stopTimer();
     }
 
     private void playPreviousSong() {
@@ -195,7 +202,7 @@ public class ControlPaneController implements Initializable {
             stopTimer();
         }
         if (!player.previous()) {
-            playMedia();
+            player.play();
         }
     }
 
@@ -203,13 +210,10 @@ public class ControlPaneController implements Initializable {
         if (PlayerContext.globalTimer != null) {
             stopTimer();
         }
-        if (!player.next()) {
-            playMedia();
-        }
+        player.next();
     }
 
     private void startTimer() {
-        updateControlsDisable(false);
         if (PlayerContext.globalTimer != null) {
             throw new IllegalStateException("Timer not stopped");
         }
