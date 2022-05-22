@@ -6,10 +6,10 @@ import javafx.beans.property.SimpleStringProperty;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PlayList<T> implements Serializable {
+public class PlayList {
     private SimpleStringProperty name = new SimpleStringProperty("");
-    private ArrayList<T> playList;
-    public PlayList(String name, ArrayList<T> playList) {
+    private ArrayList<Track> playList;
+    public PlayList(String name, ArrayList<Track> playList) {
         this.name.set(name);
         this.playList = playList;
         if (this.playList == null) {
@@ -25,11 +25,11 @@ public class PlayList<T> implements Serializable {
         this.name.set(name);
     }
 
-    public ArrayList<T> getPlayList() {
+    public ArrayList<Track> getPlayList() {
         return playList;
     }
 
-    public void setPlayList(ArrayList<T> playList) {
+    public void setPlayList(ArrayList<Track> playList) {
         this.playList = playList;
     }
 }

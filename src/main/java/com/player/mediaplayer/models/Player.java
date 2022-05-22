@@ -21,7 +21,7 @@ public class Player {
     private final String APP_DATA_NAME = "data";
     private ObservableList<Track> allTracks;
     private ObservableList<Track> currentPlayList;
-    private ObservableList<PlayList<Track>> playLists;
+    private ObservableList<PlayList> playLists;
     private Runnable onEndOfMediaRunnable = null;
     private Runnable onPause = null;
     private Runnable onPlay = null;
@@ -265,11 +265,11 @@ public class Player {
         this.onPause = onPause;
     }
 
-    public ObservableList<PlayList<Track>> getPlayLists() {
+    public ObservableList<PlayList> getPlayLists() {
         return playLists;
     }
 
-    public void setPlayLists(ArrayList<PlayList<Track>> playLists) {
+    public void setPlayLists(ArrayList<PlayList> playLists) {
         this.playLists.setAll(playLists);
     }
 }

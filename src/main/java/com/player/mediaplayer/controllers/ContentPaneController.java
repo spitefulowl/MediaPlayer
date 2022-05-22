@@ -248,11 +248,11 @@ public class ContentPaneController implements Initializable {
                 };
                 player.getPlayLists().addListener((InvalidationListener) observable -> {
                     playlistMenu.getItems().clear();
-                    for (PlayList<Track> playlist : player.getPlayLists()) {
+                    for (PlayList playlist : player.getPlayLists()) {
                         MenuItem item = new MenuItem();
                         item.textProperty().bind(playlist.getName());
                         playlistMenu.getItems().add(item);
-                        item.setOnAction(actionEvent -> playlist.getPlayList().add(cell.getItem()));
+                        item.setOnAction(actionEvent -> playlist.getPlayList().add(player.getCurrentPlayList().get(cell.getIndex())));
                     }
                 });
                 cell.getStyleClass().add("cell-style");
