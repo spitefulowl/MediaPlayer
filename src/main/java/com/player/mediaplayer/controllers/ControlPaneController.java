@@ -303,15 +303,12 @@ public class ControlPaneController implements Initializable {
         durationSlider.setMin(0);
         durationSlider.setMax(1);
         durationSlider.setValue(0);
-        durationSlider.valueProperty().addListener(new ChangeListener<>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                double newCurrentDuration = observableValue.getValue().doubleValue();
-                currentDuration.setText(MP3Parser.parseSongLength((int) player.getMediaPlayer().getTotalDuration().multiply(newCurrentDuration).toSeconds()));
-                String style = String.format("-fx-background-color: linear-gradient(to right, -fx-track-color %d%%, #a9a9a9 %d%%) !important;",
-                        (int) (newCurrentDuration * 100), (int) (newCurrentDuration * 100));
-                durationSlider.lookup(".track").setStyle(style);
-            }
+        durationSlider.valueProperty().addListener((observableValue, number, t1) -> {
+            double newCurrentDuration = observableValue.getValue().doubleValue();
+            currentDuration.setText(MP3Parser.parseSongLength((int) player.getMediaPlayer().getTotalDuration().multiply(newCurrentDuration).toSeconds()));
+            String style = String.format("-fx-background-color: linear-gradient(to right, -fx-track-color %d%%, #a9a9a9 %d%%) !important;",
+                    (int) (newCurrentDuration * 100), (int) (newCurrentDuration * 100));
+            durationSlider.lookup(".track").setStyle(style);
         });
         durationSlider.setOnMouseReleased((MouseEvent event) -> player.getMediaPlayer().seek(player.getMediaPlayer().getTotalDuration().multiply(durationSlider.getValue())));
         durationSlider.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> durationSlider.setValueChanging(true));

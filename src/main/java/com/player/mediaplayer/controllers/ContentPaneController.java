@@ -72,11 +72,7 @@ public class ContentPaneController implements Initializable {
     }
 
     private void initializeColumns() {
-        songNumber.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Track, String>, ObservableValue<String>>() {
-            @Override public ObservableValue<String> call(TableColumn.CellDataFeatures<Track, String> item) {
-                return new ReadOnlyObjectWrapper(songsListTable.getItems().indexOf(item.getValue()) + 1 + "");
-            }
-        });
+        songNumber.setCellValueFactory((Callback<TableColumn.CellDataFeatures<Track, String>, ObservableValue<String>>) item -> new ReadOnlyObjectWrapper(songsListTable.getItems().indexOf(item.getValue()) + 1 + ""));
         songNumber.setSortable(false);
         songDuration.setSortable(false);
         songNumber.setReorderable(false);
@@ -101,29 +97,21 @@ public class ContentPaneController implements Initializable {
     }
 
     private void observePlayList() {
-        player.getCurrentPlayList().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                songsListTable.getItems().clear();
-                for (Track track : player.getCurrentPlayList()) {
-                    try {
-                        addToSongListTable(track);
-                    } catch (InvalidDataException | UnsupportedTagException | IOException e) {
-                        throw new RuntimeException(e);
-                    }
+        player.getCurrentPlayList().addListener((InvalidationListener) observable -> {
+            songsListTable.getItems().clear();
+            for (Track track : player.getCurrentPlayList()) {
+                try {
+                    addToSongListTable(track);
+                } catch (InvalidDataException | UnsupportedTagException | IOException e) {
+                    throw new RuntimeException(e);
                 }
-                songsListTable.getSelectionModel().select(player.getCurrentTrackID().get());
             }
+            songsListTable.getSelectionModel().select(player.getCurrentTrackID().get());
         });
     }
 
     private void setupRowUpdater() {
-        player.getCurrentTrackID().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                songsListTable.getSelectionModel().select(player.getCurrentTrackID().get());
-            }
-        });
+        player.getCurrentTrackID().addListener((observableValue, number, t1) -> songsListTable.getSelectionModel().select(player.getCurrentTrackID().get()));
     }
 
     private void setupDragAndDrop() {
@@ -173,12 +161,12 @@ public class ContentPaneController implements Initializable {
     }
 
     private void tableButtonsAction() {
-
-        Callback<TableColumn<Track, Void>, TableCell<Track, Void>> cellFactoryLiked = new Callback<TableColumn<Track, Void>, TableCell<Track, Void>>() {
+        Callback<TableColumn<Track, Void>, TableCell<Track, Void>> cellFactoryLiked = new Callback<>() {
             @Override
             public TableCell<Track, Void> call(final TableColumn<Track, Void> param) {
-                final TableCell<Track, Void> cell = new TableCell<Track, Void>() {
+                final TableCell<Track, Void> cell = new TableCell<>() {
                     private final ToggleButton favoriteButton = new ToggleButton();
+
                     {
                         favoriteButton.setId("favoriteButton");
                         favoriteButton.setGraphic(new FontIcon());
@@ -204,17 +192,18 @@ public class ContentPaneController implements Initializable {
             }
         };
 
-        Callback<TableColumn<Track, Void>, TableCell<Track, Void>> cellFactorySettings = new Callback<TableColumn<Track, Void>, TableCell<Track, Void>>() {
+        Callback<TableColumn<Track, Void>, TableCell<Track, Void>> cellFactorySettings = new Callback<>() {
             @Override
             public TableCell<Track, Void> call(final TableColumn<Track, Void> param) {
-                final TableCell<Track, Void> cell = new TableCell<Track, Void>() {
+                final TableCell<Track, Void> cell = new TableCell<>() {
                     private final Button settingsButton = new Button();
+
                     {
                         settingsButton.setId("settingsButton");
                         settingsButton.setGraphic(new FontIcon());
                         settingsButton.setOnMouseClicked(mouseEvent -> {
                             songSettingsContextMenu.show(settingsButton.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
-                            ((MenuItem)songSettingsContextMenu.getItems().get(2)).setOnAction(actionEvent -> {
+                            songSettingsContextMenu.getItems().get(2).setOnAction(actionEvent -> {
                                 Track trackToRemove = player.getCurrentPlayList().get(getIndex());
                                 player.getAllTracks().remove(trackToRemove);
                                 player.getCurrentPlayList().remove(trackToRemove);
