@@ -9,9 +9,7 @@ import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.util.Callback;
@@ -50,31 +48,37 @@ public class PlaylistsPaneController implements Initializable {
         addPlayListButton.setGraphic(new FontIcon());
     }
     private void initializePlayLists() {
-        playListsListView.setCellFactory(new Callback<ListView<PlayList<Track>>, ListCell<PlayList<Track>>>() {
-            @Override
-            public ListCell<PlayList<Track>> call(ListView<PlayList<Track>> lv) {
-                TextFieldListCell<PlayList<Track>> cell = new TextFieldListCell<PlayList<Track>>() {
-                    @Override
-                    public void updateItem(PlayList<Track> item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null) {
-                            setText(null);
-                        }
-                    }
-                };
-                cell.setConverter(new StringConverter<PlayList<Track>>() {
-                    @Override
-                    public String toString(PlayList<Track> object) {
-                        return object.getName();
-                    }
+        playListsListView.setCellFactory((Callback<ListView<PlayList<Track>>, ListCell<PlayList<Track>>>) lv -> {
+            TextFieldListCell<PlayList<Track>> cell = new TextFieldListCell<>();
+            cell.setConverter(new StringConverter<>() {
+                @Override
+                public String toString(PlayList<Track> object) {
+                    return object.getName();
+                }
 
-                    @Override
-                    public PlayList<Track> fromString(String string) {
-                        return new PlayList<Track>(string, null);
-                    }
-                });
-                return cell;
-            }
+                @Override
+                public PlayList<Track> fromString(String string) {
+                    cell.getItem().setName(string);
+                    return cell.getItem();
+                }
+            });
+            ContextMenu playListItemContextMenu = new ContextMenu();
+            MenuItem queueMenuItem = new MenuItem("Add to queue");
+            MenuItem deleteMenuItem = new MenuItem("Delete");
+            deleteMenuItem.setOnAction(actionEvent -> {
+                PlayList<Track> playlist = cell.getItem();
+                player.getPlayLists().remove(playlist);
+            });
+            playListItemContextMenu.getItems().add(queueMenuItem);
+            playListItemContextMenu.getItems().add(deleteMenuItem);
+            cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+                if (isNowEmpty) {
+                    cell.setContextMenu(null);
+                } else {
+                    cell.setContextMenu(playListItemContextMenu);
+                }
+            });
+            return cell;
         });
         player.getPlayLists().addListener(new InvalidationListener() {
             @Override
