@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 
 public class Player {
     private final int PLAY_PREVIOUS_THRESHOLD = 3;
-    private final String CONFIG_NAME = "config";
+    private final String APP_DATA_NAME = "data";
     private ObservableList<Track> allTracks;
     private ObservableList<Track> currentPlayList;
     private Runnable onEndOfMediaRunnable = null;
@@ -54,7 +54,7 @@ public class Player {
     private void loadState() {
         try
         {
-            FileInputStream file = new FileInputStream(CONFIG_NAME);
+            FileInputStream file = new FileInputStream(APP_DATA_NAME);
             ObjectInputStream in = new ObjectInputStream(file);
             PlayerState state = (PlayerState) in.readObject();
             in.close();
@@ -74,7 +74,7 @@ public class Player {
 
     public void saveState() {
         try {
-            FileOutputStream file = new FileOutputStream(CONFIG_NAME);
+            FileOutputStream file = new FileOutputStream(APP_DATA_NAME);
             ObjectOutputStream out = new ObjectOutputStream(file);
             out.writeObject(new PlayerState(this));
             out.close();

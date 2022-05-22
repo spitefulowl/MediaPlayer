@@ -30,14 +30,12 @@ public class PlayerState implements Serializable {
     }
 
     public ArrayList<SerializableTrack> allTracks;
-    public ArrayList<SerializableTrack> currentPlayList;
     public Integer currentTrackID;
     public Double currentVolume;
     public Boolean isShuffling;
     public Boolean isRepeating;
     public PlayerState(Player player) {
         allTracks = new ArrayList<>(player.getAllTracks().stream().map(o -> new SerializableTrack(o.getFilePath(), o.getSongLiked())).toList());
-        currentPlayList = new ArrayList<>(player.getCurrentPlayList().stream().map(o -> new SerializableTrack(o.getFilePath(), o.getSongLiked())).toList());
         currentTrackID = player.getCurrentTrackID().get();
         currentVolume = player.getCurrentVolume().get();
         isShuffling = player.getIsShuffling().get();
@@ -54,7 +52,7 @@ public class PlayerState implements Serializable {
             }
         };
         player.getAllTracks().setAll(allTracks.stream().map(func).toList());
-        player.getCurrentPlayList().setAll(currentPlayList.stream().map(func).toList());
+        player.getCurrentPlayList().setAll(allTracks.stream().map(func).toList());
         player.setCurrentTrackID(currentTrackID);
         player.setIsShuffling(isShuffling);
         player.setIsRepeating(isRepeating);
