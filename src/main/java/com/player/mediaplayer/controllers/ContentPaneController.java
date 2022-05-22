@@ -3,12 +3,15 @@ package com.player.mediaplayer.controllers;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import com.player.mediaplayer.PlayerContext;
+import com.player.mediaplayer.models.PlayList;
 import com.player.mediaplayer.models.Player;
 import com.player.mediaplayer.models.Track;
 import com.player.mediaplayer.utils.MP3Parser;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.Initializable;
@@ -39,7 +42,7 @@ public class ContentPaneController implements Initializable {
     public Label tableLabel;
     public TableColumn songNumber;
     public TableColumn songSettings;
-    public ContextMenu songSettingsContextMenu;
+    // public ContextMenu songSettingsContextMenu;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -56,20 +59,30 @@ public class ContentPaneController implements Initializable {
         tableButtonsAction();
         showFavoritesAction();
         initializeColumns();
-        createContextMenu();
+        // createContextMenu();
     }
 
-    private void createContextMenu() {
-        songSettingsContextMenu = new ContextMenu();
-        MenuItem playlistMenuItem = new MenuItem("Add to playlist");
-        MenuItem queueMenuItem = new MenuItem("Add to queue");
-        MenuItem removeMenuItem = new MenuItem("Remove from the library");
-
-        songSettingsContextMenu.getItems().add(playlistMenuItem);
-        songSettingsContextMenu.getItems().add(queueMenuItem);
-        songSettingsContextMenu.getItems().add(removeMenuItem);
-        songSettingsContextMenu.setId("settingsContextMenu");
-    }
+//    private void createContextMenu() {
+//        songSettingsContextMenu = new ContextMenu();
+//        Menu playlistMenu = new Menu("Add to playlist");
+//        MenuItem queueMenuItem = new MenuItem("Add to queue");
+//        MenuItem removeMenuItem = new MenuItem("Remove from the library");
+//
+//        songSettingsContextMenu.getItems().add(playlistMenu);
+//        songSettingsContextMenu.getItems().add(queueMenuItem);
+//        songSettingsContextMenu.getItems().add(removeMenuItem);
+//        songSettingsContextMenu.setId("settingsContextMenu");
+//        player.getPlayLists().addListener((InvalidationListener) observable -> {
+//            playlistMenu.getItems().clear();
+//            for (PlayList<Track> playlist : player.getPlayLists()) {
+//                MenuItem item = new MenuItem();
+//                item.textProperty().bind(playlist.getName());
+//                playlistMenu.getItems().add(item);
+//                item.setOnAction(actionEvent -> {
+//                });
+//            }
+//        });
+//    }
 
     private void initializeColumns() {
         songNumber.setCellValueFactory((Callback<TableColumn.CellDataFeatures<Track, String>, ObservableValue<String>>) item -> new ReadOnlyObjectWrapper(songsListTable.getItems().indexOf(item.getValue()) + 1 + ""));
@@ -195,6 +208,15 @@ public class ContentPaneController implements Initializable {
         Callback<TableColumn<Track, Track>, TableCell<Track, Track>> cellFactorySettings = new Callback<>() {
             @Override
             public TableCell<Track, Track> call(final TableColumn<Track, Track> param) {
+                ContextMenu songSettingsContextMenu = new ContextMenu();
+                Menu playlistMenu = new Menu("Add to playlist");
+                MenuItem queueMenuItem = new MenuItem("Add to queue");
+                MenuItem removeMenuItem = new MenuItem("Remove from the library");
+
+                songSettingsContextMenu.getItems().add(playlistMenu);
+                songSettingsContextMenu.getItems().add(queueMenuItem);
+                songSettingsContextMenu.getItems().add(removeMenuItem);
+                songSettingsContextMenu.setId("settingsContextMenu");
                 final TableCell<Track, Track> cell = new TableCell<>() {
                     private final Button settingsButton = new Button();
                     {
@@ -202,7 +224,7 @@ public class ContentPaneController implements Initializable {
                         settingsButton.setGraphic(new FontIcon());
                         settingsButton.setOnMouseClicked(mouseEvent -> {
                             songSettingsContextMenu.show(settingsButton.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
-                            songSettingsContextMenu.getItems().get(2).setOnAction(actionEvent -> {
+                            removeMenuItem.setOnAction(actionEvent -> {
                                 Track trackToRemove = player.getCurrentPlayList().get(getIndex());
                                 player.getAllTracks().remove(trackToRemove);
                                 player.getCurrentPlayList().remove(trackToRemove);
@@ -224,6 +246,15 @@ public class ContentPaneController implements Initializable {
                         }
                     }
                 };
+                player.getPlayLists().addListener((InvalidationListener) observable -> {
+                    playlistMenu.getItems().clear();
+                    for (PlayList<Track> playlist : player.getPlayLists()) {
+                        MenuItem item = new MenuItem();
+                        item.textProperty().bind(playlist.getName());
+                        playlistMenu.getItems().add(item);
+                        item.setOnAction(actionEvent -> playlist.getPlayList().add(cell.getItem()));
+                    }
+                });
                 cell.getStyleClass().add("cell-style");
                 cell.getStyleClass().add("settings-table-button-alignment");
                 return cell;

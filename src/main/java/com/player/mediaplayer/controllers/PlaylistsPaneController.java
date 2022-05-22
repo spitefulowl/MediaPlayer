@@ -52,7 +52,7 @@ public class PlaylistsPaneController implements Initializable {
             cell.setConverter(new StringConverter<>() {
                 @Override
                 public String toString(PlayList<Track> object) {
-                    return object.getName();
+                    return object.getName().get();
                 }
 
                 @Override
