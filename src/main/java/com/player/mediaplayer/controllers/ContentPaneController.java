@@ -161,10 +161,10 @@ public class ContentPaneController implements Initializable {
     }
 
     private void tableButtonsAction() {
-        Callback<TableColumn<Track, Void>, TableCell<Track, Void>> cellFactoryLiked = new Callback<>() {
+        Callback<TableColumn<Track, Track>, TableCell<Track, Track>> cellFactoryLiked = new Callback<>() {
             @Override
-            public TableCell<Track, Void> call(final TableColumn<Track, Void> param) {
-                final TableCell<Track, Void> cell = new TableCell<>() {
+            public TableCell<Track, Track> call(TableColumn<Track, Track> param) {
+                final TableCell<Track, Track> cell = new TableCell<>() {
                     private final ToggleButton favoriteButton = new ToggleButton();
 
                     {
@@ -176,7 +176,7 @@ public class ContentPaneController implements Initializable {
                     }
 
                     @Override
-                    public void updateItem(Void item, boolean empty) {
+                    public void updateItem(Track item, boolean empty) {
                         super.updateItem(item, empty);
                         if (empty) {
                             setGraphic(null);
@@ -192,12 +192,11 @@ public class ContentPaneController implements Initializable {
             }
         };
 
-        Callback<TableColumn<Track, Void>, TableCell<Track, Void>> cellFactorySettings = new Callback<>() {
+        Callback<TableColumn<Track, Track>, TableCell<Track, Track>> cellFactorySettings = new Callback<>() {
             @Override
-            public TableCell<Track, Void> call(final TableColumn<Track, Void> param) {
-                final TableCell<Track, Void> cell = new TableCell<>() {
+            public TableCell<Track, Track> call(final TableColumn<Track, Track> param) {
+                final TableCell<Track, Track> cell = new TableCell<>() {
                     private final Button settingsButton = new Button();
-
                     {
                         settingsButton.setId("settingsButton");
                         settingsButton.setGraphic(new FontIcon());
@@ -216,7 +215,7 @@ public class ContentPaneController implements Initializable {
                     }
 
                     @Override
-                    public void updateItem(Void item, boolean empty) {
+                    public void updateItem(Track item, boolean empty) {
                         super.updateItem(item, empty);
                         if (empty) {
                             setGraphic(null);

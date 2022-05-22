@@ -6,11 +6,9 @@ import com.player.mediaplayer.models.Player;
 import com.player.mediaplayer.models.Track;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
@@ -47,6 +45,7 @@ public class PlaylistsPaneController implements Initializable {
     private void initializeButtonsIcons() {
         addPlayListButton.setGraphic(new FontIcon());
     }
+
     private void initializePlayLists() {
         playListsListView.setCellFactory((Callback<ListView<PlayList<Track>>, ListCell<PlayList<Track>>>) lv -> {
             TextFieldListCell<PlayList<Track>> cell = new TextFieldListCell<>();
