@@ -4,13 +4,11 @@ import com.player.mediaplayer.PlayerContext;
 import com.player.mediaplayer.models.PlayList;
 import com.player.mediaplayer.models.Player;
 import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -22,6 +20,7 @@ public class PlayListsPaneController implements Initializable {
     private final Player player = PlayerContext.getInstance().getPlayer();
     public ListView playListsListView;
     public Button addPlayListButton;
+    public Button showAllTracksButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -34,6 +33,10 @@ public class PlayListsPaneController implements Initializable {
     private void addPlayListButtonAction() {
         addPlayListButton.setOnMouseClicked(mouseEvent -> {
             player.getPlayLists().add(new PlayList("New playlist", null));
+        });
+        showAllTracksButton.setOnMouseClicked(mouseEvent -> {
+            PlayerContext.selectedPlaylist.clear();
+            PlayerContext.selectedPlaylist.addAll(player.getAllTracks());
         });
     }
 
@@ -80,7 +83,8 @@ public class PlayListsPaneController implements Initializable {
             });
             cell.setOnMouseClicked(mouseEvent -> {
                 if (!cell.isEmpty() && mouseEvent.getButton() == MouseButton.PRIMARY) {
-                    player.setCurrentPlayList(cell.getItem().getPlayList());
+                    PlayerContext.selectedPlaylist.clear();
+                    PlayerContext.selectedPlaylist.addAll(cell.getItem().getPlayList());
                 }
             });
             return cell;

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public class PlayList {
     private SimpleStringProperty name = new SimpleStringProperty("");
+    private boolean isPlaying;
+    private int currentTrackID;
     private ArrayList<Track> playList;
     public PlayList(String name, ArrayList<Track> playList) {
         this.name.set(name);
@@ -15,6 +17,8 @@ public class PlayList {
         if (this.playList == null) {
             this.playList = new ArrayList<>();
         }
+        this.isPlaying = false;
+        this.currentTrackID = -1;
     }
 
     public SimpleStringProperty getName() {
@@ -31,5 +35,21 @@ public class PlayList {
 
     public void setPlayList(ArrayList<Track> playList) {
         this.playList = playList;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
+
+    public int getCurrentTrackID() {
+        return currentTrackID;
+    }
+
+    public void setCurrentTrackID(int currentTrackID) {
+        this.currentTrackID = currentTrackID;
     }
 }

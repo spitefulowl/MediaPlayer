@@ -403,3 +403,23 @@
     -fx-background-color: -fx-pink-color;
     -fx-text-fill: white;
 }
+
+#showAllTracksButton {
+    -fx-font-family: "Proxima Nova Bold";
+    -fx-background-radius: 8;
+    -fx-background-color: -fx-pink-color;
+    -fx-text-fill: white;
+}
+
+#showAllTracksButton:hover {
+    -fx-background-color: white;
+    -fx-text-fill: -fx-pink-color;
+}
+
+#showAllTracksButton:hover .ikonli-font-icon {
+    -fx-icon-color: -fx-pink-color;
+}
+
+#showAllTracksButton:pressed {
+    -fx-opacity: 0.8;
+}
