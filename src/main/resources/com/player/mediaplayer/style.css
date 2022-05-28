@@ -95,16 +95,6 @@
     -fx-icon-color: -fx-pink-color;
 }
 
-#folderButton .ikonli-font-icon {
-    -fx-icon-code: "mdi2f-folder-open";
-    -fx-icon-color: -fx-pink-color;
-    -fx-icon-size: 35;
-}
-
-#folderButton:hover .ikonli-font-icon {
-    -fx-opacity: 0.6;
-}
-
 #minimizeButton .ikonli-font-icon {
     -fx-icon-code: "mdi2w-window-minimize";
     -fx-icon-color: white;
@@ -153,22 +143,6 @@
 
 #settingsButton:hover .ikonli-font-icon {
     -fx-icon-color: white;
-}
-
-#favoriteSongsButton .ikonli-font-icon {
-    -fx-icon-code: "eva-heart-outline";
-    -fx-icon-color: -fx-dark-gray-color;
-    -fx-icon-size: 35;
-}
-
-#favoriteSongsButton:hover .ikonli-font-icon {
-    -fx-opacity: 0.6;
-}
-
-#favoriteSongsButton:selected .ikonli-font-icon {
-    -fx-icon-code: "eva-heart";
-    -fx-icon-color: -fx-pink-color;
-    -fx-icon-size: 35;
 }
 
 #albumImage {
@@ -351,9 +325,31 @@
     -fx-text-fill: white;
 }
 
-#playListsListView {
-    -fx-background-color: linear-gradient(to top, #d5fbfe, #f3e4df);
-    -fx-background-insets: 0;
+#importPlayListButton .ikonli-font-icon {
+    -fx-icon-code: "eva-arrow-downward";
+    -fx-icon-color: white;
+    -fx-icon-size: 15;
+}
+
+#importPlayListButton {
+    -fx-alignment: CENTER-LEFT;
+    -fx-font-family: "Proxima Nova Bold";
+    -fx-background-radius: 8;
+    -fx-background-color: -fx-pink-color;
+    -fx-text-fill: white;
+}
+
+#importPlayListButton:hover {
+    -fx-background-color: white;
+    -fx-text-fill: -fx-pink-color;
+}
+
+#importPlayListButton:hover .ikonli-font-icon {
+    -fx-icon-color: -fx-pink-color;
+}
+
+#importPlayListButton:pressed {
+    -fx-opacity: 0.8;
 }
 
 #addPlayListButton .ikonli-font-icon {
@@ -363,6 +359,7 @@
 }
 
 #addPlayListButton {
+    -fx-alignment: CENTER-LEFT;
     -fx-font-family: "Proxima Nova Bold";
     -fx-background-radius: 8;
     -fx-background-color: -fx-pink-color;
@@ -380,6 +377,11 @@
 
 #addPlayListButton:pressed {
     -fx-opacity: 0.8;
+}
+
+#playListsListView {
+    -fx-background-color: linear-gradient(to top, #d5fbfe, #f3e4df);
+    -fx-background-insets: 0;
 }
 
 #playListsListView {
@@ -410,7 +412,104 @@
     -fx-text-fill: white;
 }
 
+#folderButton .ikonli-font-icon {
+    -fx-icon-code: "mdi2f-folder-open";
+    -fx-icon-color: white;
+    -fx-icon-size: 15;
+}
+
+#folderButton {
+    -fx-font-family: "Proxima Nova Bold";
+    -fx-background-radius: 8;
+    -fx-background-color: -fx-pink-color;
+    -fx-text-fill: white;
+}
+
+#folderButton:hover {
+    -fx-background-color: white;
+    -fx-text-fill: -fx-pink-color;
+}
+
+#folderButton:hover .ikonli-font-icon {
+    -fx-icon-color: -fx-pink-color;
+}
+
+#folderButton:pressed {
+    -fx-opacity: 0.8;
+}
+
+#likedTracksButton .ikonli-font-icon {
+    -fx-icon-code: "eva-heart-outline";
+    -fx-icon-color: white;
+    -fx-icon-size: 15;
+}
+
+#likedTracksButton {
+    -fx-font-family: "Proxima Nova Bold";
+    -fx-background-radius: 8;
+    -fx-background-color: -fx-pink-color;
+    -fx-text-fill: white;
+}
+
+#likedTracksButton:hover .ikonli-font-icon {
+    -fx-icon-code: "eva-heart";
+    -fx-icon-color: -fx-pink-color;
+}
+
+#likedTracksButton:hover {
+    -fx-background-color: white;
+    -fx-text-fill: -fx-pink-color;
+}
+
+#likedTracksButton:pressed {
+    -fx-opacity: 0.8;
+}
+
+#likedTracksButton:selected .ikonli-font-icon {
+    -fx-icon-code: "eva-heart";
+    -fx-icon-color: -fx-pink-color;
+}
+
+#likedTracksButton:selected {
+    -fx-background-color: white;
+    -fx-text-fill: -fx-pink-color;
+}
+
+#showQueueButton .ikonli-font-icon {
+    -fx-icon-code: "eva-list";
+    -fx-icon-color: white;
+    -fx-icon-size: 15;
+}
+
+#showQueueButton {
+    -fx-alignment: CENTER-LEFT;
+    -fx-font-family: "Proxima Nova Bold";
+    -fx-background-radius: 8;
+    -fx-background-color: -fx-pink-color;
+    -fx-text-fill: white;
+}
+
+#showQueueButton:hover {
+    -fx-background-color: white;
+    -fx-text-fill: -fx-pink-color;
+}
+
+#showQueueButton:hover .ikonli-font-icon {
+    -fx-icon-color: -fx-pink-color;
+}
+
+#showQueueButton:pressed {
+    -fx-opacity: 0.8;
+}
+
+#showAllTracksButton .ikonli-font-icon {
+    -fx-icon-code: "eva-menu";
+    -fx-icon-color: white;
+    -fx-icon-size: 15;
+}
+
 #showAllTracksButton {
+    -fx-alignment: CENTER-LEFT;
     -fx-font-family: "Proxima Nova Bold";
     -fx-background-radius: 8;
     -fx-background-color: -fx-pink-color;

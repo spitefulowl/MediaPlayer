@@ -6,8 +6,8 @@
 
 <AnchorPane prefWidth="175.0" style="-fx-background-color: #3c3c3d;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.player.mediaplayer.controllers.PlayListsPaneController">
    <children>
-      <ListView fx:id="playListsListView" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Button fx:id="addPlayListButton" AnchorPane.leftAnchor="5" AnchorPane.bottomAnchor="12.5" prefHeight="20.0" prefWidth="100.0" text="Add playlist"/>
-      <Button fx:id="showAllTracksButton" AnchorPane.rightAnchor="5" AnchorPane.bottomAnchor="12.5" prefHeight="20.0" prefWidth="62.0" text="Show all"/>
+      <ListView fx:id="playListsListView" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Button fx:id="addPlayListButton" AnchorPane.leftAnchor="30" AnchorPane.bottomAnchor="12.5" prefHeight="20.0" prefWidth="120.0" text="Add playlist"/>
+      <Button fx:id="importPlayListButton" AnchorPane.leftAnchor="30" AnchorPane.bottomAnchor="42.5" prefHeight="20.0" prefWidth="120.0" text="Import playlist"/>
    </children>
 </AnchorPane>

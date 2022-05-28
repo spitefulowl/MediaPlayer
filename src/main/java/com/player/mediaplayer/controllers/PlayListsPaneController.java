@@ -20,7 +20,7 @@ public class PlayListsPaneController implements Initializable {
     private final Player player = PlayerContext.player;
     public ListView playListsListView;
     public Button addPlayListButton;
-    public Button showAllTracksButton;
+    public Button importPlayListButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -34,15 +34,11 @@ public class PlayListsPaneController implements Initializable {
         addPlayListButton.setOnMouseClicked(mouseEvent -> {
             player.getPlayLists().add(new PlayList("New playlist", null));
         });
-        showAllTracksButton.setOnMouseClicked(mouseEvent -> {
-            PlayerContext.selectedPlaylist.clear();
-            PlayerContext.selectedPlaylist.addAll(player.getAllTracks());
-            PlayerContext.selectedPlaylistName.setValue("All tracks");
-        });
     }
 
     private void initializeButtonsIcons() {
         addPlayListButton.setGraphic(new FontIcon());
+        importPlayListButton.setGraphic(new FontIcon());
     }
 
     private void initializePlayLists() {

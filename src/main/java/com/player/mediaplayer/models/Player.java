@@ -107,6 +107,9 @@ public class Player {
 
     public void addTrack(Track mp3Track) {
         allTracks.add(mp3Track);
+        if (PlayerContext.selectedPlaylistName.get() == "All tracks") {
+            PlayerContext.selectedPlaylist.add(mp3Track);
+        }
     }
 
     public void setCurrentPlayList(List<Track> tracks) {
@@ -286,6 +289,9 @@ public class Player {
         this.playLists.setAll(playLists);
     }
 
+    public Queue<Track> getQueue() {
+        return queue;
+    }
     public void addToQueue(Track track) {
         queue.add(track);
     }

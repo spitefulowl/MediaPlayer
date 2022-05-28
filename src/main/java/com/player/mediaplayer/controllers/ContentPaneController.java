@@ -82,9 +82,9 @@ public class ContentPaneController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
                 if (player.getOnlyFavorites().get()) {
-                    tableLabel.setText("Liked tracks");
+                    PlayerContext.selectedPlaylistName.set("Liked tracks");
                 } else {
-                    tableLabel.setText("All tracks");
+                    PlayerContext.selectedPlaylistName.set("All tracks");
                 }
             }
         });

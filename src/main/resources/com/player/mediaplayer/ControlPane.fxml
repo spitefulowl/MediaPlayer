@@ -32,11 +32,15 @@
       <ToggleButton fx:id="playSongButton" layoutX="166.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
       <Button fx:id="nextSongButton" layoutX="231.0" layoutY="466.0" mnemonicParsing="false" onAction="#nextButtonAction" prefHeight="40.0" prefWidth="40.0" />
       <ToggleButton fx:id="repeatSongButton" layoutX="296.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-      <Button fx:id="folderButton" AnchorPane.leftAnchor="36" AnchorPane.bottomAnchor="47" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-      <ToggleButton fx:id="favoriteSongsButton" AnchorPane.leftAnchor="296" AnchorPane.bottomAnchor="47" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
       <Slider fx:id="volumeSlider" AnchorPane.leftAnchor="109" AnchorPane.bottomAnchor="158" prefWidth="170.0" />
       <StackedFontIcon AnchorPane.leftAnchor="63" AnchorPane.bottomAnchor="146" iconSize="35">
          <FontIcon iconLiteral="fltfmz-speaker-20" iconColor="#3a3937"/>
       </StackedFontIcon>
+      <AnchorPane prefWidth="380.0" prefHeight="85" AnchorPane.bottomAnchor="0" style="-fx-background-color: #3c3c3d;">
+         <Button fx:id="folderButton" AnchorPane.leftAnchor="60" AnchorPane.bottomAnchor="15" prefHeight="20.0" prefWidth="110.0" text="Open folder" />
+         <ToggleButton fx:id="likedTracksButton" AnchorPane.leftAnchor="60" AnchorPane.bottomAnchor="45" prefHeight="20.0" prefWidth="110.0" text="Liked tracks" />
+         <Button fx:id="showQueueButton" AnchorPane.rightAnchor="60" AnchorPane.bottomAnchor="15" prefHeight="20.0" prefWidth="105.0" text="Show queue" />
+         <Button fx:id="showAllTracksButton" AnchorPane.rightAnchor="60" AnchorPane.bottomAnchor="45" prefHeight="20.0" prefWidth="105.0" text="Show all" />
+      </AnchorPane>
    </children>
 </AnchorPane>
