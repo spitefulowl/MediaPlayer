@@ -335,6 +335,8 @@
     -fx-background-color: #19141a;
     -fx-text-fill: white;
     -fx-font-family: "Proxima Nova Bold";
+    -fx-background-insets: 0;
+    -fx-padding: 0;
 }
 
 .context-menu .menu-item:focused {
@@ -380,6 +382,10 @@
     -fx-opacity: 0.8;
 }
 
+#playListsListView {
+    -fx-padding: 0;
+}
+
 #playListsListView .list-cell {
     -fx-font-family: "Proxima Nova Bold";
     -fx-alignment: CENTER-RIGHT;
@@ -395,7 +401,7 @@
     -fx-background-color: transparent;
 }
 
-#playListsListView .list-cell:odd { /* <=== changed to even */
+#playListsListView .list-cell:odd {
     -fx-background-color: transparent;
 }
 

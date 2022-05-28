@@ -23,11 +23,9 @@ public class PlayerState implements Serializable {
             this.path = path;
             this.songLiked = songLiked;
         }
-
         public String getPath() {
             return path;
         }
-
         public Boolean getSongLiked() {
             return songLiked;
         }
@@ -46,14 +44,17 @@ public class PlayerState implements Serializable {
         isShuffling = player.getIsShuffling().get();
         isRepeating = player.getIsRepeating().get();
         playlistMapping = new HashMap<>();
+        int playListSuffix = 0;
         for (PlayList playlist : player.getPlayLists()) {
-            if (playlistMapping.get(playlist.getName().get()) == null) {
-                playlistMapping.put(playlist.getName().get(), new ArrayList<>());
+            String playListName = playlist.getName().get() + "_" + playListSuffix;
+            if (playlistMapping.get(playListName) == null) {
+                playlistMapping.put(playListName, new ArrayList<>());
             }
-            ArrayList<Integer> currentPlaylist = playlistMapping.get(playlist.getName().get());
+            ArrayList<Integer> currentPlaylist = playlistMapping.get(playListName);
             for (Track track : playlist.getPlayList()) {
                 currentPlaylist.add(player.getAllTracks().indexOf(track));
             }
+            ++playListSuffix;
         }
     }
     public void initPlayer(Player player) {
@@ -73,7 +74,7 @@ public class PlayerState implements Serializable {
             for (Integer trackID : entry.getValue()) {
                 currentPlaylist.add(trackList.get(trackID));
             }
-            player.getPlayLists().add(new PlayList(entry.getKey(), currentPlaylist));
+            player.getPlayLists().add(new PlayList(entry.getKey().replaceAll("_\\d+$", ""), currentPlaylist));
         }
         player.getAllTracks().setAll(trackList);
         player.getCurrentPlayList().setAll(trackList);

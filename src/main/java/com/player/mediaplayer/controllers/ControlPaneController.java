@@ -36,7 +36,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ControlPaneController implements Initializable {
-    private final Player player = PlayerContext.getInstance().getPlayer();
+    private final Player player = PlayerContext.player;
     public ImageView albumImage;
     public Text currentDuration;
     public Slider durationSlider;

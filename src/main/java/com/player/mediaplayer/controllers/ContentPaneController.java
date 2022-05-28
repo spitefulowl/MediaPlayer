@@ -32,7 +32,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ContentPaneController implements Initializable {
-    private final Player player = PlayerContext.getInstance().getPlayer();
+    private final Player player = PlayerContext.player;
     public CustomTextField songSearchField;
     public TableView<Track> songsListTable;
     public TableColumn songName;
@@ -75,6 +75,9 @@ public class ContentPaneController implements Initializable {
     }
 
     private void showFavoritesAction() {
+        PlayerContext.selectedPlaylistName.addListener((observableValue, s, t1) -> {
+            tableLabel.setText(observableValue.getValue());
+        });
         player.getOnlyFavorites().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
@@ -151,6 +154,12 @@ public class ContentPaneController implements Initializable {
                     (track.getSongName().toLowerCase().contains(newValue.toLowerCase().trim()) ||
                             ((track.getSongArtist() != null) ? track.getSongArtist().toLowerCase() : "").contains(newValue.toLowerCase().trim()))
             );
+            if (observableValue.getValue().isEmpty()) {
+                PlayerContext.selectedPlaylistName.setValue("All tracks");
+            }
+            if (!observableValue.getValue().isEmpty()) {
+                PlayerContext.selectedPlaylistName.setValue("Search results");
+            }
         });
     }
 
@@ -230,7 +239,7 @@ public class ContentPaneController implements Initializable {
                         }
                     }
                 };
-                player.getPlayLists().addListener((InvalidationListener) observable -> {
+                songSettingsContextMenu.setOnShown(event -> {
                     playlistMenu.getItems().clear();
                     for (PlayList playlist : player.getPlayLists()) {
                         MenuItem item = new MenuItem();

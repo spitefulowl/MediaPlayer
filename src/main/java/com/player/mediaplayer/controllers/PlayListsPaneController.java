@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class PlayListsPaneController implements Initializable {
-    private final Player player = PlayerContext.getInstance().getPlayer();
+    private final Player player = PlayerContext.player;
     public ListView playListsListView;
     public Button addPlayListButton;
     public Button showAllTracksButton;
@@ -37,6 +37,7 @@ public class PlayListsPaneController implements Initializable {
         showAllTracksButton.setOnMouseClicked(mouseEvent -> {
             PlayerContext.selectedPlaylist.clear();
             PlayerContext.selectedPlaylist.addAll(player.getAllTracks());
+            PlayerContext.selectedPlaylistName.setValue("All tracks");
         });
     }
 
@@ -85,6 +86,7 @@ public class PlayListsPaneController implements Initializable {
                 if (!cell.isEmpty() && mouseEvent.getButton() == MouseButton.PRIMARY) {
                     PlayerContext.selectedPlaylist.clear();
                     PlayerContext.selectedPlaylist.addAll(cell.getItem().getPlayList());
+                    PlayerContext.selectedPlaylistName.set(cell.getItem().getName().get());
                 }
             });
             return cell;
