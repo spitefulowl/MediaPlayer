@@ -60,6 +60,7 @@ public class PlayListsPaneController implements Initializable {
             MenuItem queueMenuItem = new MenuItem("Add to queue");
             MenuItem renameMenuItem = new MenuItem("Rename");
             MenuItem deleteMenuItem = new MenuItem("Delete");
+            MenuItem exportMenuItem = new MenuItem("Export playlist");
             renameMenuItem.setOnAction(actionEvent -> {
                 playListsListView.setEditable(true);
                 playListsListView.edit(cell.getIndex());
@@ -70,7 +71,7 @@ public class PlayListsPaneController implements Initializable {
                 PlayList playlist = cell.getItem();
                 player.getPlayLists().remove(playlist);
             });
-            playListItemContextMenu.getItems().addAll(queueMenuItem, renameMenuItem, deleteMenuItem);
+            playListItemContextMenu.getItems().addAll(queueMenuItem, renameMenuItem, deleteMenuItem, exportMenuItem);
             cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
                 if (isNowEmpty) {
                     cell.setContextMenu(null);
