@@ -9,6 +9,7 @@ module com.player.mediaplayer {
     requires mp3agic;
     requires javafx.media;
     requires org.kordamp.ikonli.materialdesign2;
+    requires com.google.gson;
 
     opens com.player.mediaplayer to javafx.fxml;
     opens com.player.mediaplayer.models;
