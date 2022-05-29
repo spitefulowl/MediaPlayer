@@ -77,6 +77,7 @@ public class PlayerState implements Serializable {
             player.getPlayLists().add(new PlayList(entry.getKey().replaceAll("_\\d+$", ""), currentPlaylist));
         }
         player.getAllTracks().setAll(trackList);
+        PlayerContext.selectedPlaylistRef = player.getAllTracks();
         player.getCurrentPlayList().setAll(trackList);
         player.setCurrentTrackID(currentTrackID);
         player.setIsShuffling(isShuffling);

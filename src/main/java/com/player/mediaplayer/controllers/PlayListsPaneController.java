@@ -130,6 +130,7 @@ public class PlayListsPaneController implements Initializable {
                 if (!cell.isEmpty() && mouseEvent.getButton() == MouseButton.PRIMARY) {
                     PlayerContext.selectedPlaylist.clear();
                     PlayerContext.selectedPlaylist.addAll(cell.getItem().getPlayList());
+                    PlayerContext.selectedPlaylistRef = cell.getItem().getPlayList();
                     PlayerContext.selectedPlaylistName.set(cell.getItem().getName().get());
                 }
             });

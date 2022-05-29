@@ -98,6 +98,7 @@ public class ControlPaneController implements Initializable {
         showAllTracksButton.setOnMouseClicked(mouseEvent -> {
             PlayerContext.selectedPlaylist.clear();
             PlayerContext.selectedPlaylist.addAll(player.getAllTracks());
+            PlayerContext.selectedPlaylistRef = player.getAllTracks();
             PlayerContext.selectedPlaylistName.setValue("All tracks");
         });
     }

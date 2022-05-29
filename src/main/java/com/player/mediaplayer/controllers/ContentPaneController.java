@@ -218,8 +218,8 @@ public class ContentPaneController implements Initializable {
                                 Track trackToRemove = PlayerContext.selectedPlaylist.get(getIndex());
                                 player.getCurrentPlayList().remove(trackToRemove);
                                 PlayerContext.selectedPlaylist.remove(trackToRemove);
-                                if (trackToRemove == player.getCurrentTrack().get()) {
-                                    player.next();
+                                if (PlayerContext.selectedPlaylistRef != null) {
+                                    PlayerContext.selectedPlaylistRef.remove(trackToRemove);
                                 }
                             });
                             queueMenuItem.setOnAction(actionEvent -> {
