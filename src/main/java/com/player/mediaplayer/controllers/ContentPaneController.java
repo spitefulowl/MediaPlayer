@@ -14,6 +14,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,9 +32,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ContentPaneController implements Initializable {
-    private final Player player = PlayerContext.getInstance().getPlayer();
+    private final Player player = PlayerContext.player;
     public CustomTextField songSearchField;
-    public TableView songsListTable;
+    public TableView<Track> songsListTable;
     public TableColumn songName;
     public TableColumn songArtist;
     public TableColumn songAlbum;
@@ -42,10 +43,10 @@ public class ContentPaneController implements Initializable {
     public Label tableLabel;
     public TableColumn songNumber;
     public TableColumn songSettings;
-    // public ContextMenu songSettingsContextMenu;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        PlayerContext.selectedPlaylist = FXCollections.observableArrayList(player.getCurrentPlayList());
         songName.setCellValueFactory(new PropertyValueFactory<>("SongName"));
         songArtist.setCellValueFactory(new PropertyValueFactory<>("SongArtist"));
         songAlbum.setCellValueFactory(new PropertyValueFactory<>("SongAlbum"));
@@ -59,30 +60,7 @@ public class ContentPaneController implements Initializable {
         tableButtonsAction();
         showFavoritesAction();
         initializeColumns();
-        // createContextMenu();
     }
-
-//    private void createContextMenu() {
-//        songSettingsContextMenu = new ContextMenu();
-//        Menu playlistMenu = new Menu("Add to playlist");
-//        MenuItem queueMenuItem = new MenuItem("Add to queue");
-//        MenuItem removeMenuItem = new MenuItem("Remove from the library");
-//
-//        songSettingsContextMenu.getItems().add(playlistMenu);
-//        songSettingsContextMenu.getItems().add(queueMenuItem);
-//        songSettingsContextMenu.getItems().add(removeMenuItem);
-//        songSettingsContextMenu.setId("settingsContextMenu");
-//        player.getPlayLists().addListener((InvalidationListener) observable -> {
-//            playlistMenu.getItems().clear();
-//            for (PlayList<Track> playlist : player.getPlayLists()) {
-//                MenuItem item = new MenuItem();
-//                item.textProperty().bind(playlist.getName());
-//                playlistMenu.getItems().add(item);
-//                item.setOnAction(actionEvent -> {
-//                });
-//            }
-//        });
-//    }
 
     private void initializeColumns() {
         songNumber.setCellValueFactory((Callback<TableColumn.CellDataFeatures<Track, String>, ObservableValue<String>>) item -> new ReadOnlyObjectWrapper(songsListTable.getItems().indexOf(item.getValue()) + 1 + ""));
@@ -97,34 +75,39 @@ public class ContentPaneController implements Initializable {
     }
 
     private void showFavoritesAction() {
+        PlayerContext.selectedPlaylistName.addListener((observableValue, s, t1) -> {
+            tableLabel.setText(observableValue.getValue());
+        });
         player.getOnlyFavorites().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
                 if (player.getOnlyFavorites().get()) {
-                    tableLabel.setText("Liked tracks");
+                    PlayerContext.selectedPlaylistName.set("Liked tracks");
                 } else {
-                    tableLabel.setText("All tracks");
+                    PlayerContext.selectedPlaylistName.set("All tracks");
                 }
             }
         });
     }
 
     private void observePlayList() {
-        player.getCurrentPlayList().addListener((InvalidationListener) observable -> {
+        PlayerContext.selectedPlaylist.addListener((InvalidationListener) observable -> {
             songsListTable.getItems().clear();
-            for (Track track : player.getCurrentPlayList()) {
+            for (Track track : PlayerContext.selectedPlaylist) {
                 try {
                     addToSongListTable(track);
                 } catch (InvalidDataException | UnsupportedTagException | IOException e) {
                     throw new RuntimeException(e);
                 }
             }
-            songsListTable.getSelectionModel().select(player.getCurrentTrackID().get());
+            songsListTable.getSelectionModel().select(player.getCurrentTrack().get());
         });
     }
 
     private void setupRowUpdater() {
-        player.getCurrentTrackID().addListener((observableValue, number, t1) -> songsListTable.getSelectionModel().select(player.getCurrentTrackID().get()));
+        player.getCurrentTrack().addListener((observableValue, number, t1) -> {
+            songsListTable.getSelectionModel().select(player.getCurrentTrack().get());
+        });
     }
 
     private void setupDragAndDrop() {
@@ -142,7 +125,6 @@ public class ContentPaneController implements Initializable {
                     }
                 }
             }
-            player.setCurrentPlayList(player.getAllTracks());
         });
     }
 
@@ -156,6 +138,8 @@ public class ContentPaneController implements Initializable {
             row.setOnMouseClicked(mouseEvent -> {
                 if (!row.isEmpty() && mouseEvent.getButton() == MouseButton.PRIMARY) {
                     if (mouseEvent.getClickCount() == 2) {
+                        player.setCurrentPlayList(PlayerContext.selectedPlaylist);
+                        player.setCurrentTrack(row.getItem());
                         player.setCurrentTrackID(row.getIndex());
                     }
                 }
@@ -170,6 +154,12 @@ public class ContentPaneController implements Initializable {
                     (track.getSongName().toLowerCase().contains(newValue.toLowerCase().trim()) ||
                             ((track.getSongArtist() != null) ? track.getSongArtist().toLowerCase() : "").contains(newValue.toLowerCase().trim()))
             );
+            if (observableValue.getValue().isEmpty()) {
+                PlayerContext.selectedPlaylistName.setValue("All tracks");
+            }
+            if (!observableValue.getValue().isEmpty()) {
+                PlayerContext.selectedPlaylistName.setValue("Search results");
+            }
         });
     }
 
@@ -184,7 +174,7 @@ public class ContentPaneController implements Initializable {
                         favoriteButton.setId("favoriteButton");
                         favoriteButton.setGraphic(new FontIcon());
                         favoriteButton.setOnMouseClicked(mouseEvent -> {
-                            player.getCurrentPlayList().get(getIndex()).setSongLiked(favoriteButton.isSelected());
+                            PlayerContext.selectedPlaylist.get(getIndex()).setSongLiked(favoriteButton.isSelected());
                         });
                     }
 
@@ -194,7 +184,7 @@ public class ContentPaneController implements Initializable {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            favoriteButton.setSelected(player.getCurrentPlayList().get(getIndex()).getSongLiked());
+                            favoriteButton.setSelected(PlayerContext.selectedPlaylist.get(getIndex()).getSongLiked());
                             setGraphic(favoriteButton);
                         }
                     }
@@ -211,7 +201,7 @@ public class ContentPaneController implements Initializable {
                 ContextMenu songSettingsContextMenu = new ContextMenu();
                 Menu playlistMenu = new Menu("Add to playlist");
                 MenuItem queueMenuItem = new MenuItem("Add to queue");
-                MenuItem removeMenuItem = new MenuItem("Remove from the library");
+                MenuItem removeMenuItem = new MenuItem("Remove from the current playlist");
 
                 songSettingsContextMenu.getItems().add(playlistMenu);
                 songSettingsContextMenu.getItems().add(queueMenuItem);
@@ -225,13 +215,15 @@ public class ContentPaneController implements Initializable {
                         settingsButton.setOnMouseClicked(mouseEvent -> {
                             songSettingsContextMenu.show(settingsButton.getScene().getWindow(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
                             removeMenuItem.setOnAction(actionEvent -> {
-                                Track trackToRemove = player.getCurrentPlayList().get(getIndex());
-                                player.getAllTracks().remove(trackToRemove);
+                                Track trackToRemove = PlayerContext.selectedPlaylist.get(getIndex());
                                 player.getCurrentPlayList().remove(trackToRemove);
-                                if (getIndex() == player.getCurrentTrackID().get()) {
-                                    player.pause();
-                                    player.play();
+                                PlayerContext.selectedPlaylist.remove(trackToRemove);
+                                if (trackToRemove == player.getCurrentTrack().get()) {
+                                    player.next();
                                 }
+                            });
+                            queueMenuItem.setOnAction(actionEvent -> {
+                                player.addToQueue(PlayerContext.selectedPlaylist.get(getIndex()));
                             });
                         });
                     }
@@ -246,13 +238,13 @@ public class ContentPaneController implements Initializable {
                         }
                     }
                 };
-                player.getPlayLists().addListener((InvalidationListener) observable -> {
+                songSettingsContextMenu.setOnShown(event -> {
                     playlistMenu.getItems().clear();
                     for (PlayList playlist : player.getPlayLists()) {
                         MenuItem item = new MenuItem();
                         item.textProperty().bind(playlist.getName());
                         playlistMenu.getItems().add(item);
-                        item.setOnAction(actionEvent -> playlist.getPlayList().add(player.getCurrentPlayList().get(cell.getIndex())));
+                        item.setOnAction(actionEvent -> playlist.getPlayList().add(PlayerContext.selectedPlaylist.get(cell.getIndex())));
                     }
                 });
                 cell.getStyleClass().add("cell-style");

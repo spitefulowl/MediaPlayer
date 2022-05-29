@@ -3,6 +3,7 @@ package com.player.mediaplayer.controllers;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import com.player.mediaplayer.PlayerContext;
+import com.player.mediaplayer.models.PlayList;
 import com.player.mediaplayer.models.PlayerState;
 import com.player.mediaplayer.models.Track;
 import com.player.mediaplayer.models.Player;
@@ -13,7 +14,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,7 +36,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ControlPaneController implements Initializable {
-    private final Player player = PlayerContext.getInstance().getPlayer();
+    private final Player player = PlayerContext.player;
     public ImageView albumImage;
     public Text currentDuration;
     public Slider durationSlider;
@@ -50,7 +50,9 @@ public class ControlPaneController implements Initializable {
     public Button folderButton;
     public Label songNameText;
     public Label authorNameText;
-    public ToggleButton favoriteSongsButton;
+    public ToggleButton likedTracksButton;
+    public Button showQueueButton;
+    public Button showAllTracksButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,10 +69,12 @@ public class ControlPaneController implements Initializable {
         favoriteSongsButtonAction();
         setupPlayMediaAction();
         setupPauseMediaAction();
+        setShowAllTracksButtonAction();
+        setQueueButtonAction();
     }
 
     private void setSongImage() {
-        Image image = player.getCurrentTrack().getSongArtwork();
+        Image image = player.getCurrentTrack().get().getSongArtwork();
         if (image == null) {
             URL url = getClass().getResource("/com/player/mediaplayer/images/default_artwork.png");
             image = new Image(url.toString());
@@ -85,7 +89,25 @@ public class ControlPaneController implements Initializable {
         repeatSongButton.setGraphic(new FontIcon());
         folderButton.setGraphic(new FontIcon());
         playSongButton.setGraphic(new FontIcon());
-        favoriteSongsButton.setGraphic(new FontIcon());
+        likedTracksButton.setGraphic(new FontIcon());
+        showQueueButton.setGraphic(new FontIcon());
+        showAllTracksButton.setGraphic(new FontIcon());
+    }
+
+    private void setShowAllTracksButtonAction() {
+        showAllTracksButton.setOnMouseClicked(mouseEvent -> {
+            PlayerContext.selectedPlaylist.clear();
+            PlayerContext.selectedPlaylist.addAll(player.getAllTracks());
+            PlayerContext.selectedPlaylistName.setValue("All tracks");
+        });
+    }
+
+    private void setQueueButtonAction() {
+        showQueueButton.setOnMouseClicked(mouseEvent -> {
+            PlayerContext.selectedPlaylist.clear();
+            PlayerContext.selectedPlaylist.addAll(player.getQueue());
+            PlayerContext.selectedPlaylistName.setValue("Queue");
+        });
     }
 
     private void updateControlsDisable(Boolean disabled) {
@@ -103,21 +125,11 @@ public class ControlPaneController implements Initializable {
     }
 
     private void shuffleButtonAction() {
-        shuffleButton.setOnAction(new EventHandler<>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                player.setIsShuffling(shuffleButton.isSelected());
-            }
-        });
+        shuffleButton.setOnAction(actionEvent -> player.setIsShuffling(shuffleButton.isSelected()));
     }
 
     private void repeatButtonAction() {
-        repeatSongButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                player.setIsRepeating(repeatSongButton.isSelected());
-            }
-        });
+        repeatSongButton.setOnAction(actionEvent -> player.setIsRepeating(repeatSongButton.isSelected()));
     }
 
     private void playButtonAction() {
@@ -131,32 +143,29 @@ public class ControlPaneController implements Initializable {
     }
 
     private void openFolderButtonAction() {
-        folderButton.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                DirectoryChooser directoryChoose = new DirectoryChooser();
-                File directory = directoryChoose.showDialog(new Stage());
-                try {
-                    if (directory != null) {
-                        File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
-                        if (files != null) {
-                            for (File file : files) {
-                                player.addTrack(MP3Parser.parse(file));
-                            }
+        folderButton.setOnMousePressed(mouseEvent -> {
+            DirectoryChooser directoryChoose = new DirectoryChooser();
+            File directory = directoryChoose.showDialog(new Stage());
+            try {
+                if (directory != null) {
+                    File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
+                    if (files != null) {
+                        for (File file : files) {
+                            player.addTrack(MP3Parser.parse(file));
                         }
-                        player.setCurrentPlayList(player.getAllTracks());
                     }
-                } catch (InvalidDataException | UnsupportedTagException | IOException e) {
-                    throw new RuntimeException(e);
+                    player.setCurrentPlayList(player.getAllTracks());
                 }
+            } catch (InvalidDataException | UnsupportedTagException | IOException e) {
+                throw new RuntimeException(e);
             }
         });
     }
 
     private void currentTrackChangedHandler() {
-        player.getCurrentTrackID().addListener(new ChangeListener<Number>() {
+        player.getCurrentTrack().addListener(new ChangeListener<Track>() {
             @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+            public void changed(ObservableValue<? extends Track> observableValue, Track track, Track t1) {
                 updateControlsDisable(false);
                 updateTrackInfo();
                 player.play();
@@ -165,7 +174,7 @@ public class ControlPaneController implements Initializable {
     }
 
     private void updateTrackInfo() {
-        Track trackToPlay = player.getCurrentTrack();
+        Track trackToPlay = player.getCurrentTrack().get();
         songNameText.setText(trackToPlay.getSongName());
         authorNameText.setText(trackToPlay.getSongArtist());
         totalDuration.setText(trackToPlay.getSongDuration());
@@ -317,7 +326,7 @@ public class ControlPaneController implements Initializable {
     }
 
     private void favoriteSongsButtonAction() {
-        favoriteSongsButton.setOnMouseClicked(mouseEvent -> player.setOnlyFavorites(favoriteSongsButton.isSelected()));
+        likedTracksButton.setOnMouseClicked(mouseEvent -> player.setOnlyFavorites(likedTracksButton.isSelected()));
     }
 
     public void previousButtonAction(ActionEvent actionEvent) {
