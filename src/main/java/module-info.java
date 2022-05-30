@@ -10,6 +10,7 @@ module com.player.mediaplayer {
     requires javafx.media;
     requires org.kordamp.ikonli.materialdesign2;
     requires com.google.gson;
+    requires junit;
 
     opens com.player.mediaplayer to javafx.fxml;
     opens com.player.mediaplayer.models;
