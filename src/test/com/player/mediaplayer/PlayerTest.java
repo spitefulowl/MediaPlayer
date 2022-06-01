@@ -6,10 +6,12 @@ import com.player.mediaplayer.models.Player;
 import com.player.mediaplayer.models.PlayerState;
 import com.player.mediaplayer.models.Track;
 import com.player.mediaplayer.utils.MP3Parser;
+import de.saxsys.javafx.test.JfxRunner;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
@@ -17,7 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Queue;
 
+@RunWith(JfxRunner.class)
 public class PlayerTest {
     @InjectMocks
     private Player player;
@@ -91,5 +95,129 @@ public class PlayerTest {
                         newState.isShuffling &&
                         Objects.equals(newState.currentVolume, 15.0)
         );
+    }
+
+    @Test
+    public void testPlayListFilter() throws InvalidDataException, UnsupportedTagException, IOException {
+
+        //
+        // Given
+        //
+        ArrayList<Track> tracks = new ArrayList<>();
+        Track firstTrack = MP3Parser.parse(new File("src/test/com/player/mediaplayer/resources/test.mp3"));
+        Track secondTrack = new Track("Yesterday", "Beatles", "", "200", "yesterday.mp3", null);
+        PlayerContext.selectedPlaylist = FXCollections.observableArrayList(player.getCurrentPlayList());
+        tracks.add(firstTrack);
+        tracks.add(secondTrack);
+        player.addTrack(firstTrack);
+        player.addTrack(secondTrack);
+        player.setCurrentPlayList(tracks);
+
+        //
+        // When
+        //
+        player.setCurrentTrackFilter(track -> (track.getSongName().toLowerCase().contains("yesterday")));
+
+        //
+        // Then
+        //
+        Track filteredTrack = PlayerContext.selectedPlaylist.get(0);
+        assert(
+                PlayerContext.selectedPlaylist.size() == 1 &&
+                        Objects.equals(filteredTrack.getSongName(), "Yesterday")
+        );
+    }
+
+    @Test
+    public void testFavoritesSong() throws InvalidDataException, UnsupportedTagException, IOException {
+
+        //
+        // Given
+        //
+        ArrayList<Track> tracks = new ArrayList<>();
+        Track firstTrack = MP3Parser.parse(new File("src/test/com/player/mediaplayer/resources/test.mp3"));
+        Track secondTrack = new Track("Yesterday", "Beatles", "", "200", "yesterday.mp3", null);
+        PlayerContext.selectedPlaylist = FXCollections.observableArrayList(player.getCurrentPlayList());
+        tracks.add(firstTrack);
+        tracks.add(secondTrack);
+        player.addTrack(firstTrack);
+        player.addTrack(secondTrack);
+        player.setCurrentPlayList(tracks);
+
+        //
+        // When
+        //
+        PlayerContext.selectedPlaylist.get(1).setSongLiked(true);
+        player.setOnlyFavorites(true);
+
+        //
+        // Then
+        //
+        Track favoriteSong = PlayerContext.selectedPlaylist.get(0);
+        assert(
+                PlayerContext.selectedPlaylist.size() == 1 &&
+                        Objects.equals(favoriteSong.getSongName(), "Yesterday") &&
+                        player.getOnlyFavorites().get()
+        );
+    }
+
+    @Test
+    public void testPlayMedia() throws InvalidDataException, UnsupportedTagException, IOException {
+
+        //
+        // Given
+        //
+        ArrayList<Track> tracks = new ArrayList<>();
+        Track firstTrack = MP3Parser.parse(new File("src/test/com/player/mediaplayer/resources/test.mp3"));
+        PlayerContext.selectedPlaylist = FXCollections.observableArrayList(player.getCurrentPlayList());
+        tracks.add(firstTrack);
+        player.addTrack(firstTrack);
+        player.setCurrentPlayList(tracks);
+        player.setCurrentTrack(firstTrack);
+        player.setCurrentTrackID(0);
+        player.setOnEndOfMedia(() -> {});
+
+        //
+        // When
+        //
+        player.play();
+        player.pause();
+        player.resume();
+        player.next();
+        player.previous();
+
+        //
+        // Then
+        //
+        assert(
+                player.getMediaPlayer().getVolume() == 0.5 &&
+                        player.getCurrentTrack().get() == firstTrack
+        );
+    }
+
+    @Test
+    public void testQueue() {
+
+        //
+        // Given
+        //
+        ArrayList<Track> tracks = new ArrayList<>();
+        Track firstTrack = new Track("Twist And Shout", "Beatles", "", "250", "yesterday.mp3", null);
+        Track secondTrack = new Track("Yesterday", "Beatles", "", "200", "yesterday.mp3", null);
+        tracks.add(firstTrack);
+        tracks.add(secondTrack);
+        player.setCurrentPlayList(tracks);
+
+        //
+        // When
+        //
+        player.addToQueue(secondTrack);
+        Queue<Track> queue = player.getQueue();
+
+        //
+        // Then
+        //
+        Track trackFromQueue = queue.peek();
+        assert(trackFromQueue == secondTrack);
     }
 }

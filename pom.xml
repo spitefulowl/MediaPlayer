@@ -156,6 +156,11 @@
             <artifactId>mockito-all</artifactId>
             <version>1.10.19</version>
         </dependency>
+        <dependency>
+            <groupId>de.saxsys</groupId>
+            <artifactId>jfx-testrunner</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 
     <build>
