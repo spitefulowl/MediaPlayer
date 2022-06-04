@@ -29,15 +29,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class PlayListsPaneController implements Initializable {
-    public class JsonPlayList {
-        JsonPlayList(PlayList playlist) {
-            this.name = playlist.getName().get();
-            this.playList = playlist.getPlayList().stream().map(item -> item.getFilePath()).toList();
-        }
-        public String name;
-        public List<String> playList;
-    }
-
     private final Player player = PlayerContext.player;
     public ListView playListsListView;
     public Button addPlayListButton;
@@ -67,7 +58,7 @@ public class PlayListsPaneController implements Initializable {
             if (file != null) {
                 Gson gson = new Gson();
                 try ( final FileReader fileReader = new FileReader(file) ) {
-                    JsonPlayList jsonPlayList = gson.fromJson(fileReader, JsonPlayList.class);
+                    PlayList.JsonPlayList jsonPlayList = gson.fromJson(fileReader, PlayList.JsonPlayList.class);
                     List<Track> playList = jsonPlayList.playList.stream().map(item -> {
                         try {
                             return MP3Parser.parse(new File(URI.create(item)));
@@ -143,7 +134,7 @@ public class PlayListsPaneController implements Initializable {
                     try (final FileWriter fileWriter = new FileWriter(file)) {
                         PlayList playlist = cell.getItem();
                         Gson gson = new Gson();
-                        gson.toJson(new JsonPlayList(playlist), fileWriter);
+                        gson.toJson(new PlayList.JsonPlayList(playlist), fileWriter);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

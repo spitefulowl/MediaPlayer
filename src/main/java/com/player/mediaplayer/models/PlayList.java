@@ -5,8 +5,17 @@ import javafx.beans.property.SimpleStringProperty;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayList {
+    public static class JsonPlayList {
+        public JsonPlayList(PlayList playlist) {
+            this.name = playlist.getName().get();
+            this.playList = playlist.getPlayList().stream().map(item -> item.getFilePath()).toList();
+        }
+        public String name;
+        public List<String> playList;
+    }
     private SimpleStringProperty name = new SimpleStringProperty("");
     private int currentTrackID;
     private ArrayList<Track> playList;
