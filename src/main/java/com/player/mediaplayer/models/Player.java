@@ -213,7 +213,7 @@ public class Player {
         }
 
         int nextTrackID = currentTrackID;
-        if (isShuffling.get() && !queue.isEmpty()) {
+        if (isShuffling.get() && queue.isEmpty()) {
             if (currentPlayList.size() < 2) {
                 return;
             }
