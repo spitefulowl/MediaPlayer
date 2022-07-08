@@ -1,14 +1,10 @@
 package com.player.mediaplayer;
 
-import com.player.mediaplayer.models.PlayList;
-import com.player.mediaplayer.models.Player;
-import com.player.mediaplayer.models.Track;
-import javafx.beans.property.SimpleObjectProperty;
+import com.player.mediaplayer.model.Player;
+import com.player.mediaplayer.model.Track;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 

@@ -1,10 +1,9 @@
-package com.player.mediaplayer.models;
+package com.player.mediaplayer.model;
 
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import com.player.mediaplayer.PlayerContext;
 import com.player.mediaplayer.utils.MP3Parser;
-import javafx.collections.FXCollections;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package com.player.mediaplayer;
 
-import com.player.mediaplayer.models.PlayList;
-import com.player.mediaplayer.models.Track;
+import com.player.mediaplayer.model.PlayList;
+import com.player.mediaplayer.model.Track;
 import org.junit.Test;
 
 import java.util.ArrayList;

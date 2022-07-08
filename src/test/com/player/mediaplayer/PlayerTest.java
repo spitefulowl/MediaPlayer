@@ -2,9 +2,9 @@ package com.player.mediaplayer;
 
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
-import com.player.mediaplayer.models.Player;
-import com.player.mediaplayer.models.PlayerState;
-import com.player.mediaplayer.models.Track;
+import com.player.mediaplayer.model.Player;
+import com.player.mediaplayer.model.PlayerState;
+import com.player.mediaplayer.model.Track;
 import com.player.mediaplayer.utils.MP3Parser;
 import de.saxsys.javafx.test.JfxRunner;
 import javafx.collections.FXCollections;

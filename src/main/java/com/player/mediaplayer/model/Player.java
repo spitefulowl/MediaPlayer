@@ -1,4 +1,4 @@
-package com.player.mediaplayer.models;
+package com.player.mediaplayer.model;
 
 import com.player.mediaplayer.PlayerContext;
 import com.player.mediaplayer.controllers.ContentPaneController;

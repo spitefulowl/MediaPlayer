@@ -3,17 +3,15 @@ package com.player.mediaplayer.controllers;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import com.player.mediaplayer.PlayerContext;
-import com.player.mediaplayer.models.PlayList;
-import com.player.mediaplayer.models.PlayerState;
-import com.player.mediaplayer.models.Track;
-import com.player.mediaplayer.models.Player;
+import com.player.mediaplayer.model.PlayerState;
+import com.player.mediaplayer.model.Track;
+import com.player.mediaplayer.model.Player;
 import com.player.mediaplayer.utils.MP3Parser;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -71,6 +69,7 @@ public class ControlPaneController implements Initializable {
         setupPauseMediaAction();
         setShowAllTracksButtonAction();
         setQueueButtonAction();
+        prevNextButtonActions();
     }
 
     private void setSongImage() {
@@ -100,6 +99,15 @@ public class ControlPaneController implements Initializable {
             PlayerContext.selectedPlaylist.addAll(player.getAllTracks());
             PlayerContext.selectedPlaylistRef = player.getAllTracks();
             PlayerContext.selectedPlaylistName.setValue("All tracks");
+        });
+    }
+
+    private void prevNextButtonActions() {
+        previousSongButton.setOnAction(actionEvent -> {
+            playPreviousSong();
+        });
+        nextSongButton.setOnAction(actionEvent -> {
+            playNextSong();
         });
     }
 
@@ -328,13 +336,5 @@ public class ControlPaneController implements Initializable {
 
     private void favoriteSongsButtonAction() {
         likedTracksButton.setOnMouseClicked(mouseEvent -> player.setOnlyFavorites(likedTracksButton.isSelected()));
-    }
-
-    public void previousButtonAction(ActionEvent actionEvent) {
-        playPreviousSong();
-    }
-
-    public void nextButtonAction(ActionEvent actionEvent) {
-        playNextSong();
     }
 }

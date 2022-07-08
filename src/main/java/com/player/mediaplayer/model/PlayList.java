@@ -1,9 +1,7 @@
-package com.player.mediaplayer.models;
+package com.player.mediaplayer.model;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

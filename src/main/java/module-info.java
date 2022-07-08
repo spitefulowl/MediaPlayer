@@ -13,7 +13,7 @@ module com.player.mediaplayer {
     requires junit;
 
     opens com.player.mediaplayer to javafx.fxml;
-    opens com.player.mediaplayer.models;
+    opens com.player.mediaplayer.model;
     exports com.player.mediaplayer;
     exports com.player.mediaplayer.controllers;
     opens com.player.mediaplayer.controllers to javafx.fxml;

@@ -1,10 +1,8 @@
 package com.player.mediaplayer.utils;
 
 import com.mpatric.mp3agic.*;
-import com.player.mediaplayer.models.Track;
-import javafx.scene.image.Image;
+import com.player.mediaplayer.model.Track;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 

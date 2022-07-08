@@ -28,9 +28,9 @@
       <Slider fx:id="durationSlider" layoutX="85.0" layoutY="401.0" prefWidth="210.0" />
       <Text fx:id="totalDuration" layoutX="308.0" layoutY="410.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00" />
       <ToggleButton fx:id="shuffleButton" layoutX="36.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-      <Button fx:id="previousSongButton" layoutX="101.0" layoutY="466.0" mnemonicParsing="false" onAction="#previousButtonAction" prefHeight="40.0" prefWidth="40.0" />
+      <Button fx:id="previousSongButton" layoutX="101.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
       <ToggleButton fx:id="playSongButton" layoutX="166.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-      <Button fx:id="nextSongButton" layoutX="231.0" layoutY="466.0" mnemonicParsing="false" onAction="#nextButtonAction" prefHeight="40.0" prefWidth="40.0" />
+      <Button fx:id="nextSongButton" layoutX="231.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
       <ToggleButton fx:id="repeatSongButton" layoutX="296.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
       <Slider fx:id="volumeSlider" AnchorPane.leftAnchor="109" AnchorPane.bottomAnchor="158" prefWidth="170.0" />
       <StackedFontIcon AnchorPane.leftAnchor="63" AnchorPane.bottomAnchor="146" iconSize="35">
